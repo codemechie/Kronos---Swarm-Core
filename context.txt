@@ -1,0 +1,109 @@
+KRONOS SWARM CORE — Context File
+====================================
+Last updated: 2026-06-12
+
+OVERVIEW
+--------
+A simulated AI-driven "swarm intelligence" engine for football match analysis.
+Five distinct AI agents analyze in-game telemetry, produce textual verdicts,
+and a fracture calculator measures swarm disagreement. Full-stack app:
+Python SSE backend + React/TypeScript/Vite/Tailwind frontend.
+
+CURRENT STATE — COMPLETE
+------------------------
+Backend: 18/18 tests passing. Full SSE server on port 3000.
+Frontend: Production-quality React app with War Room command center layout.
+LLM Gateway: Provider-based architecture (mock/bob/hybrid) with hybrid fallback.
+
+BACKEND
+-------
+backend/
+├── app_server.py                # SSE HTTP server (port 3000), /stream + /minute endpoints
+├── .env                         # BOB_API_KEY (gitignored)
+├── config/
+│   └── runtime.py               # RuntimeConfig from env vars (KRONOS_LLM_MODE, BOB_*)
+├── agents/swarm/archetypes.py   # 5 agent archetypes (unchanged)
+├── contracts/
+│   ├── swarm_metrics.py         # Fracture/agreement/chaos calculator (unchanged)
+│   └── telemetry_dataclasses.py # Data models (unchanged)
+├── llm/
+│   ├── contracts.py             # LLMResponse(provider, content) dataclass
+│   ├── base.py                  # BaseProvider Protocol
+│   ├── mock_provider.py         # MockProvider — deterministic placeholder responses
+│   ├── bob_provider.py          # BobProvider — HTTP to BOB endpoint, 10s timeout, 1 retry
+│   └── gateway.py               # LLMGateway — mock/bob/hybrid mode routing with fallback
+├── orchestrator/
+│   ├── core_supervisor.py       # Uses LLMGateway, adds provider_metadata to output
+│   └── state_machine.py         # Placeholder (unchanged)
+├── utils/kronos_ticker.py       # Match ticker (unchanged)
+├── scripts/
+│   ├── bob_smoke_test.py        # Validates single BOB inference request with diagnostics
+│   └── test_bob_provider.py     # Calls BobProvider.generate() directly
+├── docs/
+│   └── bob_validation_report.md # BOB connection validation findings
+└── tests/
+    ├── test_swarm_fracture.py   # 7 tests (unchanged)
+    └── test_llm_gateway.py      # 11 tests (mock/bob/hybrid modes, fallback, metadata)
+
+FRONTEND
+--------
+frontend/
+├── src/
+│   ├── types/kronos.ts          # All TypeScript interfaces (Telemetry, SwarmAgent, KronosEvent, etc.)
+│   ├── context/KronosProvider.tsx # SSE EventSource owner, normalizes packets, manages state
+│   ├── hooks/useKronos.ts       # Context consumer hook (throws if used outside provider)
+│   ├── lib/
+│   │   ├── normalizeKronosPacket.ts # Normalizes flat/nested SSE payloads
+│   │   ├── verdictEngine.ts     # Pure function: status rules, fracture override, supporting signals
+│   │   ├── eventEngine.ts       # Pure function: phase transitions + threshold crossings
+│   │   ├── swarmNormalizer.ts   # Maps agent keys → display names, detects risk level
+│   │   ├── swarmCohesion.ts     # Pure function: consensus% from HIGH_RISK count
+│   │   └── fractureAttribution.ts # Pure function: weighted contribution from risk levels
+│   └── components/
+│       ├── charts/FractureTimeline.tsx  # recharts line chart + event markers (CRITICAL/WARNING dots)
+│       ├── layout/
+│       │   ├── WarRoom.tsx      # Main 3-column grid layout
+│       │   ├── SwarmPanel.tsx   # Adversarial swarm console (cards, cohesion, attribution)
+│       │   └── TelemetryPanel.tsx # Live telemetry with conditional coloring
+│       ├── verdict/LeadCoachVerdictPanel.tsx # Status badge, signals, rationale
+│       ├── event/EventFeed.tsx  # Scrollable event feed
+│       └── swarm/
+│           ├── AgentCard.tsx    # Individual agent card with risk badge
+│           ├── SwarmCohesionMeter.tsx # Progress bar + status (COHESIVE/FRACTURED/COLLAPSED)
+│           └── FractureAttribution.tsx # Primary contributor + breakdown bars
+├── package.json, vite.config.ts, tailwind.config.js, tsconfig*.json
+
+ARCHITECTURE / DATA FLOW
+------------------------
+SSE → KronosProvider → normalizeKronosPacket → KronosContext → useKronos() → Components
+
+process_next_tick():
+  → KronosMatchTicker.generate_tick() → KronosTelemetryPacket
+  → Each of 5 agents constructs prompt → LLMGateway.generate() → LLMResponse
+  → SwarmFractureCalculator.calculate(verdicts) → metrics
+  → Return { telemetry, debate_outputs, swarm_metrics, provider_metadata }
+
+LLM Gateway Modes:
+  mock:   Always MockProvider (deterministic, original behavior)
+  bob:    Always BobProvider (failures surface as RuntimeError)
+  hybrid: Try BobProvider → on failure → log warning → MockProvider fallback
+
+BLOCKED / NEXT
+--------------
+- BOB endpoint https://api.bob-llm.dev is a placeholder (DNS fail).
+- bob.ibm.com/api/* returns 405 on all POST paths (BOB is an IDE, not an inference API).
+- Need correct BOB inference endpoint or switch to alternative (e.g., Watsonx.ai).
+- In hybrid mode with missing/incorrect BOB config, gateway gracefully falls back to mock.
+
+TESTING
+-------
+Backend: cd backend; py -m pytest tests/ -v   (18 tests)
+Frontend: cd frontend; npx tsc --noEmit       (zero errors)
+
+KEY DECISIONS
+-------------
+- All logic engines (verdictEngine, eventEngine, swarmNormalizer, swarmCohesion,
+  fractureAttribution) are pure functions — no React/browser imports.
+- Frontend components read from single source of truth: useKronos() → KronosContext.
+- Backend uses _build_telemetry() to flatten nested metric dicts.
+- provider_metadata in orchestrator output is optional (frontend doesn't require it).
