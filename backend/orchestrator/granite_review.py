@@ -16,9 +16,9 @@ logger = logging.getLogger("kronos.granite_review")
 
 # ── Escalation thresholds ───────────────────────────────────────────
 
-HIGH_FRACTURE_THRESHOLD: float = 60.0
-LOW_CONFIDENCE_THRESHOLD: float = 0.50
-CONTRADICTION_TRIGGER: int = 1
+HIGH_FRACTURE_THRESHOLD: float = 75.0
+LOW_CONFIDENCE_THRESHOLD: float = 0.30
+CONTRADICTION_TRIGGER: int = 5
 
 
 class GraniteReviewEngine:
@@ -40,7 +40,16 @@ class GraniteReviewEngine:
         fracture_metrics: SwarmFractureMetrics,
         validation: "ValidateOutput",
     ) -> GraniteReview:
-        if not self._should_escalate(fracture_metrics, validation):
+        print(
+            f"[GRANITE] fracture={fracture_metrics.fracture_index} "
+            f"confidence={validation.overall_confidence:.2f} "
+            f"contradictions={validation.contradiction_count}"
+        )
+        should_escalate = self._should_escalate(fracture_metrics, validation)
+        print(f"[GRANITE] escalate={should_escalate}")
+
+        if not should_escalate:
+            print("[GRANITE] review skipped")
             return GraniteReview(
                 escalation_triggered=False,
                 skipped=True,
@@ -48,9 +57,14 @@ class GraniteReviewEngine:
 
         try:
             prompt = self._build_prompt(assessments, fracture_metrics, validation)
+            print("[GRANITE] invoking watsonx Granite")
             raw = self._call_granite(prompt)
+            print("[GRANITE] Granite response received")
+            print(f"[GRANITE] response_length={len(raw)}")
             return self._parse_response(raw)
-        except Exception:
+        except Exception as exc:
+            print(f"[GRANITE] invocation failed: {exc}")
+            print("[GRANITE] using fallback review")
             logger.warning("[GRANITE_REVIEW] review failed, using fallback")
             return GraniteReview(
                 escalation_triggered=True,

@@ -113,7 +113,7 @@ class TestGraniteReviewEscalation(unittest.TestCase):
         self.assessments = {"a": _assessment("a")}
 
     def test_high_fracture_triggers_escalation(self) -> None:
-        metrics = _metrics(fracture_index=60.0)
+        metrics = _metrics(fracture_index=75.0)
         v = _validation(overall_confidence=0.8, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertTrue(result.escalation_triggered)
@@ -127,7 +127,7 @@ class TestGraniteReviewEscalation(unittest.TestCase):
 
     def test_low_confidence_triggers_escalation(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.50, contradiction_count=0)
+        v = _validation(overall_confidence=0.30, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertTrue(result.escalation_triggered)
 
@@ -139,13 +139,13 @@ class TestGraniteReviewEscalation(unittest.TestCase):
 
     def test_contradiction_triggers_escalation(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.8, contradiction_count=1)
+        v = _validation(overall_confidence=0.8, contradiction_count=5)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertTrue(result.escalation_triggered)
 
     def test_multiple_contradictions_triggers_escalation(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.8, contradiction_count=3)
+        v = _validation(overall_confidence=0.8, contradiction_count=6)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertTrue(result.escalation_triggered)
 
@@ -157,17 +157,41 @@ class TestGraniteReviewEscalation(unittest.TestCase):
         self.assertTrue(result.skipped)
         self.assertEqual(result.review_summary, "")
 
-    def test_boundary_fracture_no_escalation(self) -> None:
-        metrics = _metrics(fracture_index=59.9)
+    def test_boundary_fracture_just_below(self) -> None:
+        metrics = _metrics(fracture_index=74.9)
         v = _validation(overall_confidence=0.8, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertFalse(result.escalation_triggered)
 
-    def test_boundary_confidence_no_escalation(self) -> None:
+    def test_boundary_fracture_just_at(self) -> None:
+        metrics = _metrics(fracture_index=75.0)
+        v = _validation(overall_confidence=0.8, contradiction_count=0)
+        result = self.engine.review(self.assessments, metrics, v)
+        self.assertTrue(result.escalation_triggered)
+
+    def test_boundary_confidence_just_above(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.51, contradiction_count=0)
+        v = _validation(overall_confidence=0.31, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertFalse(result.escalation_triggered)
+
+    def test_boundary_confidence_just_at(self) -> None:
+        metrics = _metrics(fracture_index=20.0)
+        v = _validation(overall_confidence=0.30, contradiction_count=0)
+        result = self.engine.review(self.assessments, metrics, v)
+        self.assertTrue(result.escalation_triggered)
+
+    def test_boundary_contradiction_just_below(self) -> None:
+        metrics = _metrics(fracture_index=20.0)
+        v = _validation(overall_confidence=0.8, contradiction_count=4)
+        result = self.engine.review(self.assessments, metrics, v)
+        self.assertFalse(result.escalation_triggered)
+
+    def test_boundary_contradiction_just_at(self) -> None:
+        metrics = _metrics(fracture_index=20.0)
+        v = _validation(overall_confidence=0.8, contradiction_count=5)
+        result = self.engine.review(self.assessments, metrics, v)
+        self.assertTrue(result.escalation_triggered)
 
 
 class TestGraniteReviewParsing(unittest.TestCase):
@@ -223,7 +247,7 @@ class TestGraniteReviewFailureHandling(unittest.TestCase):
     def setUp(self) -> None:
         self.engine = GraniteReviewEngine()
         self.assessments = {"a": _assessment("a")}
-        self.metrics = _metrics(fracture_index=60.0)
+        self.metrics = _metrics(fracture_index=75.0)
         self.validation = _validation(overall_confidence=0.8, contradiction_count=0)
 
     @patch("backend.orchestrator.granite_review.GraniteProvider")

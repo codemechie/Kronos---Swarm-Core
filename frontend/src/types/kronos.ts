@@ -84,6 +84,28 @@ export interface LeadCoachVerdict {
   supportingSignals: SupportingSignal[];
 }
 
+export interface GraniteReview {
+  escalation_triggered: boolean;
+  review_summary: string;
+  contradiction_analysis: string;
+  confidence_assessment: string;
+  recommended_action: string;
+  granite_confidence: number;
+  provider: string;
+  skipped: boolean;
+}
+
+export interface Validation {
+  overall_confidence: number;
+  agreement_score: number;
+  trust_score: number;
+  contradiction_count: number;
+  flags: string[];
+  evidence_summary: string;
+  validation_source: string;
+  skipped: boolean;
+}
+
 export interface KronosState {
   telemetry: Telemetry;
   swarmMetrics: SwarmMetrics;
@@ -91,6 +113,8 @@ export interface KronosState {
   history: HistoryPoint[];
   phase: MatchPhase;
   events: KronosEvent[];
+  granite_review: GraniteReview;
+  validation: Validation;
 }
 
 export interface KronosPacket {
@@ -100,4 +124,6 @@ export interface KronosPacket {
   minute?: number;
   fracture_index?: number;
   chaos_probability?: number;
+  granite_review?: GraniteReview;
+  validation?: Validation;
 }

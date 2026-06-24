@@ -4,6 +4,7 @@ import { SwarmPanel } from "../components/layout/SwarmPanel";
 import { EventFeed } from "../components/layout/EventFeed";
 import { LeadCoachVerdictPanel } from "../components/verdict/LeadCoachVerdictPanel";
 import { FractureTimeline } from "../components/charts/FractureTimeline";
+import { GraniteTerminal } from "../components/granite/GraniteTerminal";
 
 export function WarRoom() {
   return (
@@ -17,6 +18,7 @@ export function WarRoom() {
         </div>
         <LeadCoachVerdictPanel />
         <FractureTimeline />
+        <GraniteTerminal />
       </div>
     </div>
   );

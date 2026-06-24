@@ -63,7 +63,7 @@ class Handler(BaseHTTPRequestHandler):
 
     @staticmethod
     def _build_payload(result: dict) -> dict:
-        return {
+        payload = {
             "telemetry": Handler._build_telemetry(result),
             "fracture_index": result["swarm_metrics"]["fracture_index"],
             "chaos_probability": result["swarm_metrics"]["chaos_probability"],
@@ -71,6 +71,12 @@ class Handler(BaseHTTPRequestHandler):
             "validation": result.get("validation", {"skipped": True}),
             "granite_review": result["granite_review"],
         }
+        print(
+            "[SSE] granite_review "
+            f"skipped={payload['granite_review']['skipped']} "
+            f"escalated={payload['granite_review']['escalation_triggered']}"
+        )
+        return payload
 
     def _handle_minute(self):
         result = orchestrator.process_next_tick()

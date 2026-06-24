@@ -22,6 +22,26 @@ const INITIAL_STATE: KronosState = {
   history: [],
   phase: "GRIND",
   events: [],
+  granite_review: {
+    escalation_triggered: false,
+    review_summary: "Granite review not required.",
+    contradiction_analysis: "",
+    confidence_assessment: "",
+    recommended_action: "",
+    granite_confidence: 0,
+    provider: "granite",
+    skipped: true,
+  },
+  validation: {
+    overall_confidence: 0,
+    agreement_score: 0,
+    trust_score: 0,
+    contradiction_count: 0,
+    flags: [],
+    evidence_summary: "",
+    validation_source: "heuristic",
+    skipped: true,
+  },
 };
 
 export function KronosProvider({ children }: { children: ReactNode }) {
@@ -33,7 +53,7 @@ export function KronosProvider({ children }: { children: ReactNode }) {
     source.onmessage = (event) => {
       try {
         const raw: KronosPacket = JSON.parse(event.data);
-        const { telemetry, swarmMetrics, debateOutputs } =
+        const { telemetry, swarmMetrics, debateOutputs, granite_review, validation } =
           normalizeKronosPacket(raw);
 
         setState((prev) => {
@@ -53,6 +73,8 @@ export function KronosProvider({ children }: { children: ReactNode }) {
             telemetry,
             swarmMetrics,
             debateOutputs,
+            granite_review,
+            validation,
             history,
             phase: derivePhase(telemetry.minute),
             events: prev.events,

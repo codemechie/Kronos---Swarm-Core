@@ -1,10 +1,34 @@
-import type { Telemetry, SwarmMetrics, DebateOutputs, KronosPacket } from "../types/kronos";
+import type { GraniteReview, Validation, Telemetry, SwarmMetrics, DebateOutputs, KronosPacket } from "../types/kronos";
 
 export interface NormalizedPacket {
   telemetry: Telemetry;
   swarmMetrics: SwarmMetrics;
   debateOutputs: DebateOutputs;
+  granite_review: GraniteReview;
+  validation: Validation;
 }
+
+const DEFAULT_GRANITE_REVIEW: GraniteReview = {
+  escalation_triggered: false,
+  review_summary: "Granite review not required.",
+  contradiction_analysis: "",
+  confidence_assessment: "",
+  recommended_action: "",
+  granite_confidence: 0,
+  provider: "granite",
+  skipped: true,
+};
+
+const DEFAULT_VALIDATION: Validation = {
+  overall_confidence: 0,
+  agreement_score: 0,
+  trust_score: 0,
+  contradiction_count: 0,
+  flags: [],
+  evidence_summary: "",
+  validation_source: "heuristic",
+  skipped: true,
+};
 
 export function normalizeKronosPacket(packet: KronosPacket): NormalizedPacket {
   const rawTel: Partial<Telemetry> = packet.telemetry ?? {};
@@ -44,5 +68,9 @@ export function normalizeKronosPacket(packet: KronosPacket): NormalizedPacket {
 
   const debateOutputs: DebateOutputs = packet.debate_outputs ?? {};
 
-  return { telemetry, swarmMetrics, debateOutputs };
+  const granite_review: GraniteReview = packet.granite_review ?? DEFAULT_GRANITE_REVIEW;
+
+  const validation: Validation = packet.validation ?? DEFAULT_VALIDATION;
+
+  return { telemetry, swarmMetrics, debateOutputs, granite_review, validation };
 }
