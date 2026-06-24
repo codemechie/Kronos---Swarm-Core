@@ -272,10 +272,10 @@ class TestGraniteReviewFailureHandling(unittest.TestCase):
         self.assertIsInstance(result.review_summary, str)
 
     def test_engine_does_not_crash_without_credentials(self) -> None:
-        os.environ.pop("GRANITE_API_KEY", None)
-        os.environ.pop("IBM_API_KEY", None)
-        os.environ.pop("GRANITE_SPACE_ID", None)
-        os.environ.pop("IBM_SPACE_ID", None)
+        os.environ["GRANITE_API_KEY"] = ""
+        os.environ["IBM_API_KEY"] = ""
+        os.environ["GRANITE_SPACE_ID"] = ""
+        os.environ["IBM_SPACE_ID"] = ""
         reset_runtime_config()
 
         result = self.engine.review(self.assessments, self.metrics, self.validation)

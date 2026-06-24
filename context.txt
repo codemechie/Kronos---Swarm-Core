@@ -1,6 +1,6 @@
 KRONOS SWARM CORE — Context File
 ====================================
-Last updated: 2026-06-12
+Last updated: 2026-06-24
 
 OVERVIEW
 --------
@@ -11,67 +11,97 @@ Python SSE backend + React/TypeScript/Vite/Tailwind frontend.
 
 CURRENT STATE — COMPLETE
 ------------------------
-Backend: 18/18 tests passing. Full SSE server on port 3000.
-Frontend: Production-quality React app with War Room command center layout.
-LLM Gateway: Provider-based architecture (mock/bob/hybrid) with hybrid fallback.
+Backend: 119 tests passing, 110 subtests. Full SSE server on port 3000.
+Frontend: Production-quality React app with routing (Landing / Command Center /
+Swarm Intelligence / Debate Transcript), mission-control aesthetic.
 
 BACKEND
 -------
 backend/
 ├── app_server.py                # SSE HTTP server (port 3000), /stream + /minute endpoints
-├── .env                         # BOB_API_KEY (gitignored)
+├── .env                         # IBM_API_KEY, IBM_SPACE_ID, IBM_MODEL_ID, IBM_RUNTIME_URL
 ├── config/
-│   └── runtime.py               # RuntimeConfig from env vars (KRONOS_LLM_MODE, BOB_*)
-├── agents/swarm/archetypes.py   # 5 agent archetypes (unchanged)
+│   └── runtime.py               # RuntimeConfig from env vars + .env (re-seeded on every init)
+├── agents/
+│   ├── swarm/archetypes.py      # 5 agent archetypes
+│   └── persona_builder.py       # Agent personality templates, signal detection, voice generation
 ├── contracts/
-│   ├── swarm_metrics.py         # Fracture/agreement/chaos calculator (unchanged)
-│   └── telemetry_dataclasses.py # Data models (unchanged)
+│   ├── swarm_metrics.py         # Fracture/agreement/chaos calculator
+│   ├── granite_review.py        # GraniteReview dataclass
+│   └── telemetry_dataclasses.py # Data models
 ├── llm/
 │   ├── contracts.py             # LLMResponse(provider, content) dataclass
 │   ├── base.py                  # BaseProvider Protocol
-│   ├── mock_provider.py         # MockProvider — deterministic placeholder responses
+│   ├── mock_provider.py         # MockProvider — persona-rich placeholder responses via PersonaBuilder
 │   ├── bob_provider.py          # BobProvider — HTTP to BOB endpoint, 10s timeout, 1 retry
-│   └── gateway.py               # LLMGateway — mock/bob/hybrid mode routing with fallback
+│   ├── granite_provider.py      # GraniteProvider — IBM watsonx.ai, IAM auth, chat endpoint, 1 retry
+│   └── gateway.py               # LLMGateway — mock/bob/hybrid/granite mode routing
 ├── orchestrator/
 │   ├── core_supervisor.py       # Uses LLMGateway, adds provider_metadata to output
-│   └── state_machine.py         # Placeholder (unchanged)
-├── utils/kronos_ticker.py       # Match ticker (unchanged)
+│   ├── state_machine.py         # KronosStateMachine with transition(), validation, Granite review
+│   ├── granite_review.py        # GraniteReviewEngine — escalation rules, prompt building, response parsing
+│   └── validation.py            # HeuristicValidator — confidence, agreement, contradiction, flags
+├── utils/kronos_ticker.py       # Match ticker
 ├── scripts/
-│   ├── bob_smoke_test.py        # Validates single BOB inference request with diagnostics
+│   ├── bob_smoke_test.py        # Validates single BOB inference request
+│   ├── granite_smoke_test.py    # End-to-end Granite smoke test (currently 403 token_quota_reached)
+│   ├── diag_granite_403.py      # Diagnostic for 403 — tests multiple endpoints/payloads
 │   └── test_bob_provider.py     # Calls BobProvider.generate() directly
 ├── docs/
-│   └── bob_validation_report.md # BOB connection validation findings
+│   ├── bob_validation_report.md
+│   ├── calibration_report.txt
+│   ├── config_loading_investigation.md
+│   └── granite_request_differential_analysis.md
 └── tests/
-    ├── test_swarm_fracture.py   # 7 tests (unchanged)
-    └── test_llm_gateway.py      # 11 tests (mock/bob/hybrid modes, fallback, metadata)
+    ├── test_swarm_fracture.py   # 7 tests
+    ├── test_llm_gateway.py      # Granite, BOB, mock provider tests + gateway routing
+    ├── test_validation.py       # HeuristicValidator + evidence summary
+    ├── test_state_machine.py    # State machine transitions + backward compat
+    ├── test_granite_review.py   # Escalation rules, parsing, failure handling, integration
+    └── calibrate_escalation.py  # Calibration script for Granite escalation thresholds
 
 FRONTEND
 --------
 frontend/
 ├── src/
-│   ├── types/kronos.ts          # All TypeScript interfaces (Telemetry, SwarmAgent, KronosEvent, etc.)
+│   ├── types/kronos.ts          # All TypeScript interfaces (Telemetry, SwarmAgent, Validation, etc.)
 │   ├── context/KronosProvider.tsx # SSE EventSource owner, normalizes packets, manages state
-│   ├── hooks/useKronos.ts       # Context consumer hook (throws if used outside provider)
+│   ├── hooks/useKronos.ts       # Context consumer hook
+│   ├── App.tsx                  # React Router (<Routes>: /, /war-room, /swarm)
+│   ├── main.tsx                 # Entry point with BrowserRouter + KronosProvider
+│   ├── pages/
+│   │   ├── Landing.tsx           # Landing page with nav cards
+│   │   ├── WarRoom.tsx           # Command Center — full war room layout
+│   │   ├── SwarmIntelligence.tsx # Swarm Intelligence Center — agent grid + status
+│   │   └── DebateTranscript.tsx  # Debate Transcript — vertical intelligence timeline
 │   ├── lib/
 │   │   ├── normalizeKronosPacket.ts # Normalizes flat/nested SSE payloads
 │   │   ├── verdictEngine.ts     # Pure function: status rules, fracture override, supporting signals
 │   │   ├── eventEngine.ts       # Pure function: phase transitions + threshold crossings
-│   │   ├── swarmNormalizer.ts   # Maps agent keys → display names, detects risk level
+│   │   ├── swarmNormalizer.ts   # Maps agent keys to display names, detects risk level
 │   │   ├── swarmCohesion.ts     # Pure function: consensus% from HIGH_RISK count
 │   │   └── fractureAttribution.ts # Pure function: weighted contribution from risk levels
 │   └── components/
-│       ├── charts/FractureTimeline.tsx  # recharts line chart + event markers (CRITICAL/WARNING dots)
+│       ├── KronosDebugPanel.tsx # Debug panel showing minute/fracture/chaos/history
+│       ├── charts/FractureTimeline.tsx  # recharts line chart + event markers
+│       ├── granite/GraniteTerminal.tsx  # Granite review display (standby/active/unavailable)
+│       ├── validation/ValidationCenter.tsx # Validation intelligence display
 │       ├── layout/
-│       │   ├── WarRoom.tsx      # Main 3-column grid layout
-│       │   ├── SwarmPanel.tsx   # Adversarial swarm console (cards, cohesion, attribution)
-│       │   └── TelemetryPanel.tsx # Live telemetry with conditional coloring
-│       ├── verdict/LeadCoachVerdictPanel.tsx # Status badge, signals, rationale
-│       ├── event/EventFeed.tsx  # Scrollable event feed
+│       │   ├── CommandHeader.tsx    # Top bar: nav links (4 routes) + live metrics
+│       │   ├── TelemetryPanel.tsx # Live telemetry with conditional coloring
+│       │   ├── SwarmPanel.tsx   # Adversarial swarm console
+│       │   └── EventFeed.tsx   # Scrollable event feed
+│       ├── verdict/LeadCoachVerdictPanel.tsx # Coach verdict + GRANITE STATUS section
+│       ├── transcript/
+│       │   ├── TranscriptSection.tsx # Timeline spine container (minute grouping)
+│       │   └── TranscriptEvent.tsx   # Timeline entry (type colors, severity, status badges)
 │       └── swarm/
-│           ├── AgentCard.tsx    # Individual agent card with risk badge
-│           ├── SwarmCohesionMeter.tsx # Progress bar + status (COHESIVE/FRACTURED/COLLAPSED)
+│           ├── AgentCard.tsx    # Compact agent card (SwarmPanel)
+│           ├── AgentIntelligenceCard.tsx # Detailed agent card (SwarmIntelligence)
+│           ├── SwarmCohesionMeter.tsx # Progress bar + status
 │           └── FractureAttribution.tsx # Primary contributor + breakdown bars
 ├── package.json, vite.config.ts, tailwind.config.js, tsconfig*.json
+├── dependencies: react 18, react-router-dom, recharts, tailwindcss
 
 ARCHITECTURE / DATA FLOW
 ------------------------
@@ -80,30 +110,47 @@ SSE → KronosProvider → normalizeKronosPacket → KronosContext → useKronos
 process_next_tick():
   → KronosMatchTicker.generate_tick() → KronosTelemetryPacket
   → Each of 5 agents constructs prompt → LLMGateway.generate() → LLMResponse
+    → MockProvider uses PersonaBuilder (telemetry-aware templates, per-agent voice)
   → SwarmFractureCalculator.calculate(verdicts) → metrics
-  → Return { telemetry, debate_outputs, swarm_metrics, provider_metadata }
+  → HeuristicValidator.validate(assessments, fracture) → ValidateOutput
+  → GraniteReviewEngine.review(assessments, fracture, validation) → GraniteReview
+  → Return { telemetry, debate_outputs, swarm_metrics, validation, granite_review }
+
+Escalation thresholds (granite_review.py):
+  fracture_index >= 75
+  overall_confidence <= 0.30
+  contradiction_count >= 5
 
 LLM Gateway Modes:
-  mock:   Always MockProvider (deterministic, original behavior)
-  bob:    Always BobProvider (failures surface as RuntimeError)
-  hybrid: Try BobProvider → on failure → log warning → MockProvider fallback
+  mock:   Always MockProvider
+  bob:    Always BobProvider
+  hybrid: Try BobProvider → MockProvider fallback
+  granite: Always GraniteProvider
+
+CONFIG LOADING
+--------------
+backend/config/runtime.py — reads from os.environ, falls back to .env.
+.env path: backend/.env
+_envire_dotenv() called at module import + every RuntimeConfig.__init__()
+(so .env values survive os.environ.clear()).
 
 BLOCKED / NEXT
 --------------
+- Granite inference: IBM API key token quota exhausted (403 token_quota_reached).
+  Config is correct, endpoint is correct, payload is correct.
+  Need API key with available quota.
 - BOB endpoint https://api.bob-llm.dev is a placeholder (DNS fail).
-- bob.ibm.com/api/* returns 405 on all POST paths (BOB is an IDE, not an inference API).
-- Need correct BOB inference endpoint or switch to alternative (e.g., Watsonx.ai).
-- In hybrid mode with missing/incorrect BOB config, gateway gracefully falls back to mock.
+- bob.ibm.com/api/* returns 405 on all POST paths.
 
 TESTING
 -------
-Backend: cd backend; py -m pytest tests/ -v   (18 tests)
+Backend: cd backend; py -m pytest tests/ -v   (119 tests, 110 subtests)
 Frontend: cd frontend; npx tsc --noEmit       (zero errors)
 
 KEY DECISIONS
 -------------
-- All logic engines (verdictEngine, eventEngine, swarmNormalizer, swarmCohesion,
-  fractureAttribution) are pure functions — no React/browser imports.
+- React Router added with 4 routes: / (landing), /war-room, /swarm, /transcript.
+- MockProvider generates personality-rich text via PersonaBuilder — telemetry-aware templates with per-agent voice, signal detection, and deterministic template selection.
 - Frontend components read from single source of truth: useKronos() → KronosContext.
-- Backend uses _build_telemetry() to flatten nested metric dicts.
-- provider_metadata in orchestrator output is optional (frontend doesn't require it).
+- Pipeline labels: SWARM VALIDATION LAYER, IBM GRANITE REVIEW LAYER, FINAL DECISION LAYER.
+- GraniteReviewEngine uses named constants for escalation thresholds.

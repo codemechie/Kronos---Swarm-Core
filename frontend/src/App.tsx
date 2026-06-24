@@ -1,13 +1,19 @@
+import { Routes, Route, Navigate } from "react-router-dom";
 import { WarRoom } from "./pages/WarRoom";
-import { KronosDebugPanel } from "./components/KronosDebugPanel";
+import { SwarmIntelligence } from "./pages/SwarmIntelligence";
+import { DebateTranscript } from "./pages/DebateTranscript";
+import { GraniteIntelligence } from "./pages/GraniteIntelligence";
+import { Landing } from "./pages/Landing";
 
 export function App() {
   return (
-    <div className="bg-black min-h-screen">
-      <WarRoom />
-      <div className="flex justify-center pb-8">
-        <KronosDebugPanel />
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/war-room" element={<WarRoom />} />
+      <Route path="/swarm" element={<SwarmIntelligence />} />
+      <Route path="/transcript" element={<DebateTranscript />} />
+      <Route path="/granite" element={<GraniteIntelligence />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }

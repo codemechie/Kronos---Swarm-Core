@@ -23,7 +23,7 @@ const categoryColors: Record<string, string> = {
 };
 
 export function LeadCoachVerdictPanel() {
-  const { debateOutputs, swarmMetrics, phase, telemetry } = useKronos();
+  const { debateOutputs, swarmMetrics, phase, telemetry, granite_review } = useKronos();
 
   const agents = useMemo(() => normalizeSwarmAgents(debateOutputs), [debateOutputs]);
 
@@ -42,7 +42,8 @@ export function LeadCoachVerdictPanel() {
   if (agents.length === 0) {
     return (
       <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
-        <div className="text-xs tracking-widest text-gray-500 mb-3">LEAD COACH VERDICT</div>
+        <div className="text-xs tracking-widest text-gray-500 mb-1">LEAD COACH VERDICT</div>
+        <div className="text-[10px] tracking-widest text-gray-600 mb-3">FINAL DECISION LAYER</div>
         <div className="text-gray-500 text-sm">Awaiting swarm intelligence...</div>
       </div>
     );
@@ -50,12 +51,13 @@ export function LeadCoachVerdictPanel() {
 
   return (
     <div className={`border border-gray-700 rounded ${statusBg[verdict.status]} p-4 font-mono text-gray-100`}>
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-1">
         <span className="text-xs tracking-widest text-gray-400">LEAD COACH VERDICT</span>
         <span className={`text-[10px] px-2 py-0.5 border rounded ${statusColors[verdict.status]}`}>
           [{verdict.status}]
         </span>
       </div>
+      <div className="text-[10px] tracking-widest text-gray-600 mb-3">FINAL DECISION LAYER</div>
 
       <div className="text-sm font-semibold mb-1">{verdict.headline}</div>
       <div className="text-gray-400 text-xs mb-3">{verdict.rationale}</div>
@@ -87,6 +89,41 @@ export function LeadCoachVerdictPanel() {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="border-t border-gray-700 mt-2 pt-2">
+        <div className="text-[10px] tracking-widest text-gray-500 mb-1.5">GRANITE STATUS</div>
+        {(() => {
+          if (!granite_review || granite_review.skipped) {
+            return (
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
+                <span className="text-[10px] tracking-widest text-green-400">STANDBY</span>
+                <span className="text-xs text-gray-500">No escalation required.</span>
+              </div>
+            );
+          }
+          if (
+            granite_review.escalation_triggered &&
+            granite_review.review_summary.toLowerCase().includes("unavailable")
+          ) {
+            return (
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
+                <span className="text-[10px] tracking-widest text-red-400">UNAVAILABLE</span>
+              </div>
+            );
+          }
+          return (
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+              <span className="text-[10px] tracking-widest text-amber-400">VALIDATED BY GRANITE</span>
+              <span className="text-xs text-gray-400">
+                Granite Confidence: <span className="text-amber-300">{granite_review.granite_confidence}%</span>
+              </span>
+            </div>
+          );
+        })()}
       </div>
 
       <div className="flex gap-4 mt-2 pt-2 border-t border-gray-700 text-xs">

@@ -1,15 +1,42 @@
 import { useKronos } from "../../hooks/useKronos";
+import { Link, useLocation } from "react-router-dom";
+
+const navLinks = [
+  { to: "/", label: "Landing" },
+  { to: "/war-room", label: "Command Center" },
+  { to: "/swarm", label: "Swarm Intelligence" },
+  { to: "/transcript", label: "Debate Transcript" },
+  { to: "/granite", label: "Granite Review" },
+];
 
 export function CommandHeader() {
   const { telemetry, swarmMetrics, phase } = useKronos();
+  const location = useLocation();
 
   return (
     <div className="border border-gray-700 rounded bg-gray-900 px-6 py-3 font-mono text-gray-100">
-      <div className="flex items-center gap-6 text-sm flex-wrap">
+      <div className="flex items-center gap-4 text-sm flex-wrap">
         <span className="tracking-widest text-gray-400 font-bold">
           KRONOS SWARM ENGINE
         </span>
         <span className="text-gray-600">|</span>
+        {navLinks.map((link) => {
+          const isActive = location.pathname === link.to;
+          return (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={
+                isActive
+                  ? "text-white underline underline-offset-4"
+                  : "text-gray-500 hover:text-gray-300"
+              }
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+        <span className="text-gray-600 ml-auto">|</span>
         <span>
           Minute: <span className="text-white">{telemetry.minute}</span>
         </span>

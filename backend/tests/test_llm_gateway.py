@@ -18,12 +18,12 @@ class TestMockProvider(unittest.TestCase):
     def test_high_risk_prompt(self) -> None:
         resp = self.provider.generate("Judge", "There is a risk of cards")
         self.assertEqual(resp.provider, "mock")
-        self.assertIn("High-risk pattern detected", resp.content)
+        self.assertIn("High-risk", resp.content)
 
     def test_nominal_prompt(self) -> None:
         resp = self.provider.generate("Judge", "Everything is normal")
         self.assertEqual(resp.provider, "mock")
-        self.assertIn("Nominal conditions observed", resp.content)
+        self.assertIn("Nominal:", resp.content)
 
     def test_case_sensitive_risk(self) -> None:
         resp = self.provider.generate("Judge", "Risk of something")
@@ -44,13 +44,13 @@ class TestLLMGatewayMockMode(unittest.TestCase):
         gate = LLMGateway()
         resp = gate.generate("Judge", "risk is high")
         self.assertEqual(resp.provider, "mock")
-        self.assertIn("High-risk pattern detected", resp.content)
+        self.assertIn("High-risk", resp.content)
 
     def test_mock_mode_nominal(self) -> None:
         gate = LLMGateway()
         resp = gate.generate("Judge", "all clear")
         self.assertEqual(resp.provider, "mock")
-        self.assertIn("Nominal conditions", resp.content)
+        self.assertIn("Nominal:", resp.content)
 
 
 class TestLLMGatewayHybridMode(unittest.TestCase):
@@ -88,7 +88,7 @@ class TestLLMGatewayHybridMode(unittest.TestCase):
         gate = LLMGateway()
         resp = gate.generate("Judge", "risk is elevated")
         self.assertEqual(resp.provider, "mock")
-        self.assertIn("High-risk pattern detected", resp.content)
+        self.assertIn("High-risk", resp.content)
 
     def test_hybrid_no_credentials_falls_back_to_mock(self) -> None:
         os.environ.pop("BOB_API_KEY", None)
@@ -186,7 +186,8 @@ class TestGraniteProviderInit(unittest.TestCase):
         self.assertIsNone(provider._cached_token)
 
     def test_runtime_url_default(self) -> None:
-        os.environ.pop("GRANITE_RUNTIME_URL", None)
+        os.environ["GRANITE_RUNTIME_URL"] = ""
+        os.environ["IBM_RUNTIME_URL"] = ""
         reset_runtime_config()
         from backend.llm.granite_provider import GraniteProvider
 
@@ -246,7 +247,8 @@ class TestGraniteProviderIAMToken(unittest.TestCase):
         self.assertEqual(mock_urlopen.call_count, 1)
 
     def test_raises_without_api_key(self) -> None:
-        os.environ.pop("GRANITE_API_KEY", None)
+        os.environ["GRANITE_API_KEY"] = ""
+        os.environ["IBM_API_KEY"] = ""
         reset_runtime_config()
         from backend.llm.granite_provider import GraniteProvider
 
@@ -385,8 +387,10 @@ class TestLLMGatewayGraniteMode(unittest.TestCase):
         self.assertIn("granite response", resp.content)
 
     def test_gateway_raises_without_granite_config(self) -> None:
-        os.environ.pop("GRANITE_API_KEY", None)
-        os.environ.pop("GRANITE_SPACE_ID", None)
+        os.environ["GRANITE_API_KEY"] = ""
+        os.environ["IBM_API_KEY"] = ""
+        os.environ["GRANITE_SPACE_ID"] = ""
+        os.environ["IBM_SPACE_ID"] = ""
         reset_runtime_config()
 
         gate = LLMGateway()

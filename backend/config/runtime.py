@@ -5,17 +5,30 @@ from pathlib import Path
 
 try:
     from dotenv import load_dotenv
-
-    load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 except ImportError:
-    pass
+    load_dotenv = None  # type: ignore[assignment]
 
 ALLOWED_MODES = ("mock", "bob", "hybrid", "granite")
 _DEFAULT_MODE = "hybrid"
 
+_DOTENV_PATH: Path = Path(__file__).resolve().parent.parent / ".env"
+
+
+def _ensure_dotenv() -> None:
+    """Re-seed os.environ from .env without overriding existing values."""
+    if load_dotenv is not None:
+        load_dotenv(_DOTENV_PATH)
+
+
+# Seed once at import time.
+_ensure_dotenv()
+
 
 class RuntimeConfig:
     def __init__(self) -> None:
+        # Re-seed so .env values survive os.environ.clear() (e.g. test teardown).
+        _ensure_dotenv()
+
         self.llm_mode: str = os.environ.get("KRONOS_LLM_MODE", _DEFAULT_MODE).strip().lower()
         if self.llm_mode not in ALLOWED_MODES:
             self.llm_mode = _DEFAULT_MODE
