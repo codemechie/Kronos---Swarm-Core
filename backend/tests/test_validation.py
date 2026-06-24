@@ -48,6 +48,84 @@ def _metrics(
     )
 
 
+class TestEvidenceSummary(unittest.TestCase):
+    """Evidence summary generation."""
+
+    def setUp(self) -> None:
+        self.validator = HeuristicValidator()
+
+    def test_no_flags_summary(self) -> None:
+        assessments = {
+            "a": _assessment("a", provider="bob"),
+            "b": _assessment("b", provider="bob"),
+        }
+        metrics = _metrics(agreement_score=100.0, fracture_index=0.0)
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        self.assertEqual(result.evidence_summary, "Agent consensus is strong and fracture remains low.")
+
+    def test_high_fracture_summary(self) -> None:
+        assessments = {"a": _assessment("a"), "b": _assessment("b")}
+        metrics = _metrics(agreement_score=40.0, fracture_index=80.0)
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        self.assertIn("fracture is elevated", result.evidence_summary)
+
+    def test_contradictory_verdicts_summary(self) -> None:
+        assessments = {
+            "a": _assessment("a", risk_level="LOW"),
+            "b": _assessment("b", risk_level="HIGH"),
+        }
+        metrics = _metrics(agreement_score=100.0, fracture_index=0.0)
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        self.assertIn("disagree on risk assessment", result.evidence_summary)
+
+    def test_low_confidence_summary(self) -> None:
+        assessments = {
+            "a": _assessment("a", provider="mock"),
+            "b": _assessment("b", provider="mock"),
+        }
+        metrics = _metrics(agreement_score=40.0, fracture_index=50.0)
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        self.assertIn("weak agreement", result.evidence_summary)
+
+    def test_multiple_flags_combined_summary(self) -> None:
+        assessments = {
+            "a": _assessment("a", risk_level="LOW", provider="mock"),
+            "b": _assessment("b", risk_level="HIGH", provider="mock"),
+        }
+        metrics = _metrics(agreement_score=20.0, fracture_index=80.0)
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        sentences = result.evidence_summary.split(". ")
+        self.assertGreaterEqual(len(sentences), 3)
+
+    def test_evidence_summary_in_validate_output(self) -> None:
+        assessments = {"a": _assessment("a")}
+        metrics = _metrics()
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        self.assertIsInstance(result.evidence_summary, str)
+        self.assertGreater(len(result.evidence_summary), 0)
+
+    def test_evidence_summary_immutable(self) -> None:
+        assessments = {"a": _assessment("a")}
+        metrics = _metrics()
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        with self.assertRaises(AttributeError):
+            result.evidence_summary = "override"  # type: ignore[misc]
+
+    def test_no_consensus_summary(self) -> None:
+        assessments = {"a": _assessment("a"), "b": _assessment("b")}
+        metrics = _metrics(agreement_score=30.0, fracture_index=70.0)
+        result = self.validator.validate(assessments, metrics, contradictions=())
+
+        self.assertIn("unable to reach consensus", result.evidence_summary)
+
+
 class TestHeuristicValidator(unittest.TestCase):
     """HeuristicValidator algorithm correctness."""
 
@@ -217,6 +295,7 @@ class TestHeuristicValidator(unittest.TestCase):
 
         self.assertEqual(result.validation_source, "heuristic")
         self.assertFalse(result.skipped)
+        self.assertIsInstance(result.evidence_summary, str)
 
     def test_multiple_flags(self) -> None:
         assessments = {
@@ -235,6 +314,8 @@ class TestHeuristicValidator(unittest.TestCase):
             ValidationFlag.AGENT_FAILURE,
         }
         self.assertEqual(set(result.flags), expected_flags)
+        self.assertIsInstance(result.evidence_summary, str)
+        self.assertGreater(len(result.evidence_summary), 0)
 
 
 if __name__ == "__main__":

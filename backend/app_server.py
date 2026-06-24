@@ -61,14 +61,20 @@ class Handler(BaseHTTPRequestHandler):
         flat["score_away"] = tel["score_away"]
         return flat
 
-    def _handle_minute(self):
-        result = orchestrator.process_next_tick()
-        payload = {
-            "telemetry": self._build_telemetry(result),
+    @staticmethod
+    def _build_payload(result: dict) -> dict:
+        return {
+            "telemetry": Handler._build_telemetry(result),
             "fracture_index": result["swarm_metrics"]["fracture_index"],
             "chaos_probability": result["swarm_metrics"]["chaos_probability"],
             "debate_outputs": result["debate_outputs"],
+            "validation": result.get("validation", {"skipped": True}),
+            "granite_review": result["granite_review"],
         }
+
+    def _handle_minute(self):
+        result = orchestrator.process_next_tick()
+        payload = self._build_payload(result)
         body = json.dumps(payload) + "\n"
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
@@ -87,12 +93,7 @@ class Handler(BaseHTTPRequestHandler):
         while True:
             try:
                 result = orchestrator.process_next_tick()
-                payload = {
-                    "telemetry": self._build_telemetry(result),
-                    "fracture_index": result["swarm_metrics"]["fracture_index"],
-                    "chaos_probability": result["swarm_metrics"]["chaos_probability"],
-                    "debate_outputs": result["debate_outputs"],
-                }
+                payload = self._build_payload(result)
                 data = json.dumps(payload)
                 self.wfile.write(f"data: {data}\n\n".encode("utf-8"))
                 self.wfile.flush()

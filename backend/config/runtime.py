@@ -10,7 +10,7 @@ try:
 except ImportError:
     pass
 
-ALLOWED_MODES = ("mock", "bob", "hybrid")
+ALLOWED_MODES = ("mock", "bob", "hybrid", "granite")
 _DEFAULT_MODE = "hybrid"
 
 
@@ -27,6 +27,25 @@ class RuntimeConfig:
         self.bob_api_key: str | None = os.environ.get("BOB_API_KEY")
         self.bob_project_id: str | None = os.environ.get("BOB_PROJECT_ID")
         self.bob_model_id: str | None = os.environ.get("BOB_MODEL_ID")
+
+        self.granite_api_key: str | None = (
+            os.environ.get("GRANITE_API_KEY")
+            or os.environ.get("IBM_API_KEY")
+        )
+        self.granite_runtime_url: str = (
+            os.environ.get("GRANITE_RUNTIME_URL")
+            or os.environ.get("IBM_RUNTIME_URL")
+            or "https://eu-de.ml.cloud.ibm.com"
+        )
+        self.granite_space_id: str | None = (
+            os.environ.get("GRANITE_SPACE_ID")
+            or os.environ.get("IBM_SPACE_ID")
+        )
+        self.granite_model_id: str = (
+            os.environ.get("GRANITE_MODEL_ID")
+            or os.environ.get("IBM_MODEL_ID")
+            or "ibm/granite-3-8b-instruct"
+        )
 
 
 _config: RuntimeConfig | None = None

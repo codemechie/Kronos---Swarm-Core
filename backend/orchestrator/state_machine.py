@@ -18,6 +18,8 @@ from backend.utils.kronos_ticker import KronosMatchTicker
 from backend.llm.gateway import LLMGateway
 from backend.llm.contracts import LLMResponse
 from backend.orchestrator.validation import HeuristicValidator, ValidateOutput
+from backend.orchestrator.granite_review import GraniteReviewEngine
+from backend.contracts.granite_review import GraniteReview
 
 logger = logging.getLogger("kronos.state_machine")
 
@@ -27,6 +29,7 @@ class KronosPhase(Enum):
     ANALYZE = auto()
     DEBATE = auto()
     VALIDATE = auto()
+    GRANITE_REVIEW = auto()
     RECOMMEND = auto()
 
 
@@ -78,6 +81,7 @@ class RecommendOutput:
     match_phase: str
     urgency: str = "STABLE"
     validation: Optional[ValidateOutput] = None
+    granite_review: Optional[GraniteReview] = None
 
 
 @dataclass(frozen=True)
@@ -87,6 +91,7 @@ class TickResult:
     analyze: Optional[AnalyzeOutput] = None
     debate: Optional[DebateOutput] = None
     validate: Optional[ValidateOutput] = None
+    granite_review: Optional[GraniteReview] = None
     recommend: Optional[RecommendOutput] = None
 
 
@@ -115,6 +120,7 @@ class KronosStateMachine:
         self.fracture_calculator = SwarmFractureCalculator()
         self.gateway = LLMGateway()
         self.validator = HeuristicValidator()
+        self.granite_review_engine = GraniteReviewEngine()
 
         self._agents: List[Tuple[str, Any]] = [
             (key, cls()) for key, cls in _AGENT_REGISTRY
@@ -128,6 +134,7 @@ class KronosStateMachine:
         self._analyze_out: Optional[AnalyzeOutput] = None
         self._debate_out: Optional[DebateOutput] = None
         self._validate_out: Optional[ValidateOutput] = None
+        self._granite_review_out: Optional[GraniteReview] = None
         self._recommend_out: Optional[RecommendOutput] = None
 
     # ── Public API ──────────────────────────────────────────────────
@@ -141,6 +148,7 @@ class KronosStateMachine:
         self._do_analyze()
         self._do_debate()
         self._do_validate()
+        self._do_granite_review()
         self._do_recommend()
 
         self.current_phase = KronosPhase.RECOMMEND
@@ -150,6 +158,7 @@ class KronosStateMachine:
             analyze=self._analyze_out,
             debate=self._debate_out,
             validate=self._validate_out,
+            granite_review=self._granite_review_out,
             recommend=self._recommend_out,
         )
 
@@ -304,7 +313,23 @@ class KronosStateMachine:
             len(self._validate_out.flags),
         )
 
-    # ── Phase 5: RECOMMEND ─────────────────────────────────────────
+    # ── Phase 5: GRANITE REVIEW ──────────────────────────────────
+
+    def _do_granite_review(self) -> None:
+        self.current_phase = KronosPhase.GRANITE_REVIEW
+
+        self._granite_review_out = self.granite_review_engine.review(
+            assessments=self._analyze_out.assessments,
+            fracture_metrics=self._debate_out.fracture_metrics,
+            validation=self._validate_out,
+        )
+        logger.debug(
+            "[GRANITE_REVIEW] escalated=%s skipped=%s",
+            self._granite_review_out.escalation_triggered,
+            self._granite_review_out.skipped,
+        )
+
+    # ── Phase 6: RECOMMEND ─────────────────────────────────────────
 
     def _do_recommend(self) -> None:
         self.current_phase = KronosPhase.RECOMMEND
@@ -323,6 +348,7 @@ class KronosStateMachine:
             match_phase=observe.match_phase,
             urgency=urgency,
             validation=self._validate_out,
+            granite_review=self._granite_review_out,
         )
         logger.debug("[RECOMMEND] urgency=%s", urgency)
 
@@ -341,14 +367,56 @@ class KronosStateMachine:
         self._analyze_out = None
         self._debate_out = None
         self._validate_out = None
+        self._granite_review_out = None
         self._recommend_out = None
 
     def to_legacy_dict(self, result: TickResult) -> Dict[str, Any]:
         """Convert a TickResult to the backward-compatible dict format."""
         recommend = result.recommend
+        v = result.validate
+        validation_dict = (
+            {
+                "overall_confidence": v.overall_confidence,
+                "agreement_score": v.agreement_score,
+                "trust_score": v.trust_score,
+                "contradiction_count": v.contradiction_count,
+                "flags": [str(f) for f in v.flags],
+                "evidence_summary": v.evidence_summary,
+                "validation_source": v.validation_source,
+                "skipped": v.skipped,
+            }
+            if v is not None
+            else {"skipped": True}
+        )
+        gr = result.granite_review
+        granite_review_dict = (
+            {
+                "escalation_triggered": gr.escalation_triggered,
+                "review_summary": gr.review_summary,
+                "contradiction_analysis": gr.contradiction_analysis,
+                "confidence_assessment": gr.confidence_assessment,
+                "recommended_action": gr.recommended_action,
+                "granite_confidence": gr.granite_confidence,
+                "provider": gr.provider,
+                "skipped": gr.skipped,
+            }
+            if gr is not None
+            else {
+                "escalation_triggered": False,
+                "review_summary": "Granite review not required.",
+                "contradiction_analysis": "",
+                "confidence_assessment": "",
+                "recommended_action": "",
+                "granite_confidence": 0,
+                "provider": "granite",
+                "skipped": True,
+            }
+        )
         return {
             "telemetry": asdict(recommend.telemetry),
             "debate_outputs": recommend.debate_outputs,
             "swarm_metrics": asdict(recommend.fracture_metrics),
             "provider_metadata": recommend.provider_metadata,
+            "validation": validation_dict,
+            "granite_review": granite_review_dict,
         }

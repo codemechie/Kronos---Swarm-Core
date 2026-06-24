@@ -87,7 +87,8 @@ def main() -> int:
             f"fracture={d['swarm_metrics']['fracture_index']} "
             f"urgency={result.recommend.urgency} "
             f"conf={v.overall_confidence:.2f} trust={v.trust_score:.2f} "
-            f"flags={[f.value for f in v.flags]}"
+            f"flags={[f.value for f in v.flags]}\n"
+            f"         {v.evidence_summary}"
         )
 
     # Verify anomaly detection via ticker scripted triggers (minute 76+)

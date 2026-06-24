@@ -68,6 +68,7 @@ class ValidateOutput:
     trust_score: float = 1.0
     contradiction_count: int = 0
     flags: Tuple[ValidationFlag, ...] = ()
+    evidence_summary: str = ""
     validation_source: str = "heuristic"
     skipped: bool = False
 
@@ -160,6 +161,27 @@ class HeuristicValidator:
 
         return flags
 
+    @staticmethod
+    def _generate_evidence_summary(flags: List[ValidationFlag]) -> str:
+        phrases: List[str] = []
+
+        for flag in flags:
+            if flag == ValidationFlag.HIGH_FRACTURE:
+                phrases.append("Swarm fracture is elevated, reducing confidence in the dominant assessment.")
+            elif flag == ValidationFlag.CONTRADICTORY_VERDICTS:
+                phrases.append("Multiple agents disagree on risk assessment.")
+            elif flag == ValidationFlag.LOW_CONFIDENCE:
+                phrases.append("Confidence remains low due to weak agreement between agents.")
+            elif flag == ValidationFlag.NO_CONSENSUS:
+                phrases.append("Agents are unable to reach consensus on the match state.")
+            elif flag == ValidationFlag.AGENT_FAILURE:
+                phrases.append("One or more agents are operating on degraded provider quality.")
+
+        if not phrases:
+            return "Agent consensus is strong and fracture remains low."
+
+        return " ".join(phrases)
+
     def validate(
         self,
         assessments: Dict[str, AgentAssessment],
@@ -172,12 +194,15 @@ class HeuristicValidator:
         overall = self._compute_overall_confidence(agreement, trust, fracture_metrics)
         flags = self._determine_flags(overall, agreement, fracture_metrics, contradiction_records, assessments)
 
+        summary = self._generate_evidence_summary(flags)
+
         return ValidateOutput(
             overall_confidence=round(overall, 4),
             agreement_score=round(agreement, 4),
             trust_score=round(trust, 4),
             contradiction_count=len(contradiction_records),
             flags=tuple(flags),
+            evidence_summary=summary,
             validation_source="heuristic",
             skipped=False,
         )

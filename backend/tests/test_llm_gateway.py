@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import os
 import unittest
 from unittest.mock import patch, MagicMock
@@ -157,6 +158,284 @@ class TestProviderMetadata(unittest.TestCase):
         self.assertEqual(len(meta), 5)
         for agent_key, provider in meta.items():
             self.assertIn(provider, ("mock", "bob"))
+
+
+
+class TestGraniteProviderInit(unittest.TestCase):
+    """GraniteProvider initialisation and environment config."""
+
+    def setUp(self) -> None:
+        self._env = dict(os.environ)
+        os.environ["GRANITE_API_KEY"] = "test-granite-key"
+        os.environ["GRANITE_SPACE_ID"] = "test-space"
+        os.environ["GRANITE_MODEL_ID"] = "ibm/granite-model"
+        reset_runtime_config()
+
+    def tearDown(self) -> None:
+        os.environ.clear()
+        os.environ.update(self._env)
+
+    def test_initialises_from_config(self) -> None:
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        self.assertEqual(provider.api_key, "test-granite-key")
+        self.assertEqual(provider.space_id, "test-space")
+        self.assertEqual(provider.model_id, "ibm/granite-model")
+        self.assertEqual(provider.runtime_url, "https://eu-de.ml.cloud.ibm.com")
+        self.assertIsNone(provider._cached_token)
+
+    def test_runtime_url_default(self) -> None:
+        os.environ.pop("GRANITE_RUNTIME_URL", None)
+        reset_runtime_config()
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        self.assertEqual(provider.runtime_url, "https://eu-de.ml.cloud.ibm.com")
+
+    def test_custom_runtime_url(self) -> None:
+        os.environ["GRANITE_RUNTIME_URL"] = "https://custom.cloud.ibm.com"
+        reset_runtime_config()
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        self.assertEqual(provider.runtime_url, "https://custom.cloud.ibm.com")
+
+
+class TestGraniteProviderIAMToken(unittest.TestCase):
+    """IAM token acquisition and caching."""
+
+    def setUp(self) -> None:
+        self._env = dict(os.environ)
+        os.environ["GRANITE_API_KEY"] = "test-granite-key"
+        os.environ["GRANITE_SPACE_ID"] = "test-space"
+        reset_runtime_config()
+
+    def tearDown(self) -> None:
+        os.environ.clear()
+        os.environ.update(self._env)
+
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_obtains_iam_token(self, mock_urlopen: MagicMock) -> None:
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = b'{"access_token": "fake-token-123", "expires_in": 3600}'
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        token = provider._get_iam_token()
+
+        self.assertEqual(token, "fake-token-123")
+        self.assertEqual(provider._cached_token, "fake-token-123")
+        self.assertGreater(provider._token_expiry, 0)
+
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_caches_token(self, mock_urlopen: MagicMock) -> None:
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = b'{"access_token": "cached-token", "expires_in": 3600}'
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        token1 = provider._get_iam_token()
+        token2 = provider._get_iam_token()
+
+        self.assertEqual(token1, token2)
+        self.assertEqual(mock_urlopen.call_count, 1)
+
+    def test_raises_without_api_key(self) -> None:
+        os.environ.pop("GRANITE_API_KEY", None)
+        reset_runtime_config()
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        with self.assertRaises(RuntimeError):
+            provider._get_iam_token()
+
+
+class TestGraniteProviderInference(unittest.TestCase):
+    """Inference request and response handling."""
+
+    def setUp(self) -> None:
+        self._env = dict(os.environ)
+        os.environ["KRONOS_LLM_MODE"] = "granite"
+        os.environ["GRANITE_API_KEY"] = "test-granite-key"
+        os.environ["GRANITE_SPACE_ID"] = "test-space"
+        reset_runtime_config()
+
+    def tearDown(self) -> None:
+        os.environ.clear()
+        os.environ.update(self._env)
+
+    @patch("backend.llm.granite_provider.GraniteProvider._get_iam_token")
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_returns_llm_response(
+        self, mock_urlopen: MagicMock, mock_iam: MagicMock
+    ) -> None:
+        mock_iam.return_value = "fake-token"
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = (
+            b'{"choices": [{"message": {"content": "Granite analysis result"}}]}'
+        )
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        resp = provider.generate("Market Pragmatist", "Analyze this match state.")
+
+        self.assertIsInstance(resp, LLMResponse)
+        self.assertEqual(resp.provider, "granite")
+        self.assertEqual(resp.content, "Granite analysis result")
+
+    @patch("backend.llm.granite_provider.GraniteProvider._get_iam_token")
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_payload_contains_space_id(
+        self, mock_urlopen: MagicMock, mock_iam: MagicMock
+    ) -> None:
+        mock_iam.return_value = "fake-token"
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = (
+            b'{"choices": [{"message": {"content": "ok"}}]}'
+        )
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        provider.generate("Judge", "test")
+
+        call_args = mock_urlopen.call_args[0][0]
+        body = json.loads(call_args.data)
+
+        self.assertIn("space_id", body)
+        self.assertEqual(body["space_id"], "test-space")
+        self.assertIn("model_id", body)
+        self.assertEqual(body["messages"][0]["role"], "system")
+        self.assertEqual(body["messages"][1]["role"], "user")
+
+    @patch("backend.llm.granite_provider.GraniteProvider._get_iam_token")
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_raises_on_http_error(
+        self, mock_urlopen: MagicMock, mock_iam: MagicMock
+    ) -> None:
+        from urllib.error import URLError
+
+        mock_iam.return_value = "fake-token"
+        mock_urlopen.side_effect = URLError("service unavailable")
+
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        with self.assertRaises(RuntimeError):
+            provider.generate("Judge", "test")
+
+    @patch("backend.llm.granite_provider.GraniteProvider._get_iam_token")
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_agent_name_in_system_message(
+        self, mock_urlopen: MagicMock, mock_iam: MagicMock
+    ) -> None:
+        mock_iam.return_value = "fake-token"
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = b'{"choices": [{"message": {"content": "ok"}}]}'
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        provider.generate("Mood Ring", "analyze")
+
+        call_args = mock_urlopen.call_args[0][0]
+        body = json.loads(call_args.data)
+        self.assertIn("Mood Ring", body["messages"][0]["content"])
+
+
+class TestLLMGatewayGraniteMode(unittest.TestCase):
+    """Gateway routing in granite mode."""
+
+    def setUp(self) -> None:
+        self._env = dict(os.environ)
+        os.environ["KRONOS_LLM_MODE"] = "granite"
+        os.environ["GRANITE_API_KEY"] = "test-granite-key"
+        os.environ["GRANITE_SPACE_ID"] = "test-space"
+        reset_runtime_config()
+
+    def tearDown(self) -> None:
+        os.environ.clear()
+        os.environ.update(self._env)
+
+    @patch("backend.llm.granite_provider.GraniteProvider._get_iam_token")
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_gateway_routes_to_granite(
+        self, mock_urlopen: MagicMock, mock_iam: MagicMock
+    ) -> None:
+        mock_iam.return_value = "fake-token"
+        mock_resp = MagicMock()
+        mock_resp.read.return_value = (
+            b'{"choices": [{"message": {"content": "granite response"}}]}'
+        )
+        mock_urlopen.return_value.__enter__.return_value = mock_resp
+
+        gate = LLMGateway()
+        resp = gate.generate("Judge", "analysis")
+
+        self.assertEqual(resp.provider, "granite")
+        self.assertIn("granite response", resp.content)
+
+    def test_gateway_raises_without_granite_config(self) -> None:
+        os.environ.pop("GRANITE_API_KEY", None)
+        os.environ.pop("GRANITE_SPACE_ID", None)
+        reset_runtime_config()
+
+        gate = LLMGateway()
+        with self.assertRaises(RuntimeError):
+            gate.generate("Judge", "analysis")
+
+
+class TestGraniteProviderRetry(unittest.TestCase):
+    """Retry behaviour on transient failures."""
+
+    def setUp(self) -> None:
+        self._env = dict(os.environ)
+        os.environ["GRANITE_API_KEY"] = "test-granite-key"
+        os.environ["GRANITE_SPACE_ID"] = "test-space"
+        reset_runtime_config()
+
+    def tearDown(self) -> None:
+        os.environ.clear()
+        os.environ.update(self._env)
+
+    @patch("backend.llm.granite_provider.GraniteProvider._get_iam_token")
+    @patch("backend.llm.granite_provider.urlopen")
+    def test_retries_on_transient_failure_then_succeeds(
+        self, mock_urlopen: MagicMock, mock_iam: MagicMock
+    ) -> None:
+        from urllib.error import URLError
+
+        mock_iam.return_value = "fake-token"
+
+        good_cm = MagicMock()
+        good_resp = MagicMock()
+        good_resp.read.return_value = (
+            b'{"choices": [{"message": {"content": "retry success"}}]}'
+        )
+        good_cm.__enter__.return_value = good_resp
+
+        mock_urlopen.side_effect = [
+            URLError("timeout"),
+            good_cm,
+        ]
+
+        from backend.llm.granite_provider import GraniteProvider
+
+        provider = GraniteProvider()
+        resp = provider.generate("Judge", "test")
+
+        self.assertEqual(resp.provider, "granite")
+        self.assertEqual(resp.content, "retry success")
+        self.assertEqual(mock_urlopen.call_count, 2)
 
 
 if __name__ == "__main__":
