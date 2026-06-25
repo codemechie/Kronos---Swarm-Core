@@ -106,6 +106,8 @@ export interface Validation {
   skipped: boolean;
 }
 
+export type ConnectionStatus = "CONNECTED" | "CONNECTING" | "OFFLINE";
+
 export interface KronosState {
   telemetry: Telemetry;
   swarmMetrics: SwarmMetrics;
@@ -115,6 +117,38 @@ export interface KronosState {
   events: KronosEvent[];
   granite_review: GraniteReview;
   validation: Validation;
+  connectionStatus: ConnectionStatus;
+}
+
+export interface MatchProbabilities {
+  homeWin: number;
+  draw: number;
+  awayWin: number;
+}
+
+export interface TeamStats {
+  health: number;
+  aggression: number;
+  momentum: number;
+}
+
+export interface TeamIntelligence {
+  home: TeamStats;
+  away: TeamStats;
+}
+
+export interface CommentaryEntry {
+  minute: number;
+  text: string;
+  source: string;
+}
+
+export interface MatchStorySnapshot {
+  minute: number;
+  score: { home: number; away: number };
+  probabilities: MatchProbabilities;
+  teamIntelligence: TeamIntelligence;
+  commentaryEntries: CommentaryEntry[];
 }
 
 export interface KronosPacket {

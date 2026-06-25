@@ -12,8 +12,9 @@ Python SSE backend + React/TypeScript/Vite/Tailwind frontend.
 CURRENT STATE — COMPLETE
 ------------------------
 Backend: 119 tests passing, 110 subtests. Full SSE server on port 3000.
-Frontend: Production-quality React app with routing (Landing / Command Center /
-Swarm Intelligence / Debate Transcript), mission-control aesthetic.
+Frontend: Production-quality React app with 5 routes (Landing / Command Center /
+Swarm Intelligence / Debate Transcript / Granite Intelligence Center),
+mission-control aesthetic. SSE connection status indicator in header.
 
 BACKEND
 -------
@@ -51,7 +52,9 @@ backend/
 │   ├── bob_validation_report.md
 │   ├── calibration_report.txt
 │   ├── config_loading_investigation.md
-│   └── granite_request_differential_analysis.md
+│   ├── granite_request_differential_analysis.md
+│   ├── granite_intelligence_center_plan.md  # Phase 4.3 implementation plan
+│   └── demo_readiness_audit.md              # Phase 5.0 audit + 5.1 fix summary
 └── tests/
     ├── test_swarm_fracture.py   # 7 tests
     ├── test_llm_gateway.py      # Granite, BOB, mock provider tests + gateway routing
@@ -64,16 +67,17 @@ FRONTEND
 --------
 frontend/
 ├── src/
-│   ├── types/kronos.ts          # All TypeScript interfaces (Telemetry, SwarmAgent, Validation, etc.)
-│   ├── context/KronosProvider.tsx # SSE EventSource owner, normalizes packets, manages state
+│   ├── types/kronos.ts          # All TypeScript interfaces + ConnectionStatus type
+│   ├── context/KronosProvider.tsx # SSE EventSource owner, normalizes packets, tracks connectionStatus
 │   ├── hooks/useKronos.ts       # Context consumer hook
-│   ├── App.tsx                  # React Router (<Routes>: /, /war-room, /swarm)
+│   ├── App.tsx                  # React Router (<Routes>: /, /war-room, /swarm, /transcript, /granite)
 │   ├── main.tsx                 # Entry point with BrowserRouter + KronosProvider
 │   ├── pages/
-│   │   ├── Landing.tsx           # Landing page with nav cards
-│   │   ├── WarRoom.tsx           # Command Center — full war room layout
+│   │   ├── Landing.tsx           # Landing page with 5 nav cards
+│   │   ├── WarRoom.tsx           # Command Center — full war room layout (no debug panel)
 │   │   ├── SwarmIntelligence.tsx # Swarm Intelligence Center — agent grid + status
-│   │   └── DebateTranscript.tsx  # Debate Transcript — vertical intelligence timeline
+│   │   ├── DebateTranscript.tsx  # Debate Transcript — vertical intelligence timeline
+│   │   └── GraniteIntelligence.tsx # Granite Intelligence Center — escalation overview + 6-stage Decision Trace
 │   ├── lib/
 │   │   ├── normalizeKronosPacket.ts # Normalizes flat/nested SSE payloads
 │   │   ├── verdictEngine.ts     # Pure function: status rules, fracture override, supporting signals
@@ -87,7 +91,7 @@ frontend/
 │       ├── granite/GraniteTerminal.tsx  # Granite review display (standby/active/unavailable)
 │       ├── validation/ValidationCenter.tsx # Validation intelligence display
 │       ├── layout/
-│       │   ├── CommandHeader.tsx    # Top bar: nav links (4 routes) + live metrics
+│   │   ├── CommandHeader.tsx    # Top bar: nav links (5 routes) + live metrics + SSE connection status
 │       │   ├── TelemetryPanel.tsx # Live telemetry with conditional coloring
 │       │   ├── SwarmPanel.tsx   # Adversarial swarm console
 │       │   └── EventFeed.tsx   # Scrollable event feed
@@ -134,6 +138,39 @@ backend/config/runtime.py — reads from os.environ, falls back to .env.
 _envire_dotenv() called at module import + every RuntimeConfig.__init__()
 (so .env values survive os.environ.clear()).
 
+PHASE 5.x — MATCH STORY
+------------------------
+Phase 5.1A: Frontend Match Story data model (PURE FUNCTIONS — NO BACKEND CHANGES)
+  Created: frontend/src/lib/matchStory/deriveProbabilities.ts
+  Created: frontend/src/lib/matchStory/deriveTeamIntelligence.ts
+  Created: frontend/src/lib/matchStory/generateCommentary.ts
+  Created: frontend/src/lib/matchStory/buildMatchStorySnapshot.ts
+  Modified: frontend/src/types/kronos.ts (added MatchStorySnapshot, MatchProbabilities,
+            TeamIntelligence, TeamStats, CommentaryEntry interfaces)
+  Summary: backend/docs/phase_5_1a_implementation_summary.md
+
+Phase 5.2: Match Story Schema & Anchor Rules
+  Schema V1 → V2.1: backend/docs/match_story_schema_v2_1.md
+    12-field canonical schema: event_id, minute, match_period, stoppage_time, type,
+    player, team, importance, source_confidence, narrative_notes, shootout_score, raw_source
+    Importance scoring table (10–95), penalty event generation rule (PENALTY + GOAL pair),
+    narrative notes must be factual/observable only (no emotion/psychology/tactics/speculation)
+  Raw Event Harvest Template: backend/docs/raw_event_harvest_template.md
+    5-step workflow (Collect → Classify → Score → Decide → Assign),
+    5 deduplication rules, source precedence (FIFA > BBC > ESPN > Guardian > Other)
+  Anchor Rules: backend/docs/anchor_rules.md
+    7 event types with deterministic creation/non-creation criteria,
+    confidence assignment (HIGH/MEDIUM/LOW), density controls (25–45 anchors, 65 max w/ shootout),
+    per-category caps (6 subs, 6 momentum, 8 pressure, 10 cards, 8 phase changes),
+    conflict resolution precedence, 10-point consistency checklist
+
+Phase 5.2A: Argentina vs France 2022 World Cup Final Extraction
+  Extraction Plan: backend/docs/argentina_france_extraction_plan.md
+  Sources acquired: FIFA (raw text), BBC (raw text), ESPN (raw text), Guardian (raw text)
+  PENALTY importance fix: awarded=70, saved=90, missed=90, converted paired GOAL=95
+  Raw event harvest: 122 entries composed across FIFA (37), BBC (34), ESPN (21), Guardian (30)
+  Next: write argentina_france_raw_events.md → deduplication → anchor creation → scoring → QA
+
 BLOCKED / NEXT
 --------------
 - Granite inference: IBM API key token quota exhausted (403 token_quota_reached).
@@ -141,6 +178,8 @@ BLOCKED / NEXT
   Need API key with available quota.
 - BOB endpoint https://api.bob-llm.dev is a placeholder (DNS fail).
 - bob.ibm.com/api/* returns 405 on all POST paths.
+- Phase 5.2A: argentina_france_raw_events.md (122 entries) needs to be written to disk via write tool
+  (bash heredoc failed due to Windows path/length limits on large content).
 
 TESTING
 -------
@@ -149,8 +188,13 @@ Frontend: cd frontend; npx tsc --noEmit       (zero errors)
 
 KEY DECISIONS
 -------------
-- React Router added with 4 routes: / (landing), /war-room, /swarm, /transcript.
+- React Router with 5 routes: / (landing), /war-room, /swarm, /transcript, /granite.
+- Granite Intelligence Center (Phase 4.3): 6-stage Decision Trace (OBSERVE → ANALYZE → DEBATE → VALIDATE → GRANITE REVIEW → RECOMMENDATION) as explainability centerpiece.
+- SSE connection status (CONNECTED/CONNECTING/OFFLINE) tracked in KronosProvider via EventSource lifecycle events, displayed in CommandHeader.
+- Confidence classification labels (HIGH/STRONG/MODERATE/LOW/CRITICAL UNCERTAINTY) applied where percentages are shown.
 - MockProvider generates personality-rich text via PersonaBuilder — telemetry-aware templates with per-agent voice, signal detection, and deterministic template selection.
 - Frontend components read from single source of truth: useKronos() → KronosContext.
 - Pipeline labels: SWARM VALIDATION LAYER, IBM GRANITE REVIEW LAYER, FINAL DECISION LAYER.
 - GraniteReviewEngine uses named constants for escalation thresholds.
+- Granite unavailable state uses graceful-degradation messaging (not failure language) across all UI locations.
+- KronosDebugPanel removed from War Room for production demo (file retained for development).

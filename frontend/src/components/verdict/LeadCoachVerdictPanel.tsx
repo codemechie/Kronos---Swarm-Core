@@ -108,9 +108,20 @@ export function LeadCoachVerdictPanel() {
             granite_review.review_summary.toLowerCase().includes("unavailable")
           ) {
             return (
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-red-500 shrink-0" />
-                <span className="text-[10px] tracking-widest text-red-400">UNAVAILABLE</span>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="w-2 h-2 rounded-full bg-yellow-500 shrink-0" />
+                  <span className="text-[10px] tracking-widest text-yellow-400">DEGRADED</span>
+                </div>
+                <div className="text-xs text-gray-400 ml-4">
+                  Granite review currently unavailable.
+                </div>
+                <div className="text-xs text-gray-400 ml-4">
+                  System operating in graceful-degradation mode using heuristic validation.
+                </div>
+                <div className="text-xs text-gray-400 ml-4">
+                  Decision pipeline remains operational.
+                </div>
               </div>
             );
           }

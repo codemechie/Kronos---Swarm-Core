@@ -19,7 +19,7 @@ const cards = [
   {
     to: "/granite",
     title: "GRANITE INTELLIGENCE CENTER",
-    desc: "Can we trust this intelligence? — Decision provenance and explainability.",
+    desc: "Independent validation and decision provenance for every recommendation.",
   },
 ];
 

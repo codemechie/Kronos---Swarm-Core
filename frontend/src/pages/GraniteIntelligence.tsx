@@ -11,7 +11,7 @@ const stageAccents: Record<string, string> = {
   DEBATE: "border-l-violet-600 bg-violet-900/10",
   VALIDATE: "border-l-amber-600 bg-amber-900/10",
   GRANITE: "border-l-cyan-600 bg-cyan-900/10",
-  RECOMMEND: "border-l-emerald-600 bg-emerald-900/10",
+  RECOMMENDATION: "border-l-emerald-600 bg-emerald-900/10",
 };
 
 const agentAccents: Record<string, string> = {
@@ -33,6 +33,15 @@ const flagColors: Record<string, string> = {
 function pct(v: number | undefined | null): string {
   if (v == null) return "—";
   return `${Math.round(v * 100)}%`;
+}
+
+function confidenceLabel(pctValue: number | undefined | null): { label: string; color: string } | null {
+  if (pctValue == null) return null;
+  if (pctValue >= 90) return { label: "HIGH CONFIDENCE", color: "text-green-400" };
+  if (pctValue >= 70) return { label: "STRONG CONFIDENCE", color: "text-cyan-400" };
+  if (pctValue >= 50) return { label: "MODERATE CONFIDENCE", color: "text-blue-400" };
+  if (pctValue >= 30) return { label: "LOW CONFIDENCE", color: "text-yellow-400" };
+  return { label: "CRITICAL UNCERTAINTY", color: "text-red-400" };
 }
 
 function GraniteIntelligence() {
@@ -72,7 +81,7 @@ function GraniteIntelligence() {
         <div className="border border-gray-700 rounded bg-gray-900 p-4">
           <div className="text-xs tracking-widest text-gray-400 mb-1">GRANITE INTELLIGENCE CENTER</div>
           <div className="text-[10px] tracking-widest text-gray-600 mb-4">
-            Can we trust this intelligence? — Decision provenance for minute {telemetry.minute}
+            Independent validation and decision provenance for every recommendation.
           </div>
 
           {/* ── Escalation Overview ── */}
@@ -91,9 +100,14 @@ function GraniteIntelligence() {
               <div className={`text-base font-bold ${validation.overall_confidence <= 0.3 ? "text-red-400" : "text-white"}`}>
                 {pct(validation.overall_confidence)}
               </div>
-              <div className="text-gray-400 text-[10px]">
-                {validation.overall_confidence <= 0.3 ? "Low confidence" : "Adequate"}
-              </div>
+              {(() => {
+                const cl = confidenceLabel(validation.overall_confidence != null ? Math.round(validation.overall_confidence * 100) : null);
+                return cl ? (
+                  <div className={`text-[10px] ${cl.color}`}>{cl.label}</div>
+                ) : (
+                  <div className="text-gray-400 text-[10px]">—</div>
+                );
+              })()}
             </div>
             <div className="border border-gray-700 rounded bg-gray-950 p-3">
               <div className="text-[9px] tracking-widest text-gray-500 mb-0.5">CONTRADICTIONS</div>
@@ -110,7 +124,7 @@ function GraniteIntelligence() {
                 {graniteStatus}
               </div>
               <div className="text-gray-400 text-[10px]">
-                {graniteStatus === "ACTIVE" ? "Granite review triggered" : graniteStatus === "STANDBY" ? "Not required" : "Unavailable"}
+                {graniteStatus === "ACTIVE" ? "Granite review triggered" : graniteStatus === "STANDBY" ? "Not required" : "Graceful degradation"}
               </div>
             </div>
           </div>
@@ -145,7 +159,7 @@ function GraniteIntelligence() {
                 <div>
                   <span className="text-gray-500 text-[10px]">Score</span>
                   <div className="text-white font-semibold">
-                    {telemetry.score_home != null ? `${telemetry.score_home} – ${telemetry.score_away ?? 0}` : "—"}
+                    {telemetry.score_home != null ? `${telemetry.score_home} – ${telemetry.score_away ?? "—"}` : "—"}
                   </div>
                 </div>
                 <div>
@@ -287,10 +301,18 @@ function GraniteIntelligence() {
                     <div>
                       <span className="text-gray-500 text-[10px]">Confidence</span>
                       <div className="text-base font-bold text-white">{pct(validation.overall_confidence)}</div>
+                      {(() => {
+                        const cl = confidenceLabel(validation.overall_confidence != null ? Math.round(validation.overall_confidence * 100) : null);
+                        return cl ? <div className={`text-[9px] ${cl.color}`}>{cl.label}</div> : null;
+                      })()}
                     </div>
                     <div>
                       <span className="text-gray-500 text-[10px]">Trust Score</span>
                       <div className="text-base font-bold text-white">{pct(validation.trust_score)}</div>
+                      {(() => {
+                        const cl = confidenceLabel(validation.trust_score != null ? Math.round(validation.trust_score * 100) : null);
+                        return cl ? <div className={`text-[9px] ${cl.color}`}>{cl.label}</div> : null;
+                      })()}
                     </div>
                   </div>
                   {validation.flags.length > 0 && (
@@ -333,10 +355,16 @@ function GraniteIntelligence() {
                 </span>
               </div>
               {!hasGranite ? (
-                <div className="text-gray-500 text-xs">
-                  {graniteStatus === "STANDBY"
-                    ? "Swarm confidence remains healthy. No escalation required."
-                    : "Granite review layer unavailable."}
+                <div className="text-gray-500 text-xs space-y-1">
+                  {graniteStatus === "STANDBY" ? (
+                    <div>Swarm confidence remains healthy. No escalation required.</div>
+                  ) : (
+                    <>
+                      <div>Granite review currently unavailable.</div>
+                      <div>System operating in graceful-degradation mode using heuristic validation.</div>
+                      <div>Decision pipeline remains fully operational.</div>
+                    </>
+                  )}
                 </div>
               ) : (
                 <>
@@ -344,6 +372,10 @@ function GraniteIntelligence() {
                     <div>
                       <span className="text-gray-500 text-[10px]">Granite Confidence</span>
                       <div className="text-base font-bold text-amber-400">{granite_review.granite_confidence}%</div>
+                      {(() => {
+                        const cl = confidenceLabel(granite_review.granite_confidence);
+                        return cl ? <div className={`text-[9px] ${cl.color}`}>{cl.label}</div> : null;
+                      })()}
                     </div>
                     <div>
                       <span className="text-gray-500 text-[10px]">Escalation</span>
@@ -382,12 +414,12 @@ function GraniteIntelligence() {
               <span className="text-gray-700 text-sm">↓</span>
             </div>
 
-            {/* 06 — RECOMMEND */}
-            <div className={`border-l-4 rounded border border-gray-700 bg-gray-950 p-4 ${stageAccents.RECOMMEND}`}>
+            {/* 06 — RECOMMENDATION */}
+            <div className={`border-l-4 rounded border border-gray-700 bg-gray-950 p-4 ${stageAccents.RECOMMENDATION}`}>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] text-gray-600 font-bold">06</span>
-                  <span className="text-xs tracking-widest text-emerald-400 font-bold">RECOMMEND</span>
+                  <span className="text-xs tracking-widest text-emerald-400 font-bold">RECOMMENDATION</span>
                 </div>
                 <span className={`text-[10px] px-2 py-0.5 border rounded ${
                   verdict.status === "CRITICAL"

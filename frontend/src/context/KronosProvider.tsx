@@ -42,6 +42,7 @@ const INITIAL_STATE: KronosState = {
     validation_source: "heuristic",
     skipped: true,
   },
+  connectionStatus: "CONNECTING",
 };
 
 export function KronosProvider({ children }: { children: ReactNode }) {
@@ -49,6 +50,10 @@ export function KronosProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const source = new EventSource(STREAM_URL);
+
+    source.onopen = () => {
+      setState((prev) => ({ ...prev, connectionStatus: "CONNECTED" }));
+    };
 
     source.onmessage = (event) => {
       try {
@@ -78,6 +83,7 @@ export function KronosProvider({ children }: { children: ReactNode }) {
             history,
             phase: derivePhase(telemetry.minute),
             events: prev.events,
+            connectionStatus: prev.connectionStatus,
           };
 
           const now = Date.now();
@@ -97,6 +103,10 @@ export function KronosProvider({ children }: { children: ReactNode }) {
       } catch {
         // ignore malformed data
       }
+    };
+
+    source.onerror = () => {
+      setState((prev) => ({ ...prev, connectionStatus: "OFFLINE" }));
     };
 
     return () => {

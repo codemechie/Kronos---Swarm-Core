@@ -6,11 +6,23 @@ const navLinks = [
   { to: "/war-room", label: "Command Center" },
   { to: "/swarm", label: "Swarm Intelligence" },
   { to: "/transcript", label: "Debate Transcript" },
-  { to: "/granite", label: "Granite Review" },
+  { to: "/granite", label: "Granite Intelligence" },
 ];
 
+const connectionStyle: Record<string, string> = {
+  CONNECTED: "text-green-400",
+  CONNECTING: "text-yellow-400",
+  OFFLINE: "text-red-400",
+};
+
+const connectionDot: Record<string, string> = {
+  CONNECTED: "bg-green-500",
+  CONNECTING: "bg-yellow-500",
+  OFFLINE: "bg-red-500",
+};
+
 export function CommandHeader() {
-  const { telemetry, swarmMetrics, phase } = useKronos();
+  const { telemetry, swarmMetrics, phase, connectionStatus } = useKronos();
   const location = useLocation();
 
   return (
@@ -18,6 +30,10 @@ export function CommandHeader() {
       <div className="flex items-center gap-4 text-sm flex-wrap">
         <span className="tracking-widest text-gray-400 font-bold">
           KRONOS SWARM ENGINE
+        </span>
+        <span className={`flex items-center gap-1 text-[10px] ${connectionStyle[connectionStatus]}`}>
+          <span className={`inline-block w-1.5 h-1.5 rounded-full ${connectionDot[connectionStatus]}`} />
+          {connectionStatus}
         </span>
         <span className="text-gray-600">|</span>
         {navLinks.map((link) => {
