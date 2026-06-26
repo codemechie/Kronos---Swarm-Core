@@ -15,5 +15,5 @@ dist/
 .idea/
 
 # user
-docs
 docs/opencode_logs
+context.txt
