@@ -585,7 +585,7 @@
 | **team** | France |
 | **player** | Kylian Mbappé |
 | **importance** | 80 |
-| **score_after_event** | `{ "home": 2, "away": 2 }` |
+| **score_after_event** | `{ "home": 2, "away": 1 }` |
 | **shootout_score** | `null` |
 | **source_confidence** | MEDIUM |
 | **creation_reason** | MATCH_CONTROL_REVERSAL |
