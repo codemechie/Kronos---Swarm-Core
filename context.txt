@@ -1,6 +1,6 @@
 KRONOS SWARM CORE — Context File
 ====================================
-Last updated: 2026-06-24
+Last updated: 2026-06-25
 
 OVERVIEW
 --------
@@ -169,7 +169,31 @@ Phase 5.2A: Argentina vs France 2022 World Cup Final Extraction
   Sources acquired: FIFA (raw text), BBC (raw text), ESPN (raw text), Guardian (raw text)
   PENALTY importance fix: awarded=70, saved=90, missed=90, converted paired GOAL=95
   Raw event harvest: 122 entries composed across FIFA (37), BBC (34), ESPN (21), Guardian (30)
-  Next: write argentina_france_raw_events.md → deduplication → anchor creation → scoring → QA
+  Status: Extraction plan complete; raw events compiled but not written as standalone file.
+  Next → Phase 5.2B
+
+Phase 5.2B: Canonical Anchor Generation (Part 1) + Validation + Errata
+  Created: backend/docs/argentina_france_2022_source_part1.md (17 canonical anchors:
+    6 GOAL, 3 PENALTY, 8 CARD — mandatory event types only)
+  Revised: argentina_france_2022_source_part1.md with 5 targeted changes:
+    Change 1: Added card_type field (YELLOW) to all 8 CARD anchors
+    Change 2: Replaced ambiguous event IDs (090_CARD, 090_CARD_1 -> 090_05_CARD, 090_08_CARD)
+    Change 3: Verified player names match FIFA spelling (no changes needed)
+    Change 4: Standardized yellow card classification with explicit narrative_notes
+    Change 5: Source reference audit (all 4 sources verified for HIGH confidence)
+  Created: backend/docs/extraction/validation_report_part1.md (9-category QA audit:
+    32 PASS, 7 WARNING, 2 ERROR — both errors from incorrect match_period for minute 108)
+  Created: backend/docs/extraction/match_story_architecture_log.md (5 authoritative ADRs):
+    ADR-001: Deterministic Event ID Format (MINUTE_STOPPAGE_EVENT)
+    ADR-002: card_type becomes canonical top-level field
+    ADR-003: GOAL Importance Priority — anchor_rules.md supersedes schema
+    ADR-004: Source Attribution Completeness — "Not reported" explicit
+    ADR-005: QA Authority — architecture precedes datasets
+  Precedence: match_story_architecture_log.md > match_story_schema_v2_1.md > anchor_rules.md
+  Anchor count: 17 (part of total 46-52 expected for full match + shootout)
+
+Phase 5.2C (planned): Remaining event types (SUBSTITUTION, MOMENTUM_SHIFT, PRESSURE_SURGE,
+  PHASE_CHANGE) + penalty shootout anchors (GOAL + PENALTY for PSO rounds)
 
 BLOCKED / NEXT
 --------------
@@ -178,8 +202,9 @@ BLOCKED / NEXT
   Need API key with available quota.
 - BOB endpoint https://api.bob-llm.dev is a placeholder (DNS fail).
 - bob.ibm.com/api/* returns 405 on all POST paths.
-- Phase 5.2A: argentina_france_raw_events.md (122 entries) needs to be written to disk via write tool
-  (bash heredoc failed due to Windows path/length limits on large content).
+- Phase 5.2C: Generate remaining event types + shootout anchors for ARG vs FRA 2022
+- Validation ERROR E1/E2: match_period EXTRA_TIME_1 on minute 108 must be EXTRA_TIME_2
+  (documented in validation report and errata; pending dataset fix)
 
 TESTING
 -------
