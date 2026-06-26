@@ -110,7 +110,7 @@ For each harvest entry, check all candidate event types that could apply. A sing
 
 ### Step 3 — Score
 
-Assign a potential importance value from the deterministic scoring table defined in the Match Story Canonical Source Schema. This is a preliminary score and may be revised during anchor creation when all sources are cross-referenced.
+Assign a potential importance value from the deterministic scoring table defined in the Historical Match Intelligence Pipeline Canonical Source Schema. This is a preliminary score and may be revised during anchor creation when all sources are cross-referenced.
 
 ### Step 4 — Decide
 

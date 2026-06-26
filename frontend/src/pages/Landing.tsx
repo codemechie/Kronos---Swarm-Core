@@ -21,6 +21,11 @@ const cards = [
     title: "GRANITE INTELLIGENCE CENTER",
     desc: "Independent validation and decision provenance for every recommendation.",
   },
+  {
+    to: "/match-story",
+    title: "MATCH STORY",
+    desc: "Runtime timeline of the Argentina vs France 2022 World Cup final — compiled from canonical narrative dataset.",
+  },
 ];
 
 export function Landing() {

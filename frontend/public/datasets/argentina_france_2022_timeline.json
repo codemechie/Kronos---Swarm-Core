@@ -1,0 +1,2093 @@
+{
+  "schema_version": "2.1",
+  "match_id": "ARG_FRA_2022",
+  "match": {
+    "home_team": "Argentina",
+    "away_team": "France",
+    "date": "",
+    "competition": "FIFA World Cup Final",
+    "venue": "",
+    "home_score": 3,
+    "away_score": 3,
+    "home_shootout_score": null,
+    "away_shootout_score": null
+  },
+  "timeline": [
+    {
+      "id": "ARG_FRA_2022_001_PHASE_CHANGE",
+      "minute": 1,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.6,
+      "score": {
+        "home": 0,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Match kicks off at Lusail Stadium. Argentina in possession. Scoreline 0-0.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — Kickoff"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — Kickoff"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — Kickoff"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_016_PRESSURE_SURGE",
+      "minute": 16,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "PRESSURE_SURGE",
+      "team": "Argentina",
+      "player": null,
+      "weight": 0.7,
+      "score": {
+        "home": 0,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Argentina create multiple attacking sequences between the 16th and 20th minutes. Three shots are produced including a save by Lloris. Two corners are won consecutively. Argentina win two fouls in attacking positions. The sustained pressure forces France deep into their own half.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 16' to 20' Argentina attacking phase"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 16' to 20' Argentina pressure"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 16' to 20' Argentina attacking sequences"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 16' Argentina on top"
+        }
+      ],
+      "timeline_group": "PRESSURE",
+      "icon": "pressure",
+      "color": "#FF8800",
+      "animation": "pressure_pulse",
+      "audio_trigger": "intensity_rise",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_023_PENALTY",
+      "minute": 23,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "PENALTY",
+      "team": "Argentina",
+      "player": "Lionel Messi",
+      "weight": 0.7,
+      "score": {
+        "home": 0,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Penalty awarded to Argentina. Dembélé fouls Di María inside the penalty area. Referee Marciniak points to the spot. Messi to take.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 23'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 23' penalty awarded"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 23'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 23'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "penalty",
+      "color": "#FF4444",
+      "animation": "penalty_award",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": false,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_023_GOAL",
+      "minute": 23,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "GOAL",
+      "team": "Argentina",
+      "player": "Lionel Messi",
+      "weight": 0.95,
+      "score": {
+        "home": 1,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Messi places the ball low to the left from the penalty spot. Lloris dives right. 1-0 Argentina.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 23'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 23' goal"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 23'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 23'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "goal",
+      "color": "#00FF88",
+      "animation": "goal_flash",
+      "audio_trigger": "crowd_roar",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_036_GOAL",
+      "minute": 36,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "GOAL",
+      "team": "Argentina",
+      "player": "Ángel Di María",
+      "weight": 0.85,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Di María scores with a left-footed finish across goal from a Mac Allister cross following an Argentina counter-attack. 2-0 Argentina.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 36'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 36' goal"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 36'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 36'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "goal",
+      "color": "#00FF88",
+      "animation": "goal_flash",
+      "audio_trigger": "crowd_roar",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": false,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_036_MOMENTUM_SHIFT",
+      "minute": 36,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "MOMENTUM_SHIFT",
+      "team": "Argentina",
+      "player": null,
+      "weight": 0.75,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Argentina extend their lead to 2-0 through Di María's 36th-minute goal. Argentina create repeated attacking chances and produce sustained attacking sequences after the opening goal. France are unable to establish sustained possession in the Argentina half. Importance 75: goal-scoring sequence with repeated attacking opportunities.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 23' and 36' goals"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — Argentina dominant after opening goal"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 23' to 36' Argentina control"
+        }
+      ],
+      "timeline_group": "MOMENTUM",
+      "icon": "momentum",
+      "color": "#AA44FF",
+      "animation": "momentum_wave",
+      "audio_trigger": "momentum_shift",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": false,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_041_SUBSTITUTION",
+      "minute": 41,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "SUBSTITUTION",
+      "team": "France",
+      "player": "Olivier Giroud",
+      "weight": 0.5,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Kolo Muani replaces Giroud. France trail 2-0. Attacking substitution when trailing — importance 50.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 41'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 41' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 41'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 41'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_041_SUBSTITUTION_1",
+      "minute": 41,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "SUBSTITUTION",
+      "team": "France",
+      "player": "Ousmane Dembélé",
+      "weight": 0.5,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Thuram replaces Dembélé. France trail 2-0. Attacking substitution when trailing — importance 50.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 41'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 41' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 41'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 41'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_045_PHASE_CHANGE",
+      "minute": 45,
+      "stoppage_time": null,
+      "match_period": "FIRST_HALF",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.6,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Half-time whistle. First half concludes. Scoreline 2-0 Argentina. Goals from Messi (23' pen) and Di María (36').",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — Half-time"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 45' half-time"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — Half-time"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 45' half-time"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_045_07_CARD",
+      "minute": 45,
+      "stoppage_time": 7,
+      "match_period": "FIRST_HALF",
+      "event_type": "CARD",
+      "team": "Argentina",
+      "player": "Enzo Fernández",
+      "weight": 0.4,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Fernández shown a yellow card for a tactical foul.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 45+7'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 45+7' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 45+7'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 45+7'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_046_PHASE_CHANGE",
+      "minute": 46,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.6,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Second half begins. France kick off trailing 2-0.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — Second half"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 46' second half begins"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — Second half"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_055_CARD",
+      "minute": 55,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "CARD",
+      "team": "France",
+      "player": "Adrien Rabiot",
+      "weight": 0.4,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Rabiot shown a yellow card for a tactical foul.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 55'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 55' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 55'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 55'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_063_SUBSTITUTION",
+      "minute": 63,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "SUBSTITUTION",
+      "team": "France",
+      "player": "Antoine Griezmann",
+      "weight": 0.5,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Coman replaces Griezmann. France trail 2-0. Griezmann is France's captain and primary playmaker. Major player removal — importance 50.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 63'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 63' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 63'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 63'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_064_SUBSTITUTION",
+      "minute": 64,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "SUBSTITUTION",
+      "team": "Argentina",
+      "player": "Ángel Di María",
+      "weight": 0.5,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Acuña replaces Di María. Argentina lead 2-0. Di María scored the second goal. Defensive substitution protecting the lead — importance 50.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 64'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 64' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 64'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 64'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_066_PRESSURE_SURGE",
+      "minute": 66,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "PRESSURE_SURGE",
+      "team": "France",
+      "player": null,
+      "weight": 0.7,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "France produce sustained attacking pressure between the 66th and 70th minutes. Three shots are created including one saved by Martínez. Two corners are won. France maintain sustained possession in Argentina's half with multiple entries into the attacking third and crosses into the area.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 66' to 70' France attacking phase"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 66' to 70' France pressure building"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 66' to 70' France dominant"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 66' France growing into the game"
+        }
+      ],
+      "timeline_group": "PRESSURE",
+      "icon": "pressure",
+      "color": "#FF8800",
+      "animation": "pressure_pulse",
+      "audio_trigger": "intensity_rise",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_071_SUBSTITUTION",
+      "minute": 71,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "SUBSTITUTION",
+      "team": "France",
+      "player": "Youssouf Fofana",
+      "weight": 0.5,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Camavinga replaces Fofana. France trail 2-0. Attacking midfield substitution when trailing — importance 50.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 71'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 71' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 71'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 71'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_075_PRESSURE_SURGE",
+      "minute": 75,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "PRESSURE_SURGE",
+      "team": "France",
+      "player": null,
+      "weight": 0.7,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "France intensify their attacking pressure between the 75th and 79th minutes. Four shots are produced. Martínez makes two saves. Three corners are won consecutively. Two France shots are blocked by Argentina defenders. France maintain continuous presence in the Argentina half with repeated crosses into the penalty area.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 75' to 79' France sustained attack"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 75' to 79' France relentless pressure"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 75' to 79' France attacking sequence"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 75' France camped in Argentina half"
+        }
+      ],
+      "timeline_group": "PRESSURE",
+      "icon": "pressure",
+      "color": "#FF8800",
+      "animation": "pressure_pulse",
+      "audio_trigger": "intensity_rise",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_076_SUBSTITUTION",
+      "minute": 76,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "SUBSTITUTION",
+      "team": "Argentina",
+      "player": "Rodrigo De Paul",
+      "weight": 0.5,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Paredes replaces De Paul. Argentina lead 2-0. Defensive substitution protecting the lead — importance 50.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 76'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 76' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 76'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 76'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_080_PENALTY",
+      "minute": 80,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "PENALTY",
+      "team": "France",
+      "player": "Kylian Mbappé",
+      "weight": 0.7,
+      "score": {
+        "home": 2,
+        "away": 0
+      },
+      "shootout_score": null,
+      "description": "Penalty awarded to France. Otamendi fouls Kolo Muani inside the penalty area. Referee Marciniak points to the spot. Mbappé to take.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 80'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 80' penalty awarded"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 80'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 80'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "penalty",
+      "color": "#FF4444",
+      "animation": "penalty_award",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": false,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_080_GOAL",
+      "minute": 80,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "GOAL",
+      "team": "France",
+      "player": "Kylian Mbappé",
+      "weight": 0.95,
+      "score": {
+        "home": 2,
+        "away": 1
+      },
+      "shootout_score": null,
+      "description": "Mbappé converts from the penalty spot. Places the ball low to the left. Martínez dives right. 2-1.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 80'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 80' goal"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 80'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 80'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "goal",
+      "color": "#00FF88",
+      "animation": "goal_flash",
+      "audio_trigger": "crowd_roar",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_080_MOMENTUM_SHIFT",
+      "minute": 80,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "MOMENTUM_SHIFT",
+      "team": "France",
+      "player": "Kylian Mbappé",
+      "weight": 0.8,
+      "score": {
+        "home": 2,
+        "away": 1
+      },
+      "shootout_score": null,
+      "description": "France score twice within two minutes. Mbappé converts from the penalty spot at 80'. Mbappé scores again at 81' — a volley from a Thuram pass — drawing level at 2-2. France produce repeated attacking sequences and create multiple attacking opportunities. Scoreline shifts from 2-0 to 2-2 in 97 seconds. Importance 80: goal-scoring sequence with two goals and repeated attacking opportunities.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 80' and 81' goals"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 80' to 81' France double"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 80' France momentum shift"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 80' to 81' France attacking phase"
+        }
+      ],
+      "timeline_group": "MOMENTUM",
+      "icon": "momentum",
+      "color": "#AA44FF",
+      "animation": "momentum_wave",
+      "audio_trigger": "momentum_shift",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_081_GOAL",
+      "minute": 81,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "GOAL",
+      "team": "France",
+      "player": "Kylian Mbappé",
+      "weight": 0.9,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Mbappé scores with a right-footed volley from a Thuram pass inside the area. 2-2.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 81'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 81' goal"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 81'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 81'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "goal",
+      "color": "#00FF88",
+      "animation": "goal_flash",
+      "audio_trigger": "crowd_roar",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_081_PHASE_CHANGE",
+      "minute": 81,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.5,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Two-goal Argentina lead erased. France score twice within two minutes. Mbappé converts from the penalty spot at 80'. Mbappé scores a volley at 81'. Scoreline level at 2-2.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 80' and 81' goals"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 81' scoreline level"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 81' two-goal lead erased"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_087_CARD",
+      "minute": 87,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "CARD",
+      "team": "France",
+      "player": "Marcus Thuram",
+      "weight": 0.3,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Thuram shown a yellow card for simulation.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 87'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 87' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 87'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 87'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_090_PHASE_CHANGE",
+      "minute": 90,
+      "stoppage_time": null,
+      "match_period": "SECOND_HALF",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.6,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Full-time whistle. Regulation concludes. Scoreline level at 2-2. Match proceeds to extra time. Two 15-minute periods will be played.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — Full-time"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 90' full-time"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — Full-time"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 90' full-time"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_090_05_CARD",
+      "minute": 90,
+      "stoppage_time": 5,
+      "match_period": "SECOND_HALF",
+      "event_type": "CARD",
+      "team": "France",
+      "player": "Olivier Giroud",
+      "weight": 0.3,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Giroud shown a yellow card for dissent.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 90+5'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 90+5' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 90+5'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 90+5'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_090_08_CARD",
+      "minute": 90,
+      "stoppage_time": 8,
+      "match_period": "SECOND_HALF",
+      "event_type": "CARD",
+      "team": "Argentina",
+      "player": "Marcos Acuña",
+      "weight": 0.4,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Acuña shown a yellow card for a tactical foul.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 90+8'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 90+8' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 90+8'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 90+8'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_091_PHASE_CHANGE",
+      "minute": 91,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_1",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.6,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "First period of extra time begins. Scoreline level at 2-2. Two 15-minute periods will be played.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — Extra time begins"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 91' extra time begins"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 91' extra time"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_101_PRESSURE_SURGE",
+      "minute": 101,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_1",
+      "event_type": "PRESSURE_SURGE",
+      "team": "Argentina",
+      "player": null,
+      "weight": 0.7,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Argentina create multiple attacking opportunities in the first period of extra time between the 99th and 103rd minutes. Four shots are produced including two saved by Lloris. Two corners are won consecutively. One shot is blocked by a France defender. Argentina maintain sustained possession in the France half with repeated attacking entries.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 99' to 103' Argentina extra-time pressure"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 99' to 103' Argentina pressing for winner"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 99' to 103' Argentina attacking phase"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 99' Argentina start extra time strongly"
+        }
+      ],
+      "timeline_group": "PRESSURE",
+      "icon": "pressure",
+      "color": "#FF8800",
+      "animation": "pressure_pulse",
+      "audio_trigger": "intensity_rise",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_106_PHASE_CHANGE",
+      "minute": 106,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.6,
+      "score": {
+        "home": 2,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Second period of extra time begins. Teams change ends. Scoreline level at 2-2.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — Second period of extra time"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 105' second period of extra time"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 105' extra time second half"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_108_GOAL",
+      "minute": 108,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "GOAL",
+      "team": "Argentina",
+      "player": "Lionel Messi",
+      "weight": 0.95,
+      "score": {
+        "home": 3,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Messi scores from close range with a left-footed shot. Lautaro Martínez's shot is saved by Lloris. The rebound falls to Messi inside the six-yard box. 3-2 Argentina.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 108'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 108' goal"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 108'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 108'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "goal",
+      "color": "#00FF88",
+      "animation": "goal_flash",
+      "audio_trigger": "crowd_roar",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_108_MOMENTUM_SHIFT",
+      "minute": 108,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "MOMENTUM_SHIFT",
+      "team": "Argentina",
+      "player": "Lionel Messi",
+      "weight": 0.8,
+      "score": {
+        "home": 3,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Argentina regain the lead in extra time. Messi scores from close range at 108' after Lautaro Martínez's shot is saved by Lloris — the rebound falls to Messi inside the six-yard box. Argentina had created multiple attacking opportunities in the first period of extra time. Importance 80: goal-scoring sequence with repeated attacking opportunities.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 108' goal"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 108' Argentina retake lead"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 108' Argentina pressure"
+        }
+      ],
+      "timeline_group": "MOMENTUM",
+      "icon": "momentum",
+      "color": "#AA44FF",
+      "animation": "momentum_wave",
+      "audio_trigger": "momentum_shift",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_113_SUBSTITUTION",
+      "minute": 113,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "SUBSTITUTION",
+      "team": "France",
+      "player": "Théo Hernandez",
+      "weight": 0.55,
+      "score": {
+        "home": 3,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Disasi replaces Hernandez. France trail 3-2. Disasi is a centre-back replacing a left-back, shifting France to a back three. Formation change — importance 55.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 113'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 113' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 113'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 113'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_113_PRESSURE_SURGE",
+      "minute": 113,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "PRESSURE_SURGE",
+      "team": "France",
+      "player": null,
+      "weight": 0.7,
+      "score": {
+        "home": 3,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "France push for an equaliser in the closing stages of extra time between the 113th and 117th minutes. Three shots are produced. Two corners are won. A France shot is blocked by the arm of Montiel inside the penalty area resulting in a penalty award at the 118th minute. France maintain sustained pressure with repeated crosses and entries into the attacking third.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 113' to 117' France attacking phase"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 113' to 117' France pushing forward"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 113' to 117' France sustained attack"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 113' France pressure building towards penalty"
+        }
+      ],
+      "timeline_group": "PRESSURE",
+      "icon": "pressure",
+      "color": "#FF8800",
+      "animation": "pressure_pulse",
+      "audio_trigger": "intensity_rise",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_114_CARD",
+      "minute": 114,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "CARD",
+      "team": "Argentina",
+      "player": "Leandro Paredes",
+      "weight": 0.4,
+      "score": {
+        "home": 3,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Paredes shown a yellow card for a tactical foul.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 114'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 114' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 114'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 114'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_116_CARD",
+      "minute": 116,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "CARD",
+      "team": "Argentina",
+      "player": "Gonzalo Montiel",
+      "weight": 0.4,
+      "score": {
+        "home": 3,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Montiel shown a yellow card for a tactical foul. Handball inside the area.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 116'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 116' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 116'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 116'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_118_PENALTY",
+      "minute": 118,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "PENALTY",
+      "team": "France",
+      "player": "Kylian Mbappé",
+      "weight": 0.7,
+      "score": {
+        "home": 3,
+        "away": 2
+      },
+      "shootout_score": null,
+      "description": "Penalty awarded to France. The ball strikes the arm of Montiel inside the penalty area. Referee Marciniak points to the spot. Mbappé to take.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 118'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 118' penalty awarded"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 118'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 118'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "penalty",
+      "color": "#FF4444",
+      "animation": "penalty_award",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": false,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_118_GOAL",
+      "minute": 118,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "GOAL",
+      "team": "France",
+      "player": "Kylian Mbappé",
+      "weight": 0.95,
+      "score": {
+        "home": 3,
+        "away": 3
+      },
+      "shootout_score": null,
+      "description": "Mbappé converts from the penalty spot. Places the ball low to the left. Martínez dives right. 3-3.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 118'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 118' goal"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 118'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 118'"
+        }
+      ],
+      "timeline_group": "GOAL_EVENTS",
+      "icon": "goal",
+      "color": "#00FF88",
+      "animation": "goal_flash",
+      "audio_trigger": "crowd_roar",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_118_MOMENTUM_SHIFT",
+      "minute": 118,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "MOMENTUM_SHIFT",
+      "team": "France",
+      "player": "Kylian Mbappé",
+      "weight": 0.8,
+      "score": {
+        "home": 3,
+        "away": 3
+      },
+      "shootout_score": null,
+      "description": "France equalise for the second time. Mbappé converts from the penalty spot at 118' after the ball strikes Montiel's arm in the area. France had produced sustained attacking pressure with multiple crosses and shots in the closing stages of extra time. Importance 80: goal-scoring sequence with sustained attacking pressure.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 118' goal"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 118' France equaliser"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 118' France pressure"
+        }
+      ],
+      "timeline_group": "MOMENTUM",
+      "icon": "momentum",
+      "color": "#AA44FF",
+      "animation": "momentum_wave",
+      "audio_trigger": "momentum_shift",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": true,
+        "is_highlight": true,
+        "is_commentary_trigger": true,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_120_PHASE_CHANGE",
+      "minute": 120,
+      "stoppage_time": null,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "PHASE_CHANGE",
+      "team": null,
+      "player": null,
+      "weight": 0.6,
+      "score": {
+        "home": 3,
+        "away": 3
+      },
+      "shootout_score": null,
+      "description": "Extra time concludes. Scoreline level at 3-3. Match proceeds to penalty shootout.",
+      "confidence": "MEDIUM",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — Extra time concludes"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 120' extra time ends"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — Extra time concludes"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 120' penalty shootout"
+        }
+      ],
+      "timeline_group": "MATCH_STATE",
+      "icon": "phase_change",
+      "color": "#4444FF",
+      "animation": "phase_transition",
+      "audio_trigger": "phase_chime",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_120_01_SUBSTITUTION",
+      "minute": 120,
+      "stoppage_time": 1,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "SUBSTITUTION",
+      "team": "Argentina",
+      "player": "Cristian Romero",
+      "weight": 0.5,
+      "score": {
+        "home": 3,
+        "away": 3
+      },
+      "shootout_score": null,
+      "description": "Dybala replaces Romero. Score level at 3-3. Match enters penalty shootout. Substitution prepares for shootout format — importance 50.",
+      "confidence": "HIGH",
+      "card_type": null,
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 120+1'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 120+1' substitution"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 120+1'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 120+1'"
+        }
+      ],
+      "timeline_group": "TACTICAL",
+      "icon": "substitution",
+      "color": "#888888",
+      "animation": "substitution_board",
+      "audio_trigger": null,
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": false,
+        "requires_user_attention": false
+      }
+    },
+    {
+      "id": "ARG_FRA_2022_120_05_CARD",
+      "minute": 120,
+      "stoppage_time": 5,
+      "match_period": "EXTRA_TIME_2",
+      "event_type": "CARD",
+      "team": "Argentina",
+      "player": "Emiliano Martínez",
+      "weight": 0.2,
+      "score": {
+        "home": 3,
+        "away": 3
+      },
+      "shootout_score": null,
+      "description": "Martínez shown a yellow card for post-match misconduct.",
+      "confidence": "HIGH",
+      "card_type": "YELLOW",
+      "attribution": [
+        {
+          "source": "FIFA.com",
+          "detail": "Match Report — 120+5'"
+        },
+        {
+          "source": "BBC Sport",
+          "detail": "Live text commentary — 120+5' yellow card"
+        },
+        {
+          "source": "ESPN FC",
+          "detail": "Match timeline — 120+5'"
+        },
+        {
+          "source": "The Guardian",
+          "detail": "Minute-by-minute report — 120+5'"
+        }
+      ],
+      "timeline_group": "DISCIPLINE",
+      "icon": "card_yellow",
+      "color": "#FFD700",
+      "animation": "card_flash",
+      "audio_trigger": "whistle",
+      "visible": true,
+      "runtime_flags": {
+        "is_key_event": false,
+        "is_highlight": false,
+        "is_commentary_trigger": false,
+        "show_on_timeline": true,
+        "include_in_replay": true,
+        "requires_user_attention": false
+      }
+    }
+  ],
+  "metadata": {
+    "generation_time": "2026-06-26T03:25:03Z",
+    "compiler_version": "1.0.0",
+    "source_dataset": "argentina_france_2022_source.md",
+    "total_events": 42,
+    "validation_status": "PASS",
+    "schema_version": "2.1"
+  }
+}

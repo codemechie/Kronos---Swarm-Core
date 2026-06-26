@@ -7,6 +7,7 @@ const navLinks = [
   { to: "/swarm", label: "Swarm Intelligence" },
   { to: "/transcript", label: "Debate Transcript" },
   { to: "/granite", label: "Granite Intelligence" },
+  { to: "/match-story", label: "Match Story" },
 ];
 
 const connectionStyle: Record<string, string> = {

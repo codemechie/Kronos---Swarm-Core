@@ -1,8 +1,8 @@
-# Kronos Match Story Documentation
+# Kronos Historical Match Intelligence Pipeline
 
 ## architecture/
 
-Reusable specifications governing the Match Story extraction pipeline.
+Reusable specifications governing the Historical Match Intelligence extraction pipeline.
 
 Contains:
 
@@ -30,4 +30,4 @@ These documents are the authoritative source for timeline generation.
 
 ## datasets/json/
 
-Runtime timeline files consumed by the Kronos Match Story engine.
+Runtime timeline files consumed by the Kronos Historical Match Intelligence engine.

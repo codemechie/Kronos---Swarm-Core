@@ -1,4 +1,4 @@
-# Match Story — Canonical Source Schema (Version 2.1)
+# Historical Match Intelligence Pipeline — Canonical Source Schema (Version 2.1)
 
 **Document-Level Metadata**
 

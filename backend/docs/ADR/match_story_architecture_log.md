@@ -1,4 +1,4 @@
-# Match Story — Architecture Decision Log
+# Historical Match Intelligence Pipeline — Architecture Decision Log
 
 **Document version:** 1.0
 **Date:** 2026-06-25
@@ -8,7 +8,7 @@
 
 ## Purpose
 
-This document is the authoritative Architecture Decision Log for the Match Story subsystem. It records all ratified architecture decisions that supersede or clarify previous specifications. It has the **highest precedence** in the Match Story document hierarchy:
+This document is the authoritative Architecture Decision Log for the Historical Match Intelligence Pipeline. It records all ratified architecture decisions that supersede or clarify previous specifications. It has the **highest precedence** in the Historical Match Intelligence Pipeline document hierarchy:
 
 1. **match_story_architecture_log.md** ← you are here
 2. `match_story_schema.md`
@@ -407,7 +407,7 @@ The following architecture is considered stable. Any future modification require
 
 ## Document Authority
 
-The Match Story subsystem is governed by the following document hierarchy. Higher-level documents always override lower-level documents. Datasets may never redefine architecture.
+The Historical Match Intelligence Pipeline is governed by the following document hierarchy. Higher-level documents always override lower-level documents. Datasets may never redefine architecture.
 
 ```
 match_story_architecture_log.md
@@ -481,7 +481,7 @@ The following template shall be reused for all future architecture changes. Each
 
 ## Architecture Freeze
 
-Beginning with **Phase 5.2B**, the Match Story architecture is frozen.
+Beginning with **Phase 5.2B**, the Historical Match Intelligence Pipeline architecture is frozen.
 
 Future work should prioritize:
 
