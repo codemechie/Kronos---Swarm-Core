@@ -120,37 +120,6 @@ export interface KronosState {
   connectionStatus: ConnectionStatus;
 }
 
-export interface MatchProbabilities {
-  homeWin: number;
-  draw: number;
-  awayWin: number;
-}
-
-export interface TeamStats {
-  health: number;
-  aggression: number;
-  momentum: number;
-}
-
-export interface TeamIntelligence {
-  home: TeamStats;
-  away: TeamStats;
-}
-
-export interface CommentaryEntry {
-  minute: number;
-  text: string;
-  source: string;
-}
-
-export interface MatchStorySnapshot {
-  minute: number;
-  score: { home: number; away: number };
-  probabilities: MatchProbabilities;
-  teamIntelligence: TeamIntelligence;
-  commentaryEntries: CommentaryEntry[];
-}
-
 export interface KronosPacket {
   telemetry?: Telemetry;
   swarm_metrics?: SwarmMetrics;
