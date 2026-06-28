@@ -4,72 +4,68 @@ interface AgentIntelligenceCardProps {
   agent: SwarmAgent;
 }
 
-const agentAccents: Record<string, string> = {
-  pragmatist: "border-l-blue-600",
-  mood_ring: "border-l-pink-600",
-  gambler: "border-l-amber-600",
-  judge: "border-l-purple-600",
-  anarchist: "border-l-red-600",
+const agentPersonalityLabels: Record<string, string> = {
+  pragmatist: "Pragmatist",
+  mood_ring: "Mood Ring",
+  gambler: "Gambler",
+  judge: "Judge",
+  anarchist: "Anarchist",
 };
 
-const riskColors: Record<string, string> = {
-  NOMINAL: "text-green-400 border-green-700 bg-green-900/30",
-  HIGH_RISK: "text-red-400 border-red-700 bg-red-900/30",
-};
-
-const providerColors: Record<string, string> = {
-  mock: "text-gray-500",
-  bob: "text-cyan-400",
-  granite: "text-amber-400",
+const agentDotColors: Record<string, string> = {
+  pragmatist: "bg-blue-500",
+  mood_ring: "bg-pink-500",
+  gambler: "bg-amber-500",
+  judge: "bg-purple-500",
+  anarchist: "bg-red-500",
 };
 
 export function AgentIntelligenceCard({ agent }: AgentIntelligenceCardProps) {
-  const accent = agentAccents[agent.id] ?? "border-l-gray-600";
-  const verdictLines = agent.verdict.split("\n").filter(Boolean);
-  const provider = verdictLines[0]?.includes(":")
-    ? verdictLines[0].slice(1, verdictLines[0].indexOf("]")).toLowerCase()
-    : "mock";
-  const confidence = agent.riskLevel === "HIGH_RISK" ? "Low" : "High";
+  const personalityLabel = agentPersonalityLabels[agent.id] ?? agent.id;
+  const dotColor = agentDotColors[agent.id] ?? "bg-gray-500";
+
+  const paragraphs = agent.verdict.split("\n").filter(Boolean);
 
   return (
-    <div
-      className={`border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100 border-l-4 ${accent}`}
-    >
-      <div className="flex items-center justify-between mb-2">
-        <span className="text-sm font-bold text-white">{agent.displayName}</span>
+    <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-white">{agent.displayName}</span>
+          <span className="flex items-center gap-1 text-[10px] text-gray-600">
+            <span className={`inline-block w-1.5 h-1.5 rounded-full ${dotColor}`} />
+            {personalityLabel}
+          </span>
+        </div>
         <span
-          className={`text-[10px] px-2 py-0.5 border rounded ${riskColors[agent.riskLevel] ?? ""}`}
+          className={`text-[10px] px-2 py-0.5 border rounded ${
+            agent.riskLevel === "HIGH_RISK"
+              ? "text-red-400 border-red-700 bg-red-900/30"
+              : "text-green-400 border-green-700 bg-green-900/30"
+          }`}
         >
           [{agent.riskLevel}]
         </span>
       </div>
 
-      <div className="grid grid-cols-3 gap-2 mb-3 text-xs">
-        <div className="border border-gray-700 rounded bg-gray-950 p-2">
-          <div className="text-[9px] tracking-widest text-gray-500 mb-0.5">CONFIDENCE</div>
-          <div className={`font-semibold ${confidence === "High" ? "text-green-400" : "text-yellow-400"}`}>
-            {confidence}
-          </div>
-        </div>
-        <div className="border border-gray-700 rounded bg-gray-950 p-2">
-          <div className="text-[9px] tracking-widest text-gray-500 mb-0.5">PROVIDER</div>
-          <div className={`font-semibold ${providerColors[provider] ?? "text-gray-300"}`}>
-            {provider.toUpperCase()}
-          </div>
-        </div>
-        <div className="border border-gray-700 rounded bg-gray-950 p-2">
-          <div className="text-[9px] tracking-widest text-gray-500 mb-0.5">RISK</div>
-          <div className={`font-semibold ${agent.riskLevel === "HIGH_RISK" ? "text-red-400" : "text-green-400"}`}>
-            {agent.riskLevel === "HIGH_RISK" ? "ELEVATED" : "NOMINAL"}
-          </div>
-        </div>
+      <div className="space-y-1.5">
+        {paragraphs.map((para, i) => (
+          <p key={i} className="text-xs leading-relaxed text-gray-200">{para}</p>
+        ))}
       </div>
 
-      <div className="border-t border-gray-700 pt-2">
-        <div className="text-[9px] tracking-widest text-gray-500 mb-1">RATIONALE</div>
-        <div className="text-xs text-gray-300 leading-relaxed">
-          {agent.verdict}
-        </div>
+      <div className="flex gap-3 mt-3 text-[10px] text-gray-600/70">
+        <span>
+          Confidence:{" "}
+          <span className={agent.riskLevel === "HIGH_RISK" ? "text-yellow-400/70" : "text-green-400/70"}>
+            {agent.riskLevel === "HIGH_RISK" ? "Low" : "High"}
+          </span>
+        </span>
+        <span>
+          Risk:{" "}
+          <span className={agent.riskLevel === "HIGH_RISK" ? "text-red-400/70" : "text-green-400/70"}>
+            {agent.riskLevel === "HIGH_RISK" ? "ELEVATED" : "NOMINAL"}
+          </span>
+        </span>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ export function TelemetryPanel() {
   if (!hasData) {
     return (
       <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
-        <div className="text-xs tracking-widest text-gray-500 mb-3">TELEMETRY</div>
+        <div className="text-xs tracking-widest text-gray-600 mb-3">TELEMETRY</div>
         <div className="text-gray-500 text-sm">Awaiting telemetry stream...</div>
       </div>
     );
@@ -35,7 +35,7 @@ export function TelemetryPanel() {
 
   return (
     <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
-      <div className="text-xs tracking-widest text-gray-500 mb-3">TELEMETRY</div>
+      <div className="text-xs tracking-widest text-gray-600 mb-3">TELEMETRY</div>
       {TELEMETRY_GROUPS.map((group, idx) => {
         const isOpen = expanded.has(idx);
         const hasMetrics = group.metrics.some((m) => telemetry[m.key] !== undefined);
@@ -45,7 +45,7 @@ export function TelemetryPanel() {
               onClick={() => toggleGroup(idx)}
               className="w-full flex items-center justify-between text-left focus:outline-none"
             >
-              <span className="text-[10px] tracking-widest text-gray-600">
+              <span className="text-[10px] tracking-widest text-gray-500">
                 {isOpen ? "▼" : "▶"} {group.label}
               </span>
               {!hasMetrics && <span className="text-[9px] text-gray-600">—</span>}

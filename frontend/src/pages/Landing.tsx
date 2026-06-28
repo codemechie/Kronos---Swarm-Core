@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { CommandHeader } from "../components/layout/CommandHeader";
 
 const cards = [
   {
@@ -31,9 +32,11 @@ const cards = [
 export function Landing() {
   return (
     <div className="min-h-screen bg-black p-4 font-mono">
-      <div className="max-w-4xl mx-auto pt-16">
-        <div className="text-center mb-12">
-          <div className="text-2xl tracking-widest text-gray-300 font-bold mb-2">
+      <div className="max-w-6xl mx-auto space-y-4">
+        <CommandHeader />
+
+        <div className="text-center py-8">
+          <div className="text-lg tracking-widest text-gray-400 font-bold mb-1">
             KRONOS SWARM ENGINE
           </div>
           <div className="text-sm text-gray-500">
@@ -41,12 +44,12 @@ export function Landing() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {cards.map((card) => (
             <Link
               key={card.to}
               to={card.to}
-              className="border border-gray-700 rounded bg-gray-900 p-6 hover:bg-gray-800 transition-colors"
+              className="border border-gray-700 rounded bg-gray-900 p-5 hover:bg-gray-800 transition-colors"
             >
               <div className="text-xs tracking-widest text-gray-400 mb-2">
                 {card.title}

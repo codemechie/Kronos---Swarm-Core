@@ -79,25 +79,25 @@ function GraniteIntelligence() {
 
   return (
     <div className="min-h-screen bg-black p-4 font-mono">
-      <div className="max-w-5xl mx-auto space-y-3">
+      <div className="max-w-6xl mx-auto space-y-4">
         <CommandHeader />
 
         <div className="border border-gray-700 rounded bg-gray-900 p-3">
-          <div className="text-xs tracking-widest text-gray-400 mb-2">GRANITE INTELLIGENCE CENTER</div>
+          <div className="text-xs tracking-widest text-gray-500 mb-2">GRANITE INTELLIGENCE CENTER</div>
 
           {/* ── Escalation Overview ── */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs mb-3">
             <div className="border border-gray-700 rounded bg-gray-950 p-2">
-              <div className="text-[9px] tracking-widest text-gray-500">FRACTURE INDEX</div>
+              <div className="text-[9px] tracking-widest text-gray-600">FRACTURE INDEX</div>
               <div className={`text-sm font-bold ${swarmMetrics.fracture_index >= 75 ? "text-red-400" : "text-white"}`}>
                 {swarmMetrics.fracture_index}
               </div>
-              <div className="text-gray-500 text-[9px]">
+              <div className="text-gray-600 text-[9px]">
                 {swarmMetrics.fracture_index >= 75 ? "Escalation threshold" : "Normal range"}
               </div>
             </div>
             <div className="border border-gray-700 rounded bg-gray-950 p-2">
-              <div className="text-[9px] tracking-widest text-gray-500">CONFIDENCE</div>
+              <div className="text-[9px] tracking-widest text-gray-600">CONFIDENCE</div>
               <div className={`text-sm font-bold ${validation.overall_confidence <= 0.3 ? "text-red-400" : "text-white"}`}>
                 {pct(validation.overall_confidence)}
               </div>
@@ -106,25 +106,25 @@ function GraniteIntelligence() {
                 return cl ? (
                   <div className={`text-[9px] ${cl.color}`}>{cl.label}</div>
                 ) : (
-                  <div className="text-gray-500 text-[9px]">—</div>
+                  <div className="text-gray-600 text-[9px]">—</div>
                 );
               })()}
             </div>
             <div className="border border-gray-700 rounded bg-gray-950 p-2">
-              <div className="text-[9px] tracking-widest text-gray-500">CONTRADICTIONS</div>
+              <div className="text-[9px] tracking-widest text-gray-600">CONTRADICTIONS</div>
               <div className={`text-sm font-bold ${validation.contradiction_count >= 5 ? "text-red-400" : validation.contradiction_count > 0 ? "text-yellow-400" : "text-white"}`}>
                 {validation.contradiction_count}
               </div>
-              <div className="text-gray-500 text-[9px]">
+              <div className="text-gray-600 text-[9px]">
                 {validation.contradiction_count >= 5 ? "Critical" : validation.contradiction_count > 0 ? "Warning" : "None"}
               </div>
             </div>
             <div className="border border-gray-700 rounded bg-gray-950 p-2">
-              <div className="text-[9px] tracking-widest text-gray-500">ESCALATION STATUS</div>
+              <div className="text-[9px] tracking-widest text-gray-600">ESCALATION STATUS</div>
               <div className={`text-sm font-bold ${graniteStatus === "ACTIVE" ? "text-amber-400" : graniteStatus === "STANDBY" ? "text-green-400" : "text-gray-500"}`}>
                 {graniteStatus}
               </div>
-              <div className="text-gray-500 text-[9px]">
+              <div className="text-gray-600 text-[9px]">
                 {graniteStatus === "ACTIVE" ? "Granite review triggered" : graniteStatus === "STANDBY" ? "Not required" : "Degraded"}
               </div>
             </div>
@@ -136,27 +136,27 @@ function GraniteIntelligence() {
             <div className={`border-l-4 rounded border border-gray-700 bg-gray-950 p-2.5 ${stageAccents.OBSERVE}`}>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs tracking-widest text-blue-400 font-bold">OBSERVE</span>
-                <span className="text-[9px] text-gray-600">Raw telemetry</span>
+                <span className="text-[9px] text-gray-600/70">Raw telemetry</span>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                 <div>
-                  <span className="text-gray-500 text-[9px]">Minute</span>
+                  <span className="text-gray-600 text-[9px]">Minute</span>
                   <div className="text-white font-semibold">{telemetry.minute}</div>
                 </div>
                 <div>
-                  <span className="text-gray-500 text-[9px]">Phase</span>
+                  <span className="text-gray-600 text-[9px]">Phase</span>
                   <div className={`font-semibold ${phase === "CHAOS" ? "text-red-400" : phase === "WEATHER" ? "text-yellow-400" : "text-green-400"}`}>
                     {phase}
                   </div>
                 </div>
                 <div>
-                  <span className="text-gray-500 text-[9px]">Score</span>
+                  <span className="text-gray-600 text-[9px]">Score</span>
                   <div className="text-white font-semibold">
                     {telemetry.score_home != null ? `${telemetry.score_home} – ${telemetry.score_away ?? "—"}` : "—"}
                   </div>
                 </div>
                 <div>
-                  <span className="text-gray-500 text-[9px]">PPDA</span>
+                  <span className="text-gray-600 text-[9px]">PPDA</span>
                   <div className="text-white font-semibold">{telemetry.ppda ?? "—"}</div>
                 </div>
               </div>
@@ -190,13 +190,13 @@ function GraniteIntelligence() {
             <div className={`border-l-4 rounded border border-gray-700 bg-gray-950 p-2.5 ${stageAccents.ANALYZE}`}>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs tracking-widest text-indigo-400 font-bold">ANALYZE</span>
-                <span className="text-[9px] text-gray-600">Swarm agents</span>
+                <span className="text-[9px] text-gray-600/70">Swarm agents</span>
               </div>
               {!hasAgents ? (
                 <div className="text-gray-500 text-xs">Awaiting agent intelligence...</div>
               ) : (
                 <>
-                  <div className="text-[10px] text-gray-500 mb-1.5">
+                  <div className="text-[10px] text-gray-600 mb-1.5">
                     {agents.length} active agent{agents.length !== 1 ? "s" : ""}
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5 text-xs">
@@ -221,30 +221,30 @@ function GraniteIntelligence() {
             <div className={`border-l-4 rounded border border-gray-700 bg-gray-950 p-2.5 ${stageAccents.DEBATE}`}>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs tracking-widest text-violet-400 font-bold">DEBATE</span>
-                <span className="text-[9px] text-gray-600">Consensus metrics</span>
+                <span className="text-[9px] text-gray-600/70">Consensus metrics</span>
               </div>
               {!hasAgents ? (
                 <div className="text-gray-500 text-xs">Awaiting debate data...</div>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
                   <div>
-                    <span className="text-gray-500 text-[9px]">Fracture Index</span>
+                    <span className="text-gray-600 text-[9px]">Fracture Index</span>
                     <div className={`text-sm font-bold ${swarmMetrics.fracture_index >= 75 ? "text-red-400" : swarmMetrics.fracture_index >= 40 ? "text-yellow-400" : "text-white"}`}>
                       {swarmMetrics.fracture_index}
                     </div>
                   </div>
                   <div>
-                    <span className="text-gray-500 text-[9px]">Chaos Probability</span>
+                    <span className="text-gray-600 text-[9px]">Chaos Probability</span>
                     <div className={`text-sm font-bold ${swarmMetrics.chaos_probability >= 75 ? "text-red-400" : swarmMetrics.chaos_probability >= 50 ? "text-yellow-400" : "text-white"}`}>
                       {swarmMetrics.chaos_probability}%
                     </div>
                   </div>
                   <div>
-                    <span className="text-gray-500 text-[9px]">Consensus</span>
+                    <span className="text-gray-600 text-[9px]">Consensus</span>
                     <div className="text-sm font-bold text-white">{cohesion.consensusPercent}%</div>
                   </div>
                   <div>
-                    <span className="text-gray-500 text-[9px]">Cohesion</span>
+                    <span className="text-gray-600 text-[9px]">Cohesion</span>
                     <div className={`text-sm font-bold ${cohesion.status === "COHESIVE" ? "text-green-400" : cohesion.status === "FRACTURED" ? "text-yellow-400" : "text-red-400"}`}>
                       {cohesion.status}
                     </div>
@@ -259,7 +259,7 @@ function GraniteIntelligence() {
             <div className={`border-l-4 rounded border border-gray-700 bg-gray-950 p-2.5 ${stageAccents.VALIDATE}`}>
               <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs tracking-widest text-amber-400 font-bold">VALIDATE</span>
-                <span className="text-[9px] text-gray-600">Heuristic validation</span>
+                <span className="text-[9px] text-gray-600/70">Heuristic validation</span>
               </div>
               {!hasValidation ? (
                 <div className="text-gray-500 text-xs">Awaiting validation data...</div>
@@ -267,17 +267,17 @@ function GraniteIntelligence() {
                 <>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs mb-2">
                     <div>
-                      <span className="text-gray-500 text-[9px]">Agreement</span>
+                      <span className="text-gray-600 text-[9px]">Agreement</span>
                       <div className="text-sm font-bold text-white">{pct(validation.agreement_score)}</div>
                     </div>
                     <div>
-                      <span className="text-gray-500 text-[9px]">Contradictions</span>
+                      <span className="text-gray-600 text-[9px]">Contradictions</span>
                       <div className={`text-sm font-bold ${validation.contradiction_count >= 5 ? "text-red-400" : validation.contradiction_count > 0 ? "text-yellow-400" : "text-white"}`}>
                         {validation.contradiction_count}
                       </div>
                     </div>
                     <div>
-                      <span className="text-gray-500 text-[9px]">Confidence</span>
+                      <span className="text-gray-600 text-[9px]">Confidence</span>
                       <div className="text-sm font-bold text-white">{pct(validation.overall_confidence)}</div>
                       {(() => {
                         const cl = confidenceLabel(validation.overall_confidence != null ? Math.round(validation.overall_confidence * 100) : null);
@@ -285,7 +285,7 @@ function GraniteIntelligence() {
                       })()}
                     </div>
                     <div>
-                      <span className="text-gray-500 text-[9px]">Trust Score</span>
+                      <span className="text-gray-600 text-[9px]">Trust Score</span>
                       <div className="text-sm font-bold text-white">{pct(validation.trust_score)}</div>
                       {(() => {
                         const cl = confidenceLabel(validation.trust_score != null ? Math.round(validation.trust_score * 100) : null);
@@ -343,7 +343,7 @@ function GraniteIntelligence() {
                 <>
                   <div className="grid grid-cols-3 gap-2 text-xs mb-2">
                     <div>
-                      <span className="text-gray-500 text-[9px]">Confidence</span>
+                      <span className="text-gray-600 text-[9px]">Confidence</span>
                       <div className="text-sm font-bold text-amber-400">{granite_review.granite_confidence}%</div>
                       {(() => {
                         const cl = confidenceLabel(granite_review.granite_confidence);
@@ -351,30 +351,30 @@ function GraniteIntelligence() {
                       })()}
                     </div>
                     <div>
-                      <span className="text-gray-500 text-[9px]">Escalation</span>
+                      <span className="text-gray-600 text-[9px]">Escalation</span>
                       <div className={`text-sm font-bold ${escalationActive ? "text-red-400" : "text-green-400"}`}>
                         {escalationActive ? "TRIGGERED" : "NOT TRIGGERED"}
                       </div>
                     </div>
                     <div>
-                      <span className="text-gray-500 text-[9px]">Provider</span>
+                      <span className="text-gray-600 text-[9px]">Provider</span>
                       <div className="text-sm font-bold text-white">{granite_review.provider}</div>
                     </div>
                   </div>
                   <div className="space-y-1 text-xs">
                     <div className="border-t border-gray-800 pt-1">
-                      <span className="text-gray-500 text-[9px]">Summary</span>
+                      <span className="text-gray-600 text-[9px]">Summary</span>
                       <div className="text-gray-300 mt-0.5">{granite_review.review_summary}</div>
                     </div>
                     {granite_review.recommended_action && (
                       <div className="border-t border-gray-800 pt-1">
-                        <span className="text-gray-500 text-[9px]">Recommended Action</span>
+                        <span className="text-gray-600 text-[9px]">Recommended Action</span>
                         <div className="text-gray-300 mt-0.5">{granite_review.recommended_action}</div>
                       </div>
                     )}
                     {granite_review.contradiction_analysis && (
                       <div className="border-t border-gray-800 pt-1">
-                        <span className="text-gray-500 text-[9px]">Contradiction Analysis</span>
+                        <span className="text-gray-600 text-[9px]">Contradiction Analysis</span>
                         <div className="text-gray-300 mt-0.5">{granite_review.contradiction_analysis}</div>
                       </div>
                     )}
@@ -408,7 +408,7 @@ function GraniteIntelligence() {
                   <div className="grid grid-cols-2 gap-3 text-xs">
                     {verdict.supportingAgents.length > 0 && (
                       <div>
-                        <span className="text-gray-500 text-[10px]">Supporting Agents</span>
+                          <span className="text-gray-600 text-[10px]">Supporting Agents</span>
                         <div className="flex flex-wrap gap-1 mt-0.5">
                           {verdict.supportingAgents.map((name) => (
                             <span key={name} className="text-[10px] px-1.5 py-0.5 border border-gray-700 rounded text-gray-300">
@@ -420,7 +420,7 @@ function GraniteIntelligence() {
                     )}
                     {verdict.supportingSignals.length > 0 && (
                       <div>
-                        <span className="text-gray-500 text-[10px]">Supporting Signals</span>
+                          <span className="text-gray-600 text-[10px]">Supporting Signals</span>
                         <div className="space-y-0.5 mt-0.5">
                           {verdict.supportingSignals.map((sig, i) => (
                             <div key={i} className="text-[10px] text-gray-400">

@@ -97,10 +97,10 @@ export function FractureTimeline() {
 
   return (
     <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
-      <div className="text-xs tracking-widest text-gray-500 mb-1">
+      <div className="text-xs tracking-widest text-gray-600 mb-1">
         FRACTURE TIMELINE
       </div>
-      <div className="text-[10px] text-gray-600 mb-4">
+      <div className="text-[10px] text-gray-600/70 mb-4">
         Instability progression over match lifecycle
       </div>
 
@@ -111,7 +111,7 @@ export function FractureTimeline() {
       ) : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={data} margin={{ top: 16, right: 8, bottom: 4, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+            <CartesianGrid strokeDasharray="3 3" stroke="#4B5563" />
             <XAxis
               dataKey="minute"
               stroke="#9CA3AF"
@@ -166,7 +166,7 @@ export function FractureTimeline() {
         </ResponsiveContainer>
       )}
 
-      <div className="flex items-center gap-4 mt-2 text-[10px] text-gray-500">
+      <div className="flex items-center gap-5 mt-3 text-[9px] text-gray-600">
         <span className="flex items-center gap-1">
           <span className="inline-block w-3 h-px bg-indigo-400" />
           Fracture

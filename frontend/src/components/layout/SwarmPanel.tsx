@@ -16,15 +16,15 @@ export function SwarmPanel() {
 
   return (
     <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100 flex flex-col gap-3">
-      <div className="text-xs tracking-widest text-gray-500">ADVERSARIAL SWARM</div>
+      <div className="text-xs tracking-widest text-gray-600">ADVERSARIAL SWARM</div>
 
       <div className="text-sm space-y-1">
         <div>
-          <span className="text-gray-500">Fracture: </span>
+          <span className="text-gray-600">Fracture: </span>
           <span className="text-white">{swarmMetrics.fracture_index}</span>
         </div>
         <div>
-          <span className="text-gray-500">Chaos: </span>
+          <span className="text-gray-600">Chaos: </span>
           <span className="text-white">{swarmMetrics.chaos_probability}%</span>
         </div>
       </div>
@@ -33,23 +33,23 @@ export function SwarmPanel() {
 
       <FractureAttribution agents={agents} />
 
-      <div className="border-t border-gray-700 pt-2 text-sm space-y-1">
+      <div className="text-sm space-y-1">
         <div>
-          <span className="text-gray-500">Agents: </span>
+          <span className="text-gray-600">Agents: </span>
           <span className="text-white">{agents.length}</span>
         </div>
         <div>
-          <span className="text-gray-500">Nominal: </span>
+          <span className="text-gray-600">Nominal: </span>
           <span className="text-green-400">{nominalCount}</span>
         </div>
         <div>
-          <span className="text-gray-500">High Risk: </span>
+          <span className="text-gray-600">High Risk: </span>
           <span className="text-red-400">{highRiskCount}</span>
         </div>
       </div>
 
       <div
-        className={`border-t pt-2 text-sm font-semibold ${
+        className={`text-sm font-semibold ${
           hasFracture ? "text-yellow-400" : "text-green-400"
         }`}
       >

@@ -10,10 +10,10 @@ interface TelemetrySectionProps {
 export function TelemetrySection({ group, telemetry }: TelemetrySectionProps) {
   return (
     <div>
-      <div className="text-[10px] tracking-widest text-gray-600 mb-1 mt-2 first:mt-0">
+      <div className="text-[9px] tracking-widest text-gray-600 mb-1 mt-2 first:mt-0">
         {group.label}
       </div>
-      <div className="border-t border-gray-800 pt-1 space-y-0.5">
+      <div className="space-y-px">
         {group.metrics.map((m) => (
           <TelemetryRow key={m.key} label={m.label} value={telemetry[m.key]} />
         ))}

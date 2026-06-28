@@ -22,8 +22,8 @@ export function SwarmCohesionMeter({ agents }: Props) {
   const cohesion = useMemo(() => calculateSwarmCohesion(agents), [agents]);
 
   return (
-    <div className="border-t border-gray-700 pt-2">
-      <div className="flex items-center justify-between text-xs text-gray-500">
+    <div>
+      <div className="flex items-center justify-between text-xs text-gray-600">
         <span>SWARM COHESION</span>
         <span className="text-white">{cohesion.consensusPercent}%</span>
       </div>

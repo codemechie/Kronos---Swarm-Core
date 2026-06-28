@@ -43,7 +43,7 @@ export function LeadCoachVerdictPanel() {
   if (agents.length === 0) {
     return (
       <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
-        <div className="text-xs tracking-widest text-gray-500 mb-1">LEAD COACH VERDICT</div>
+        <div className="text-xs tracking-widest text-gray-600 mb-1">LEAD COACH VERDICT</div>
         <div className="text-[10px] tracking-widest text-gray-600 mb-3">FINAL DECISION LAYER</div>
         <div className="text-gray-500 text-sm">Awaiting swarm intelligence...</div>
       </div>
@@ -53,7 +53,7 @@ export function LeadCoachVerdictPanel() {
   return (
     <div className={`border border-gray-700 rounded ${statusBg[verdict.status]} p-4 font-mono text-gray-100`}>
       <div className="flex items-center justify-between mb-1">
-        <span className="text-xs tracking-widest text-gray-400">LEAD COACH VERDICT</span>
+        <span className="text-xs tracking-widest text-gray-500">LEAD COACH VERDICT</span>
         <span className={`text-[10px] px-2 py-0.5 border rounded ${statusColors[verdict.status]}`}>
           [{verdict.status}]
         </span>
@@ -65,7 +65,7 @@ export function LeadCoachVerdictPanel() {
       {!expanded && (
         <button
           onClick={() => setExpanded(true)}
-          className="mt-2 text-[10px] tracking-widest text-gray-500 hover:text-gray-300 focus:outline-none"
+          className="mt-2 text-[10px] tracking-widest text-gray-600 hover:text-gray-300 focus:outline-none"
         >
           ▼ EXPAND DETAILS
         </button>
@@ -73,8 +73,8 @@ export function LeadCoachVerdictPanel() {
 
       {expanded && (
         <>
-          <div className="border-t border-gray-700 mt-3 pt-3 text-xs">
-            <span className="text-gray-500">Supporting Agents: </span>
+          <div className="mt-3 text-xs">
+            <span className="text-gray-600">Supporting Agents: </span>
             {verdict.supportingAgents.length === 0 ? (
               <span className="text-gray-600">None</span>
             ) : (
@@ -82,8 +82,8 @@ export function LeadCoachVerdictPanel() {
             )}
           </div>
 
-          <div className="border-t border-gray-700 mt-2 pt-2">
-            <div className="text-[10px] tracking-widest text-gray-500 mb-1.5">SUPPORTING SIGNALS</div>
+          <div className="mt-2">
+            <div className="text-[10px] tracking-widest text-gray-600 mb-1.5">SUPPORTING SIGNALS</div>
             {verdict.supportingSignals.length === 0 ? (
               <div className="text-gray-600 text-xs">No supporting signals detected.</div>
             ) : (
@@ -102,15 +102,15 @@ export function LeadCoachVerdictPanel() {
             )}
           </div>
 
-          <div className="border-t border-gray-700 mt-2 pt-2">
-            <div className="text-[10px] tracking-widest text-gray-500 mb-1.5">GRANITE STATUS</div>
+          <div className="mt-2">
+            <div className="text-[10px] tracking-widest text-gray-600 mb-1.5">GRANITE STATUS</div>
             {(() => {
               if (!granite_review || granite_review.skipped) {
                 return (
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
                     <span className="text-[10px] tracking-widest text-green-400">STANDBY</span>
-                    <span className="text-xs text-gray-500">No escalation required.</span>
+                    <span className="text-xs text-gray-600">No escalation required.</span>
                   </div>
                 );
               }
@@ -140,7 +140,7 @@ export function LeadCoachVerdictPanel() {
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
                   <span className="text-[10px] tracking-widest text-amber-400">VALIDATED BY GRANITE</span>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-gray-500">
                     Granite Confidence: <span className="text-amber-300">{granite_review.granite_confidence}%</span>
                   </span>
                 </div>
@@ -148,20 +148,20 @@ export function LeadCoachVerdictPanel() {
             })()}
           </div>
 
-          <div className="flex gap-4 mt-2 pt-2 border-t border-gray-700 text-xs">
+          <div className="flex gap-4 mt-2 text-xs">
             <div>
-              <span className="text-gray-500">Fracture: </span>
+              <span className="text-gray-600">Fracture: </span>
               <span className="text-white">{swarmMetrics.fracture_index}</span>
             </div>
             <div>
-              <span className="text-gray-500">Chaos: </span>
+              <span className="text-gray-600">Chaos: </span>
               <span className="text-white">{swarmMetrics.chaos_probability}%</span>
             </div>
           </div>
 
           <button
             onClick={() => setExpanded(false)}
-            className="mt-2 text-[10px] tracking-widest text-gray-500 hover:text-gray-300 focus:outline-none"
+            className="mt-2 text-[10px] tracking-widest text-gray-600 hover:text-gray-300 focus:outline-none"
           >
             ▲ COLLAPSE
           </button>

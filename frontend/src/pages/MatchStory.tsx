@@ -69,13 +69,13 @@ function CompactGaugeCard({ label, value, max, unit, color, sub }: { label: stri
   return (
     <div className="border border-gray-700/50 rounded bg-gray-950 p-2.5">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-[9px] tracking-widest text-gray-500">{label}</span>
+        <span className="text-[9px] tracking-widest text-gray-600">{label}</span>
         <span className={`text-xs font-bold ${color}`}>
           {value}{unit ?? ""}
         </span>
       </div>
       <GaugeBar value={num} max={max} color={color} />
-      {sub && <div className="text-[9px] text-gray-600 mt-0.5">{sub}</div>}
+      {sub && <div className="text-[9px] text-gray-600/70 mt-0.5">{sub}</div>}
     </div>
   );
 }
@@ -83,7 +83,7 @@ function CompactGaugeCard({ label, value, max, unit, color, sub }: { label: stri
 function CompactMomentumCard({ label, value, range, homeLabel, awayLabel, color }: { label: string; value: number; range: number; homeLabel?: string; awayLabel?: string; color: string }) {
   return (
     <div className="border border-gray-700/50 rounded bg-gray-950 p-2.5">
-      <div className="text-[9px] tracking-widest text-gray-500 mb-1">{label}</div>
+      <div className="text-[9px] tracking-widest text-gray-600 mb-1">{label}</div>
       <div className="flex items-center justify-between text-xs mb-1">
         <span className="text-green-500/70 font-semibold">{homeLabel ?? "HOME"}</span>
         <span className={`font-bold ${color}`}>{value.toFixed(2)}</span>
@@ -97,12 +97,12 @@ function CompactMomentumCard({ label, value, range, homeLabel, awayLabel, color 
 function GaugeCard({ label, value, max, unit, color, sub }: { label: string; value: number; max: number; unit?: string; color: string; sub?: string }) {
   return (
     <div className="border border-gray-700/50 rounded bg-gray-950 p-3">
-      <div className="text-[9px] tracking-widest text-gray-500 mb-1.5">{label}</div>
+      <div className="text-[9px] tracking-widest text-gray-600 mb-1.5">{label}</div>
       <div className={`text-lg font-bold mb-1 ${color}`}>
         {value}{unit ?? ""}
       </div>
       <GaugeBar value={value} max={max} color={color} />
-      {sub && <div className="text-[10px] text-gray-500 mt-1">{sub}</div>}
+      {sub && <div className="text-[10px] text-gray-600 mt-1">{sub}</div>}
     </div>
   );
 }
@@ -112,7 +112,7 @@ function MomentumGaugeCard({ label, value, range, homeLabel, awayLabel, homeColo
   const isHome = pct >= 0;
   return (
     <div className="border border-gray-700/50 rounded bg-gray-950 p-3">
-      <div className="text-[9px] tracking-widest text-gray-500 mb-1.5">{label}</div>
+      <div className="text-[9px] tracking-widest text-gray-600 mb-1.5">{label}</div>
       <div className={`text-lg font-bold mb-1 ${isHome ? homeColor ?? "text-green-400" : awayColor ?? "text-blue-400"}`}>
         {value >= 0 ? "+" : ""}{value.toFixed(2)}
       </div>
@@ -144,7 +144,7 @@ export function MatchStory() {
         {/* ── HERO ── */}
         <div className="border border-gray-700 rounded bg-gray-900 overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-800">
-            <span className="text-[10px] tracking-widest text-gray-400">MATCH SUMMARY</span>
+            <span className="text-xs tracking-widest text-gray-500">MATCH SUMMARY</span>
           </div>
 
           <div className="px-5 py-6">
@@ -171,17 +171,17 @@ export function MatchStory() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 border-t border-gray-800">
             <div className="p-5 md:border-r border-gray-800 flex flex-col justify-center">
-              <div className="text-[9px] tracking-widest text-gray-500 mb-2">CONFIDENCE</div>
+              <div className="text-[9px] tracking-widest text-gray-600 mb-2">CONFIDENCE</div>
               <div className="text-3xl font-bold text-white mb-1.5">{pct(validation.overall_confidence)}</div>
               <GaugeBar value={validation.overall_confidence} max={1} color={cm?.color ?? "bg-gray-500"} />
               <div className="flex items-center justify-between mt-1.5">
                 {cm && <span className={`text-[10px] font-semibold ${cm.color}`}>{cm.label}</span>}
-                <span className="text-[10px] text-gray-500">Trust {pct(validation.trust_score)}</span>
+                <span className="text-[10px] text-gray-600">Trust {pct(validation.trust_score)}</span>
               </div>
             </div>
 
             <div className="p-5">
-              <div className="text-[9px] tracking-widest text-gray-500 mb-2">CURRENT OUTLOOK</div>
+              <div className="text-[9px] tracking-widest text-gray-600 mb-2">CURRENT OUTLOOK</div>
               <div className="text-sm font-semibold text-white mb-3">{outlook}</div>
               <div className="space-y-2">
                 <div>
@@ -193,14 +193,14 @@ export function MatchStory() {
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <div className="flex items-center justify-between text-[9px] text-gray-500 mb-0.5">
+                    <div className="flex items-center justify-between text-[9px] text-gray-600 mb-0.5">
                       <span>Chaos</span>
                       <span>{swarmMetrics.chaos_probability}%</span>
                     </div>
                     <GaugeBar value={swarmMetrics.chaos_probability} max={100} color={swarmMetrics.chaos_probability >= 75 ? "bg-red-500" : swarmMetrics.chaos_probability >= 50 ? "bg-yellow-500" : "bg-gray-500"} />
                   </div>
                   <div>
-                    <div className="flex items-center justify-between text-[9px] text-gray-500 mb-0.5">
+                    <div className="flex items-center justify-between text-[9px] text-gray-600 mb-0.5">
                       <span>Fracture</span>
                       <span>{swarmMetrics.fracture_index}</span>
                     </div>
@@ -214,7 +214,7 @@ export function MatchStory() {
 
         {/* ── SECTION: Key Match Metrics ── */}
         <div className="border border-gray-700 rounded bg-gray-900 p-4">
-          <div className="text-[10px] tracking-widest text-gray-400 mb-3">
+          <div className="text-xs tracking-widest text-gray-500 mb-3">
             KEY MATCH METRICS
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
@@ -265,12 +265,12 @@ export function MatchStory() {
 
         {/* ── SECTION: Prediction ── */}
         <div className="border border-gray-700 rounded bg-gray-900 p-4">
-          <div className="text-[10px] tracking-widest text-gray-400 mb-3">
+          <div className="text-xs tracking-widest text-gray-500 mb-3">
             PREDICTION
           </div>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             <div className="border border-gray-700/50 rounded bg-gray-950 p-3">
-              <div className="text-[9px] tracking-widest text-gray-500 mb-1.5">CONTRADICTIONS</div>
+              <div className="text-[9px] tracking-widest text-gray-600 mb-1.5">CONTRADICTIONS</div>
               <div className={`text-lg font-bold mb-1 ${validation.contradiction_count > 0 ? "text-yellow-400" : "text-green-400"}`}>
                 {validation.contradiction_count}
               </div>
@@ -302,17 +302,17 @@ export function MatchStory() {
               sub="Prediction Reliability"
             />
             <div className="border border-gray-700/50 rounded bg-gray-950 p-3">
-              <div className="text-[9px] tracking-widest text-gray-500 mb-1.5">RISK INDICATOR</div>
+              <div className="text-[9px] tracking-widest text-gray-600 mb-1.5">RISK INDICATOR</div>
               <div className={`text-lg font-bold mb-1 ${swarmMetrics.chaos_probability >= 75 ? "text-red-400" : swarmMetrics.chaos_probability >= 50 ? "text-yellow-400" : "text-green-400"}`}>
                 {swarmMetrics.chaos_probability >= 75 ? "HIGH RISK" : swarmMetrics.chaos_probability >= 50 ? "ELEVATED" : "NOMINAL"}
               </div>
               <GaugeBar value={swarmMetrics.chaos_probability} max={100} color={swarmMetrics.chaos_probability >= 75 ? "bg-red-500" : swarmMetrics.chaos_probability >= 50 ? "bg-yellow-500" : "bg-green-500"} />
-              <div className="text-[10px] text-gray-500 mt-1">Chaos: {swarmMetrics.chaos_probability}%</div>
+              <div className="text-[10px] text-gray-600 mt-1">Chaos: {swarmMetrics.chaos_probability}%</div>
             </div>
           </div>
           {hasGranite && (
             <div className="mt-3 border-t border-gray-800 pt-3">
-              <div className="text-[9px] tracking-widest text-gray-500 mb-1">DETAILED ANALYSIS</div>
+              <div className="text-[9px] tracking-widest text-gray-600 mb-1">DETAILED ANALYSIS</div>
               <div className="text-xs text-gray-300">{granite_review.review_summary}</div>
             </div>
           )}

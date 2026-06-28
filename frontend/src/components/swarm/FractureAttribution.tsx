@@ -12,8 +12,8 @@ export function FractureAttribution({ agents }: Props) {
 
   if (agents.length === 0 || !primary) {
     return (
-      <div className="border-t border-gray-700 pt-2">
-        <div className="text-xs tracking-widest text-gray-500 mb-1">
+      <div>
+        <div className="text-xs tracking-widest text-gray-600 mb-1">
           FRACTURE ATTRIBUTION
         </div>
         <div className="text-[10px] text-gray-600 italic">
@@ -24,13 +24,13 @@ export function FractureAttribution({ agents }: Props) {
   }
 
   return (
-    <div className="border-t border-gray-700 pt-2">
-      <div className="text-xs tracking-widest text-gray-500 mb-2">
+    <div>
+      <div className="text-xs tracking-widest text-gray-600 mb-2">
         FRACTURE ATTRIBUTION
       </div>
 
       <div className="bg-gray-850 border border-gray-700 rounded px-2 py-1.5 mb-2">
-        <div className="text-[10px] text-gray-500">PRIMARY CONTRIBUTOR</div>
+        <div className="text-[10px] text-gray-600">PRIMARY CONTRIBUTOR</div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-200">{primary.displayName}</span>
           <span className="text-red-400 font-semibold">

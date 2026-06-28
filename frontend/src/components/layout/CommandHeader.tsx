@@ -36,7 +36,7 @@ export function CommandHeader() {
           <span className={`inline-block w-1.5 h-1.5 rounded-full ${connectionDot[connectionStatus]}`} />
           {connectionStatus}
         </span>
-        <span className="text-gray-600">|</span>
+        <span className="text-gray-700">|</span>
         {navLinks.map((link) => {
           const isActive = location.pathname === link.to;
           return (
@@ -45,19 +45,19 @@ export function CommandHeader() {
               to={link.to}
               className={
                 isActive
-                  ? "text-white underline underline-offset-4"
-                  : "text-gray-500 hover:text-gray-300"
+                  ? "text-white"
+                  : "text-gray-600 hover:text-gray-300"
               }
             >
               {link.label}
             </Link>
           );
         })}
-        <span className="text-gray-600 ml-auto">|</span>
+        <span className="text-gray-700 ml-auto">|</span>
         <span>
           Minute: <span className="text-white">{telemetry.minute}</span>
         </span>
-        <span className="text-gray-600">|</span>
+        <span className="text-gray-700">|</span>
         <span>
           Phase:{" "}
           <span
@@ -72,12 +72,12 @@ export function CommandHeader() {
             {phase}
           </span>
         </span>
-        <span className="text-gray-600">|</span>
+        <span className="text-gray-700">|</span>
         <span>
           Fracture:{" "}
           <span className="text-white">{swarmMetrics.fracture_index}</span>
         </span>
-        <span className="text-gray-600">|</span>
+        <span className="text-gray-700">|</span>
         <span>
           Chaos:{" "}
           <span className="text-white">
