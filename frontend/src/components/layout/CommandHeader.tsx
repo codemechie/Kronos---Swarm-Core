@@ -3,11 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
   { to: "/", label: "Landing" },
-  { to: "/war-room", label: "Command Center" },
+  { to: "/match-story", label: "Match Story" },
+  { to: "/war-room", label: "Live Intelligence" },
   { to: "/swarm", label: "Swarm Intelligence" },
   { to: "/transcript", label: "Debate Transcript" },
   { to: "/granite", label: "Granite Intelligence" },
-  { to: "/match-story", label: "Match Story" },
 ];
 
 const connectionStyle: Record<string, string> = {

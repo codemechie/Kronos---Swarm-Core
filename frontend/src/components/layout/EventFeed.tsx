@@ -6,27 +6,44 @@ const severityColor: Record<string, string> = {
   CRITICAL: "text-red-400",
 };
 
+const severityDot: Record<string, string> = {
+  INFO: "bg-blue-500",
+  WARNING: "bg-yellow-500",
+  CRITICAL: "bg-red-500",
+};
+
+const severityBorder: Record<string, string> = {
+  INFO: "border-l-blue-500/30",
+  WARNING: "border-l-yellow-500/30",
+  CRITICAL: "border-l-red-500/30",
+};
+
 export function EventFeed() {
   const { events } = useKronos();
 
   return (
     <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
-      <div className="text-xs tracking-widest text-gray-500 mb-3">
-        EVENT FEED
+      <div className="flex items-center justify-between mb-3">
+        <span className="text-xs tracking-widest text-gray-500">EVENT FEED</span>
+        <span className="text-[9px] text-gray-600">{events.length} events</span>
       </div>
-      <div className="max-h-80 overflow-y-auto text-sm space-y-3">
+      <div className="max-h-80 overflow-y-auto space-y-1">
         {events.length === 0 ? (
-          <div className="text-gray-500">No operational events recorded</div>
+          <div className="text-gray-500 text-sm py-2">No operational events recorded</div>
         ) : (
           events.map((ev) => (
-            <div key={ev.id} className="border-b border-gray-800 pb-2 last:border-0">
-              <div className={severityColor[ev.severity] ?? "text-gray-400"}>
-                [{ev.severity}]
+            <div
+              key={ev.id}
+              className={`border-l-2 pl-3 py-1.5 ${severityBorder[ev.severity] ?? "border-l-gray-700"}`}
+            >
+              <div className="flex items-center gap-2 text-xs">
+                <span className={`inline-block w-1.5 h-1.5 rounded-full shrink-0 ${severityDot[ev.severity] ?? "bg-gray-500"}`} />
+                <span className={`text-[10px] font-semibold ${severityColor[ev.severity] ?? "text-gray-400"}`}>
+                  {ev.severity}
+                </span>
+                <span className="text-gray-600">{ev.minute}&apos;</span>
               </div>
-              <div className="text-gray-500 text-xs">
-                Minute {ev.minute}
-              </div>
-              <div className="text-gray-200">{ev.message}</div>
+              <div className="text-xs text-gray-200 mt-0.5">{ev.message}</div>
             </div>
           ))
         )}

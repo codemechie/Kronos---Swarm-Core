@@ -2,9 +2,14 @@ import { Link } from "react-router-dom";
 
 const cards = [
   {
+    to: "/match-story",
+    title: "MATCH STORY",
+    desc: "Live football intelligence dashboard with real-time match data, AI assessment, and swarm-driven predictions.",
+  },
+  {
     to: "/war-room",
-    title: "COMMAND CENTER",
-    desc: "Live telemetry, swarm debate, validation, Granite review, and lead coach verdict in a unified war room dashboard.",
+    title: "LIVE INTELLIGENCE",
+    desc: "Live telemetry, swarm debate, validation, Granite review, and lead coach verdict in a unified intelligence dashboard.",
   },
   {
     to: "/swarm",
@@ -20,11 +25,6 @@ const cards = [
     to: "/granite",
     title: "GRANITE INTELLIGENCE CENTER",
     desc: "Independent validation and decision provenance for every recommendation.",
-  },
-  {
-    to: "/match-story",
-    title: "MATCH STORY",
-    desc: "Runtime timeline of the Argentina vs France 2022 World Cup final — compiled from canonical narrative dataset.",
   },
 ];
 

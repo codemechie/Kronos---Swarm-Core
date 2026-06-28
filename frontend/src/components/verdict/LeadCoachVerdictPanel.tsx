@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useKronos } from "../../hooks/useKronos";
 import { normalizeSwarmAgents } from "../../lib/swarmNormalizer";
 import { generateLeadCoachVerdict } from "../../lib/verdictEngine";
@@ -24,6 +24,7 @@ const categoryColors: Record<string, string> = {
 
 export function LeadCoachVerdictPanel() {
   const { debateOutputs, swarmMetrics, phase, telemetry, granite_review } = useKronos();
+  const [expanded, setExpanded] = useState(false);
 
   const agents = useMemo(() => normalizeSwarmAgents(debateOutputs), [debateOutputs]);
 
@@ -57,96 +58,115 @@ export function LeadCoachVerdictPanel() {
           [{verdict.status}]
         </span>
       </div>
-      <div className="text-[10px] tracking-widest text-gray-600 mb-3">FINAL DECISION LAYER</div>
 
       <div className="text-sm font-semibold mb-1">{verdict.headline}</div>
-      <div className="text-gray-400 text-xs mb-3">{verdict.rationale}</div>
+      <div className="text-gray-400 text-xs">{verdict.rationale}</div>
 
-      <div className="border-t border-gray-700 pt-2 text-xs">
-        <span className="text-gray-500">Supporting Agents: </span>
-        {verdict.supportingAgents.length === 0 ? (
-          <span className="text-gray-600">None</span>
-        ) : (
-          <span className="text-gray-200">{verdict.supportingAgents.join(", ")}</span>
-        )}
-      </div>
+      {!expanded && (
+        <button
+          onClick={() => setExpanded(true)}
+          className="mt-2 text-[10px] tracking-widest text-gray-500 hover:text-gray-300 focus:outline-none"
+        >
+          ▼ EXPAND DETAILS
+        </button>
+      )}
 
-      <div className="border-t border-gray-700 mt-2 pt-2">
-        <div className="text-[10px] tracking-widest text-gray-500 mb-1.5">SUPPORTING SIGNALS</div>
-        {verdict.supportingSignals.length === 0 ? (
-          <div className="text-gray-600 text-xs">No supporting signals detected.</div>
-        ) : (
-          <div className="max-h-28 overflow-y-auto space-y-1">
-            {verdict.supportingSignals.map((sig, i) => (
-              <div key={i} className="flex items-start gap-1.5 text-xs">
-                <span
-                  className={`text-[9px] px-1 border rounded shrink-0 ${categoryColors[sig.category] ?? ""}`}
-                >
-                  [{sig.category}]
-                </span>
-                <span className="text-gray-300">{sig.message}</span>
-              </div>
-            ))}
+      {expanded && (
+        <>
+          <div className="border-t border-gray-700 mt-3 pt-3 text-xs">
+            <span className="text-gray-500">Supporting Agents: </span>
+            {verdict.supportingAgents.length === 0 ? (
+              <span className="text-gray-600">None</span>
+            ) : (
+              <span className="text-gray-200">{verdict.supportingAgents.join(", ")}</span>
+            )}
           </div>
-        )}
-      </div>
 
-      <div className="border-t border-gray-700 mt-2 pt-2">
-        <div className="text-[10px] tracking-widest text-gray-500 mb-1.5">GRANITE STATUS</div>
-        {(() => {
-          if (!granite_review || granite_review.skipped) {
-            return (
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
-                <span className="text-[10px] tracking-widest text-green-400">STANDBY</span>
-                <span className="text-xs text-gray-500">No escalation required.</span>
+          <div className="border-t border-gray-700 mt-2 pt-2">
+            <div className="text-[10px] tracking-widest text-gray-500 mb-1.5">SUPPORTING SIGNALS</div>
+            {verdict.supportingSignals.length === 0 ? (
+              <div className="text-gray-600 text-xs">No supporting signals detected.</div>
+            ) : (
+              <div className="max-h-28 overflow-y-auto space-y-1">
+                {verdict.supportingSignals.map((sig, i) => (
+                  <div key={i} className="flex items-start gap-1.5 text-xs">
+                    <span
+                      className={`text-[9px] px-1 border rounded shrink-0 ${categoryColors[sig.category] ?? ""}`}
+                    >
+                      [{sig.category}]
+                    </span>
+                    <span className="text-gray-300">{sig.message}</span>
+                  </div>
+                ))}
               </div>
-            );
-          }
-          if (
-            granite_review.escalation_triggered &&
-            granite_review.review_summary.toLowerCase().includes("unavailable")
-          ) {
-            return (
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="w-2 h-2 rounded-full bg-yellow-500 shrink-0" />
-                  <span className="text-[10px] tracking-widest text-yellow-400">DEGRADED</span>
+            )}
+          </div>
+
+          <div className="border-t border-gray-700 mt-2 pt-2">
+            <div className="text-[10px] tracking-widest text-gray-500 mb-1.5">GRANITE STATUS</div>
+            {(() => {
+              if (!granite_review || granite_review.skipped) {
+                return (
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500 shrink-0" />
+                    <span className="text-[10px] tracking-widest text-green-400">STANDBY</span>
+                    <span className="text-xs text-gray-500">No escalation required.</span>
+                  </div>
+                );
+              }
+              if (
+                granite_review.escalation_triggered &&
+                granite_review.review_summary.toLowerCase().includes("unavailable")
+              ) {
+                return (
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="w-2 h-2 rounded-full bg-yellow-500 shrink-0" />
+                      <span className="text-[10px] tracking-widest text-yellow-400">DEGRADED</span>
+                    </div>
+                    <div className="text-xs text-gray-400 ml-4">
+                      Granite review currently unavailable.
+                    </div>
+                    <div className="text-xs text-gray-400 ml-4">
+                      System operating in graceful-degradation mode using heuristic validation.
+                    </div>
+                    <div className="text-xs text-gray-400 ml-4">
+                      Decision pipeline remains operational.
+                    </div>
+                  </div>
+                );
+              }
+              return (
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                  <span className="text-[10px] tracking-widest text-amber-400">VALIDATED BY GRANITE</span>
+                  <span className="text-xs text-gray-400">
+                    Granite Confidence: <span className="text-amber-300">{granite_review.granite_confidence}%</span>
+                  </span>
                 </div>
-                <div className="text-xs text-gray-400 ml-4">
-                  Granite review currently unavailable.
-                </div>
-                <div className="text-xs text-gray-400 ml-4">
-                  System operating in graceful-degradation mode using heuristic validation.
-                </div>
-                <div className="text-xs text-gray-400 ml-4">
-                  Decision pipeline remains operational.
-                </div>
-              </div>
-            );
-          }
-          return (
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-amber-500 shrink-0" />
-              <span className="text-[10px] tracking-widest text-amber-400">VALIDATED BY GRANITE</span>
-              <span className="text-xs text-gray-400">
-                Granite Confidence: <span className="text-amber-300">{granite_review.granite_confidence}%</span>
-              </span>
+              );
+            })()}
+          </div>
+
+          <div className="flex gap-4 mt-2 pt-2 border-t border-gray-700 text-xs">
+            <div>
+              <span className="text-gray-500">Fracture: </span>
+              <span className="text-white">{swarmMetrics.fracture_index}</span>
             </div>
-          );
-        })()}
-      </div>
+            <div>
+              <span className="text-gray-500">Chaos: </span>
+              <span className="text-white">{swarmMetrics.chaos_probability}%</span>
+            </div>
+          </div>
 
-      <div className="flex gap-4 mt-2 pt-2 border-t border-gray-700 text-xs">
-        <div>
-          <span className="text-gray-500">Fracture: </span>
-          <span className="text-white">{swarmMetrics.fracture_index}</span>
-        </div>
-        <div>
-          <span className="text-gray-500">Chaos: </span>
-          <span className="text-white">{swarmMetrics.chaos_probability}%</span>
-        </div>
-      </div>
+          <button
+            onClick={() => setExpanded(false)}
+            className="mt-2 text-[10px] tracking-widest text-gray-500 hover:text-gray-300 focus:outline-none"
+          >
+            ▲ COLLAPSE
+          </button>
+        </>
+      )}
     </div>
   );
 }
