@@ -12,10 +12,25 @@ _project_root = str(Path(__file__).resolve().parent.parent)
 if _project_root not in sys.path:
     sys.path.insert(0, _project_root)
 
+from backend.match_story.runtime.historical_runtime_provider import (
+    HistoricalRuntimeProvider,
+)
+from backend.match_story.runtime.simulation_clock import SimulationClock
 from backend.orchestrator.core_supervisor import KronosOrchestrator
 
+# ── Single authoritative clock shared by all backend components ──────────────
+_shared_clock = SimulationClock()
 
-orchestrator = KronosOrchestrator()
+_TIMELINE_PATH = str(
+    Path(__file__).resolve().parent
+    / "docs" / "datasets" / "json" / "argentina_france_2022_timeline.json"
+)
+
+orchestrator = KronosOrchestrator(_shared_clock)
+historical_provider = HistoricalRuntimeProvider(
+    timeline_path=_TIMELINE_PATH,
+    clock=_shared_clock,
+)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -71,6 +86,16 @@ class Handler(BaseHTTPRequestHandler):
             "validation": result.get("validation", {"skipped": True}),
             "granite_review": result["granite_review"],
         }
+        # Inject temporal state from HistoricalRuntimeProvider
+        match_time = historical_provider.get_current_match_time()
+        score = historical_provider.get_current_score()
+        payload["telemetry"]["minute"] = match_time.current_minute
+        payload["minute"] = match_time.current_minute
+        payload["telemetry"]["score_home"] = score["home"]
+        payload["telemetry"]["score_away"] = score["away"]
+        payload["match_phase"] = historical_provider.get_match_phase()
+        payload["timeline_events"] = historical_provider.get_visible_events()
+        payload["match_statistics"] = historical_provider.get_current_statistics()
         print(
             "[SSE] granite_review "
             f"skipped={payload['granite_review']['skipped']} "

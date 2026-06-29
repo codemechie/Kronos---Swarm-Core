@@ -14,6 +14,7 @@ from backend.agents.swarm.archetypes import (
 )
 from backend.contracts.swarm_metrics import SwarmFractureCalculator, SwarmFractureMetrics
 from backend.contracts.telemetry_dataclasses import KronosTelemetryPacket
+from backend.match_story.runtime.simulation_clock import SimulationClock
 from backend.utils.kronos_ticker import KronosMatchTicker
 from backend.llm.gateway import LLMGateway
 from backend.llm.contracts import LLMResponse
@@ -115,8 +116,9 @@ class KronosStateMachine:
     One instance per match. State resets each tick via transition().
     """
 
-    def __init__(self) -> None:
-        self.ticker = KronosMatchTicker()
+    def __init__(self, clock: Optional[SimulationClock] = None) -> None:
+        self.clock: SimulationClock = clock if clock is not None else SimulationClock()
+        self.ticker = KronosMatchTicker(self.clock)
         self.fracture_calculator = SwarmFractureCalculator()
         self.gateway = LLMGateway()
         self.validator = HeuristicValidator()

@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, Dict
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
 from backend.orchestrator.state_machine import KronosStateMachine
+
+if TYPE_CHECKING:
+    from backend.match_story.runtime.simulation_clock import SimulationClock
 
 
 class KronosOrchestrator:
@@ -13,8 +16,8 @@ class KronosOrchestrator:
     VALIDATE → RECOMMEND pipeline. Maintains backward-compatible dict output.
     """
 
-    def __init__(self) -> None:
-        self.state_machine = KronosStateMachine()
+    def __init__(self, clock: Optional["SimulationClock"] = None) -> None:
+        self.state_machine = KronosStateMachine(clock=clock)
 
     def process_next_tick(self) -> Dict[str, Any]:
         """Advance one match minute through the state machine and return

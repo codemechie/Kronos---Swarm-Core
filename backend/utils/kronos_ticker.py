@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import math
 import random
-from typing import Tuple
+from typing import TYPE_CHECKING
 
 from backend.contracts.telemetry_dataclasses import (
     EnvironmentalMetrics,
@@ -12,6 +11,9 @@ from backend.contracts.telemetry_dataclasses import (
     PsychologicalMetrics,
     TacticalMetrics,
 )
+
+if TYPE_CHECKING:
+    from backend.match_story.runtime.simulation_clock import SimulationClock
 
 
 def _clamp(value: float, lo: float = 0.0, hi: float = 1.0) -> float:
@@ -23,8 +25,14 @@ def _rand_gauss_clamped(mu: float, sigma: float, lo: float = 0.0, hi: float = 1.
 
 
 class KronosMatchTicker:
-    def __init__(self) -> None:
-        self.current_minute: int = 1
+    """Generates one telemetry packet per tick.
+
+    Match time is derived exclusively from the injected SimulationClock —
+    this class owns no independent minute counter.
+    """
+
+    def __init__(self, clock: "SimulationClock") -> None:
+        self._clock = clock
         self.home_score: int = 0
         self.away_score: int = 0
         self.weather_mode: str = "CLEAR"
@@ -38,7 +46,8 @@ class KronosMatchTicker:
         self._defensive_fatigue: float = 0.05
 
     def generate_tick(self) -> KronosTelemetryPacket:
-        minute = self.current_minute
+        # Derive the current match minute from the authoritative clock.
+        minute = self._clock.get_current_minute()
 
         # ------------------------------------------------------------------
         # 1. Weather / Environment triggers
@@ -217,5 +226,4 @@ class KronosMatchTicker:
             environment=env,
         )
 
-        self.current_minute += 1
         return packet
