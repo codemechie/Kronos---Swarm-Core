@@ -13,10 +13,10 @@ export function FractureAttribution({ agents }: Props) {
   if (agents.length === 0 || !primary) {
     return (
       <div>
-        <div className="text-xs tracking-widest text-gray-600 mb-1">
+        <div className="text-xs tracking-widest text-gray-500 mb-1">
           FRACTURE ATTRIBUTION
         </div>
-        <div className="text-[10px] text-gray-600 italic">
+        <div className="text-2xs text-gray-500 italic">
           Awaiting swarm attribution...
         </div>
       </div>
@@ -25,19 +25,19 @@ export function FractureAttribution({ agents }: Props) {
 
   return (
     <div>
-      <div className="text-xs tracking-widest text-gray-600 mb-2">
+      <div className="text-xs tracking-widest text-gray-500 mb-2">
         FRACTURE ATTRIBUTION
       </div>
 
-      <div className="bg-gray-850 border border-gray-700 rounded px-2 py-1.5 mb-2">
-        <div className="text-[10px] text-gray-600">PRIMARY CONTRIBUTOR</div>
+      <div className="bg-gray-50 border border-gray-200 rounded-card px-2 py-1.5 mb-2">
+        <div className="text-2xs text-gray-500">PRIMARY CONTRIBUTOR</div>
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-200">{primary.displayName}</span>
-          <span className="text-red-400 font-semibold">
+          <span className="text-gray-900">{primary.displayName}</span>
+          <span className="text-red-600 font-semibold">
             {primary.contributionPercent}%
           </span>
         </div>
-        <div className="w-full h-1 bg-gray-700 rounded mt-1 overflow-hidden">
+        <div className="w-full h-1 bg-gray-200 rounded mt-1 overflow-hidden">
           <div
             className="h-full rounded bg-red-500"
             style={{ width: `${primary.contributionPercent}%` }}
@@ -51,16 +51,16 @@ export function FractureAttribution({ agents }: Props) {
           const isHighRisk = agent?.riskLevel === "HIGH_RISK";
           return (
             <div key={c.agentId} className="text-xs">
-              <div className="flex items-center justify-between text-gray-400">
+              <div className="flex items-center justify-between text-gray-500">
                 <span>{c.displayName}</span>
-                <span className={isHighRisk ? "text-red-400" : "text-gray-500"}>
+                <span className={isHighRisk ? "text-red-600 font-semibold" : "text-gray-500"}>
                   {c.contributionPercent}%
                 </span>
               </div>
-              <div className="w-full h-1 bg-gray-700 rounded mt-0.5 overflow-hidden">
+              <div className="w-full h-1 bg-gray-200 rounded mt-1 overflow-hidden">
                 <div
                   className={`h-full rounded ${
-                    isHighRisk ? "bg-red-500" : "bg-gray-500"
+                    isHighRisk ? "bg-red-500" : "bg-gray-400"
                   }`}
                   style={{ width: `${c.contributionPercent}%` }}
                 />

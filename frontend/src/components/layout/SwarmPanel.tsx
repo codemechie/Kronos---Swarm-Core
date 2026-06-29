@@ -15,17 +15,17 @@ export function SwarmPanel() {
   const hasFracture = highRiskCount > 0;
 
   return (
-    <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100 flex flex-col gap-3">
-      <div className="text-xs tracking-widest text-gray-600">ADVERSARIAL SWARM</div>
+    <div className="border border-gray-200 rounded-card bg-white p-4 font-mono text-gray-900 flex flex-col gap-3">
+      <div className="text-xs tracking-widest text-gray-600 font-semibold">ADVERSARIAL SWARM</div>
 
       <div className="text-sm space-y-1">
         <div>
           <span className="text-gray-600">Fracture: </span>
-          <span className="text-white">{swarmMetrics.fracture_index}</span>
+          <span className="text-gray-900">{swarmMetrics.fracture_index}</span>
         </div>
         <div>
           <span className="text-gray-600">Chaos: </span>
-          <span className="text-white">{swarmMetrics.chaos_probability}%</span>
+          <span className="text-gray-900">{swarmMetrics.chaos_probability}%</span>
         </div>
       </div>
 
@@ -36,21 +36,21 @@ export function SwarmPanel() {
       <div className="text-sm space-y-1">
         <div>
           <span className="text-gray-600">Agents: </span>
-          <span className="text-white">{agents.length}</span>
+          <span className="text-gray-900">{agents.length}</span>
         </div>
         <div>
           <span className="text-gray-600">Nominal: </span>
-          <span className="text-green-400">{nominalCount}</span>
+          <span className="text-green-600">{nominalCount}</span>
         </div>
         <div>
           <span className="text-gray-600">High Risk: </span>
-          <span className="text-red-400">{highRiskCount}</span>
+          <span className="text-red-600">{highRiskCount}</span>
         </div>
       </div>
 
       <div
         className={`text-sm font-semibold ${
-          hasFracture ? "text-yellow-400" : "text-green-400"
+          hasFracture ? "text-yellow-600" : "text-green-600"
         }`}
       >
         {hasFracture ? "SWARM FRACTURE ACTIVE" : "SWARM CONSENSUS"}

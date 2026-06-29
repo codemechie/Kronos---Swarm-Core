@@ -24,34 +24,48 @@ export function WarRoom() {
   }, [swarmMetrics.chaos_probability]);
 
   return (
-    <div className="min-h-screen bg-black p-4 font-mono">
-      <div className="max-w-6xl mx-auto space-y-3">
+    <div className="min-h-screen bg-gray-50 p-4 font-mono">
+      <div className="max-w-6xl mx-auto space-y-6">
         <CommandHeader />
 
-        <div className="flex items-center gap-3 text-[9px] tracking-widest text-gray-600 border border-gray-800 rounded bg-gray-950 px-4 py-1.5">
-          <span className="text-gray-500">{telemetry.minute}&apos;</span>
-          <span className="text-gray-700">|</span>
-          <span>{phase}</span>
-          <span className="text-gray-700">|</span>
+        <div className="flex items-center gap-4 text-2xs tracking-widest text-gray-600 font-semibold border border-gray-300 shadow-sm rounded-card bg-white px-4 py-2">
+          <span className="text-gray-600">{telemetry.minute}&apos;</span>
+          <span className="text-gray-300">|</span>
+          <span className="text-gray-600">{phase}</span>
+          <span className="text-gray-300">|</span>
           <span>CHAOS {chaosPct}</span>
-          <span className="text-gray-700">|</span>
+          <span className="text-gray-300">|</span>
           <span>FRACTURE {swarmMetrics.fracture_index}</span>
-          <span className="text-gray-700">|</span>
+          <span className="text-gray-300">|</span>
           <span className="flex items-center gap-1">
-            <span className={`inline-block w-1.5 h-1.5 rounded-full ${connectionDot[connectionStatus] ?? "bg-gray-600"}`} />
+            <span className={`inline-block w-1.5 h-1.5 rounded-full ${connectionDot[connectionStatus] ?? "bg-gray-400"}`} />
             {connectionStatus}
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <TelemetryPanel />
-          <SwarmPanel />
-          <EventFeed />
+        <div className="text-xs tracking-widest text-green-600 font-semibold mb-4">LIVE INTELLIGENCE DASHBOARD</div>
+
+        <div className="rounded-card bg-gradient-to-b from-blue-100/80 to-white p-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <TelemetryPanel />
+            <SwarmPanel />
+            <EventFeed />
+          </div>
         </div>
-        <LeadCoachVerdictPanel />
-        <ValidationCenter />
-        <FractureTimeline />
-        <GraniteTerminal />
+
+        <div className="rounded-card bg-gradient-to-b from-amber-100/80 to-white p-4">
+          <div className="text-xs tracking-widest text-green-600 font-semibold mb-4">COMMAND VERDICT</div>
+          <LeadCoachVerdictPanel />
+        </div>
+
+        <div className="rounded-card bg-gradient-to-b from-green-100/80 to-white p-4">
+          <div className="text-xs tracking-widest text-green-600 font-semibold mb-4">VALIDATION & ANALYSIS</div>
+          <div className="space-y-4">
+            <ValidationCenter />
+            <FractureTimeline />
+            <GraniteTerminal />
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 KRONOS SWARM CORE — Context File
 ====================================
-Last updated: 2026-06-25
+Last updated: 2026-06-29
 
 OVERVIEW
 --------
@@ -10,11 +10,14 @@ and a fracture calculator measures swarm disagreement. Full-stack app:
 Python SSE backend + React/TypeScript/Vite/Tailwind frontend.
 
 CURRENT STATE — COMPLETE
-------------------------
+-----------------------
 Backend: 119 tests passing, 110 subtests. Full SSE server on port 3000.
-Frontend: Production-quality React app with 5 routes (Landing / Command Center /
-Swarm Intelligence / Debate Transcript / Granite Intelligence Center),
-mission-control aesthetic. SSE connection status indicator in header.
+Frontend: Production-quality React app with 5 routes, light theme premium SaaS
+aesthetic (green football accents, white/gray-50 backgrounds, gradient section
+wrappers per page). Landing page fully redesigned as premium SaaS homepage with
+storytelling hero, pipeline cards, tech cards, and branded footer. WarRoom +
+MatchStory pages converted to light theme with gradient sections.
+SSE connection status indicator in header.
 
 BACKEND
 -------
@@ -72,12 +75,11 @@ frontend/
 │   ├── hooks/useKronos.ts       # Context consumer hook
 │   ├── App.tsx                  # React Router (<Routes>: /, /war-room, /swarm, /transcript, /granite)
 │   ├── main.tsx                 # Entry point with BrowserRouter + KronosProvider
-│   ├── pages/
-│   │   ├── Landing.tsx           # Landing page with 5 nav cards
-│   │   ├── WarRoom.tsx           # Command Center — full war room layout (no debug panel)
-│   │   ├── SwarmIntelligence.tsx # Swarm Intelligence Center — agent grid + status
-│   │   ├── DebateTranscript.tsx  # Debate Transcript — vertical intelligence timeline
-│   │   └── GraniteIntelligence.tsx # Granite Intelligence Center — escalation overview + 6-stage Decision Trace
+│   │   ├── Landing.tsx           # Landing page — premium SaaS redesign, light theme, green football accents
+│   │   ├── WarRoom.tsx           # Command Center — light theme, gradient section wrappers
+│   │   ├── SwarmIntelligence.tsx # Swarm Intelligence Center (dark theme — pending light conversion)
+│   │   ├── DebateTranscript.tsx  # Debate Transcript (dark theme — pending light conversion)
+│   │   └── GraniteIntelligence.tsx # Granite Intelligence Center (dark theme — pending light conversion)
 │   ├── lib/
 │   │   ├── normalizeKronosPacket.ts # Normalizes flat/nested SSE payloads
 │   │   ├── verdictEngine.ts     # Pure function: status rules, fracture override, supporting signals
@@ -223,3 +225,4 @@ KEY DECISIONS
 - GraniteReviewEngine uses named constants for escalation thresholds.
 - Granite unavailable state uses graceful-degradation messaging (not failure language) across all UI locations.
 - KronosDebugPanel removed from War Room for production demo (file retained for development).
+- Light theme standard (June 2026): bg-gray-50 pages, bg-white cards, green-600 accents, gradient section wrappers. Applied to Landing, WarRoom, MatchStory + all 7 WarRoom child components. SwarmIntelligence, DebateTranscript, GraniteIntelligence remaining dark.

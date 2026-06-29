@@ -18,3 +18,5 @@ dist/
 backend/docs/opencode_logs
 docs
 context.txt
+bob_context.txt
+bob_responses.txt

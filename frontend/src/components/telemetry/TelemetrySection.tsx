@@ -10,7 +10,7 @@ interface TelemetrySectionProps {
 export function TelemetrySection({ group, telemetry }: TelemetrySectionProps) {
   return (
     <div>
-      <div className="text-[9px] tracking-widest text-gray-600 mb-1 mt-2 first:mt-0">
+      <div className="text-2xs tracking-widest text-gray-500 mb-1 mt-2 first:mt-0">
         {group.label}
       </div>
       <div className="space-y-px">

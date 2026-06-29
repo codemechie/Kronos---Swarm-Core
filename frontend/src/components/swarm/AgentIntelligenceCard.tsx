@@ -27,20 +27,20 @@ export function AgentIntelligenceCard({ agent }: AgentIntelligenceCardProps) {
   const paragraphs = agent.verdict.split("\n").filter(Boolean);
 
   return (
-    <div className="border border-gray-700 rounded bg-gray-900 p-4 font-mono text-gray-100">
+    <div className="border border-gray-200 rounded-card bg-white p-4 font-mono text-gray-900">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-bold text-white">{agent.displayName}</span>
-          <span className="flex items-center gap-1 text-[10px] text-gray-600">
+          <span className="text-sm font-bold text-gray-900">{agent.displayName}</span>
+          <span className="flex items-center gap-1 text-2xs text-gray-500">
             <span className={`inline-block w-1.5 h-1.5 rounded-full ${dotColor}`} />
             {personalityLabel}
           </span>
         </div>
         <span
-          className={`text-[10px] px-2 py-0.5 border rounded ${
+          className={`text-2xs px-2 py-0.5 border rounded-button ${
             agent.riskLevel === "HIGH_RISK"
-              ? "text-red-400 border-red-700 bg-red-900/30"
-              : "text-green-400 border-green-700 bg-green-900/30"
+              ? "text-red-600 border-red-200 bg-red-50"
+              : "text-green-600 border-green-200 bg-green-50"
           }`}
         >
           [{agent.riskLevel}]
@@ -49,20 +49,20 @@ export function AgentIntelligenceCard({ agent }: AgentIntelligenceCardProps) {
 
       <div className="space-y-1.5">
         {paragraphs.map((para, i) => (
-          <p key={i} className="text-xs leading-relaxed text-gray-200">{para}</p>
+          <p key={i} className="text-xs leading-relaxed text-gray-600">{para}</p>
         ))}
       </div>
 
-      <div className="flex gap-3 mt-3 text-[10px] text-gray-600/70">
+      <div className="flex gap-3 mt-3 text-2xs text-gray-400">
         <span>
           Confidence:{" "}
-          <span className={agent.riskLevel === "HIGH_RISK" ? "text-yellow-400/70" : "text-green-400/70"}>
+          <span className={agent.riskLevel === "HIGH_RISK" ? "text-yellow-600" : "text-green-600"}>
             {agent.riskLevel === "HIGH_RISK" ? "Low" : "High"}
           </span>
         </span>
         <span>
           Risk:{" "}
-          <span className={agent.riskLevel === "HIGH_RISK" ? "text-red-400/70" : "text-green-400/70"}>
+          <span className={agent.riskLevel === "HIGH_RISK" ? "text-red-600" : "text-green-600"}>
             {agent.riskLevel === "HIGH_RISK" ? "ELEVATED" : "NOMINAL"}
           </span>
         </span>

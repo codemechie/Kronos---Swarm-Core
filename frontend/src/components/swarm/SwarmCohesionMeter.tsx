@@ -13,9 +13,9 @@ const statusColor: Record<string, string> = {
 };
 
 const statusTextColor: Record<string, string> = {
-  COHESIVE: "text-green-400",
-  FRACTURED: "text-yellow-400",
-  COLLAPSED: "text-red-400",
+  COHESIVE: "text-green-600",
+  FRACTURED: "text-yellow-600",
+  COLLAPSED: "text-red-600",
 };
 
 export function SwarmCohesionMeter({ agents }: Props) {
@@ -23,19 +23,19 @@ export function SwarmCohesionMeter({ agents }: Props) {
 
   return (
     <div>
-      <div className="flex items-center justify-between text-xs text-gray-600">
+      <div className="flex items-center justify-between text-xs text-gray-500">
         <span>SWARM COHESION</span>
-        <span className="text-white">{cohesion.consensusPercent}%</span>
+        <span className="text-gray-900 font-semibold">{cohesion.consensusPercent}%</span>
       </div>
 
-      <div className="w-full h-1.5 bg-gray-700 rounded mt-1 overflow-hidden">
+      <div className="w-full h-1.5 bg-gray-200 rounded mt-1 overflow-hidden">
         <div
           className={`h-full rounded transition-all duration-500 ${statusColor[cohesion.status]}`}
           style={{ width: `${cohesion.consensusPercent}%` }}
         />
       </div>
 
-      <div className={`text-[10px] mt-0.5 ${statusTextColor[cohesion.status]}`}>
+      <div className={`text-2xs mt-1 ${statusTextColor[cohesion.status]}`}>
         {cohesion.status}
       </div>
     </div>

@@ -45,13 +45,13 @@ export function DebateTranscript() {
   const hasAnyData = hasAgents || hasValidation || hasGranite;
 
   return (
-    <div className="min-h-screen bg-black p-4 font-mono">
-      <div className="max-w-6xl mx-auto space-y-4">
+    <div className="min-h-screen bg-gray-50 p-4 font-mono">
+      <div className="max-w-6xl mx-auto space-y-6">
         <CommandHeader />
 
-        <div className="border border-gray-700 rounded bg-gray-900 p-4">
-          <div className="text-xs tracking-widest text-gray-500 mb-1">DEBATE TRANSCRIPT</div>
-          <div className="text-[10px] tracking-widest text-gray-600 mb-4">
+        <div className="rounded-card bg-gradient-to-b from-blue-100/80 to-white p-6">
+          <div className="text-xs tracking-widest text-green-600 font-semibold mb-1">DEBATE TRANSCRIPT</div>
+          <div className="text-2xs tracking-widest text-gray-600 mb-6">
             Structured reasoning across swarm agents, validation, and review layers.
           </div>
 
@@ -59,7 +59,7 @@ export function DebateTranscript() {
             <div className="text-gray-500 text-sm">Awaiting intelligence feed...</div>
           ) : (
             <TranscriptSection minute={minute}>
-              <div className="space-y-2">
+              <div className="space-y-4">
                 {agents.map((agent) => {
                   const paragraphs = agent.verdict.split("\n").filter(Boolean);
                   const severity: Severity = agent.riskLevel === "HIGH_RISK" ? "WARNING" : "INFO";
@@ -73,15 +73,15 @@ export function DebateTranscript() {
                       severity={severity}
                       statusBadge={statusBadge}
                     >
-                      <div className="space-y-1.5">
+                      <div className="space-y-2">
                         {paragraphs.map((para, i) => (
                           <p key={i} className="text-xs leading-relaxed">{para}</p>
                         ))}
                       </div>
-                      <div className="flex gap-3 mt-2 text-[10px] text-gray-600/70">
+                      <div className="flex gap-4 mt-4 text-2xs text-gray-400">
                         <span>
                           Confidence:{" "}
-                          <span className={agent.riskLevel === "HIGH_RISK" ? "text-yellow-400/70" : "text-green-400/70"}>
+                          <span className={agent.riskLevel === "HIGH_RISK" ? "text-yellow-600" : "text-green-600"}>
                             {agent.riskLevel === "HIGH_RISK" ? "Low" : "High"}
                           </span>
                         </span>
@@ -103,34 +103,34 @@ export function DebateTranscript() {
                   <div className="text-gray-500 italic">Awaiting validation data...</div>
                 ) : (
                   <>
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <span className="text-gray-600">Agreement: </span>
-                        <span className="text-white">{Math.round(validation.agreement_score * 100)}%</span>
+                        <span className="text-gray-500">Agreement: </span>
+                        <span className="text-gray-900">{Math.round(validation.agreement_score * 100)}%</span>
                       </div>
                       <div>
-                        <span className="text-gray-600">Trust: </span>
-                        <span className="text-white">{Math.round(validation.trust_score * 100)}%</span>
+                        <span className="text-gray-500">Trust: </span>
+                        <span className="text-gray-900">{Math.round(validation.trust_score * 100)}%</span>
                       </div>
                       <div>
-                        <span className="text-gray-600">Confidence: </span>
-                        <span className="text-white">{Math.round(validation.overall_confidence * 100)}%</span>
+                        <span className="text-gray-500">Confidence: </span>
+                        <span className="text-gray-900">{Math.round(validation.overall_confidence * 100)}%</span>
                       </div>
                       <div>
-                        <span className="text-gray-600">Contradictions: </span>
-                        <span className={validation.contradiction_count > 0 ? "text-yellow-400" : "text-white"}>
+                        <span className="text-gray-500">Contradictions: </span>
+                        <span className={validation.contradiction_count > 0 ? "text-yellow-600" : "text-gray-900"}>
                           {validation.contradiction_count}
                         </span>
                       </div>
                     </div>
                     {validation.flags.length > 0 && (
-                      <div className="mt-2">
-                        <div className="text-[10px] text-gray-600 mb-1">Flags</div>
-                        <div className="flex flex-wrap gap-1">
+                      <div className="mt-4">
+                        <div className="text-2xs text-gray-500 mb-2">FLAGS</div>
+                        <div className="flex flex-wrap gap-2">
                           {validation.flags.map((flag) => (
                             <span
                               key={flag}
-                              className="text-[10px] px-1.5 py-0.5 border border-gray-700 rounded text-gray-400"
+                              className="text-2xs px-2 py-1 border border-gray-300 rounded-button text-gray-500 bg-gray-100"
                             >
                               {flag}
                             </span>
@@ -139,7 +139,7 @@ export function DebateTranscript() {
                       </div>
                     )}
                     {validation.evidence_summary && (
-                      <div className="mt-2 text-gray-400 text-[10px]">{validation.evidence_summary}</div>
+                      <div className="mt-2 text-gray-500 text-2xs">{validation.evidence_summary}</div>
                     )}
                   </>
                 )}
@@ -154,22 +154,22 @@ export function DebateTranscript() {
                 {!hasGranite ? (
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-green-500" />
-                    <span className="text-green-400">Swarm confidence remains healthy. No escalation required.</span>
+                    <span className="text-green-600 text-xs">Swarm confidence remains healthy. No escalation required.</span>
                   </div>
                 ) : (
                   <>
                     <div>
-                      <span className="text-gray-600">Granite Confidence: </span>
-                      <span className="text-amber-400">{granite_review.granite_confidence}%</span>
+                      <span className="text-gray-500">Granite Confidence: </span>
+                      <span className="text-amber-600 font-semibold">{granite_review.granite_confidence}%</span>
                     </div>
-                    <div className="mt-1">
-                      <span className="text-gray-600">Summary: </span>
-                      <span className="text-gray-300">{granite_review.review_summary}</span>
+                    <div className="mt-2">
+                      <span className="text-gray-500">Summary: </span>
+                      <span className="text-gray-600">{granite_review.review_summary}</span>
                     </div>
                     {granite_review.recommended_action && (
-                      <div className="mt-1">
-                        <span className="text-gray-600">Recommended Action: </span>
-                        <span className="text-gray-300">{granite_review.recommended_action}</span>
+                      <div className="mt-2">
+                        <span className="text-gray-500">Recommended Action: </span>
+                        <span className="text-gray-600">{granite_review.recommended_action}</span>
                       </div>
                     )}
                   </>
@@ -182,15 +182,22 @@ export function DebateTranscript() {
                 severity={coachSeverity}
                 statusBadge={verdict.status}
               >
-                <div className="text-sm font-semibold text-gray-200">{verdict.headline}</div>
-                <div className="text-gray-400 text-[10px] mt-1">{verdict.rationale}</div>
+                <div className="text-sm font-semibold text-gray-900">{verdict.headline}</div>
+                <div className="text-gray-600 text-xs mt-2 leading-relaxed">{verdict.rationale}</div>
                 {verdict.supportingSignals.length > 0 && (
-                  <div className="mt-2">
-                    <div className="text-[10px] text-gray-600 mb-1">Supporting Signals</div>
-                    <div className="space-y-0.5">
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="text-2xs text-gray-500 mb-2">Supporting Signals</div>
+                    <div className="space-y-2">
                       {verdict.supportingSignals.map((sig, i) => (
-                        <div key={i} className="text-[10px] text-gray-400">
-                          [{sig.category}] {sig.message}
+                        <div key={i} className="text-2xs">
+                          <span className={`font-semibold ${
+                            sig.category === "AGENT" ? "text-blue-600" :
+                            sig.category === "FRACTURE" ? "text-purple-600" :
+                            sig.category === "CHAOS" ? "text-orange-600" :
+                            sig.category === "TELEMETRY" ? "text-cyan-600" :
+                            "text-gray-500"
+                          }`}>[{sig.category}]</span>{" "}
+                          <span className="text-gray-500">{sig.message}</span>
                         </div>
                       ))}
                     </div>

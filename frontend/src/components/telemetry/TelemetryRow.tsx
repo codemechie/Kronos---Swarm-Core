@@ -11,10 +11,10 @@ export function TelemetryRow({ label, value }: TelemetryRowProps) {
 
   const colorClass =
     isNum && isHighSeverity(value)
-      ? "text-red-400"
+      ? "text-red-600 font-semibold"
       : isNum && isWarningSeverity(value)
-        ? "text-yellow-400"
-        : "text-gray-200";
+        ? "text-yellow-600 font-semibold"
+        : "text-gray-900";
 
   return (
     <div className="flex justify-between text-xs py-0.5">

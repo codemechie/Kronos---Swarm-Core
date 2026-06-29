@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  body {
+    @apply font-mono antialiased;
+  }
+}
+
 @layer utilities {
   @keyframes fadeInFromLeft {
     from {
@@ -15,6 +25,6 @@
   }
 
   .animate-fadeInFromLeft {
-    animation: fadeInFromLeft 0.4s ease-out;
+    animation: fadeInFromLeft 0.35s ease-out;
   }
 }
