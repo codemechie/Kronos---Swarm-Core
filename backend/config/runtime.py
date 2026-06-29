@@ -60,6 +60,16 @@ class RuntimeConfig:
             or "ibm/granite-3-8b-instruct"
         )
 
+        self.granite_fracture_threshold: float = float(
+            os.environ.get("GRANITE_FRACTURE_THRESHOLD", "60.0")
+        )
+        self.granite_confidence_threshold: float = float(
+            os.environ.get("GRANITE_CONFIDENCE_THRESHOLD", "0.50")
+        )
+        self.granite_contradiction_threshold: int = int(
+            os.environ.get("GRANITE_CONTRADICTION_THRESHOLD", "1")
+        )
+
 
 _config: RuntimeConfig | None = None
 

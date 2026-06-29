@@ -5,6 +5,11 @@ import { DebateTranscript } from "./pages/DebateTranscript";
 import { GraniteIntelligence } from "./pages/GraniteIntelligence";
 import { Landing } from "./pages/Landing";
 import { MatchStory } from "./pages/MatchStory";
+import { TechGranite } from "./pages/TechGranite";
+import { TechBob } from "./pages/TechBob";
+import { TechDocling } from "./pages/TechDocling";
+import { DocumentationPage } from "./pages/DocumentationPage";
+import { ArchitecturePage } from "./pages/ArchitecturePage";
 
 export function App() {
   const location = useLocation();
@@ -17,6 +22,11 @@ export function App() {
         <Route path="/transcript" element={<DebateTranscript />} />
         <Route path="/granite" element={<GraniteIntelligence />} />
         <Route path="/match-story" element={<MatchStory />} />
+        <Route path="/tech/granite" element={<TechGranite />} />
+        <Route path="/tech/bob" element={<TechBob />} />
+        <Route path="/tech/docling" element={<TechDocling />} />
+        <Route path="/docs" element={<DocumentationPage />} />
+        <Route path="/architecture" element={<ArchitecturePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

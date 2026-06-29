@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { CommandHeader } from "../components/layout/CommandHeader";
 
 function PipelineIcon({ children, color }: { children: React.ReactNode; color?: string }) {
@@ -85,6 +85,7 @@ function TechCard({ icon, name, desc, color = "gray" }: { icon: React.ReactNode;
 }
 
 export function Landing() {
+  const location = useLocation();
   return (
     <div className="min-h-screen bg-gray-50 font-mono">
       <div className="max-w-6xl mx-auto px-4 py-4">
@@ -110,14 +111,14 @@ export function Landing() {
               to="/war-room"
               className="inline-flex items-center gap-2 rounded-button bg-green-600 px-8 py-3 text-xs tracking-widest text-white font-semibold hover:bg-green-700 transition-all duration-200 shadow-button hover:shadow-button-hover focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
             >
-              ENTER THE WAR ROOM
+              ENTER LIVE INTELLIGENCE
             </Link>
             <Link
               to="/match-story"
-              className="inline-flex items-center gap-2 border border-gray-300 rounded-button bg-transparent px-8 py-3 text-xs tracking-widest text-gray-500 font-semibold hover:text-gray-900 hover:border-gray-500 transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-400"
+              className="inline-flex items-center gap-2 border border-green-400 rounded-button bg-transparent px-8 py-3 text-xs tracking-widest text-green-700 font-semibold hover:bg-green-50 hover:border-green-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
             >
               VIEW MATCH STORY
-              <span className="text-gray-400 text-2xs">→</span>
+              <span className="text-green-500 text-2xs">→</span>
             </Link>
           </div>
         </div>
@@ -136,10 +137,10 @@ export function Landing() {
               </p>
               <Link
                 to="/war-room"
-                className="mt-6 inline-flex items-center gap-2 text-xs tracking-widest text-gray-500 hover:text-green-600 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
+                className="mt-6 inline-flex items-center gap-2 text-sm tracking-widest text-green-600 font-semibold hover:text-green-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
               >
-                EXPLORE WAR ROOM
-                <span className="text-gray-400">→</span>
+                EXPLORE LIVE INTELLIGENCE
+                <span className="text-green-500">→</span>
               </Link>
             </div>
 
@@ -163,10 +164,10 @@ export function Landing() {
               </p>
               <Link
                 to="/swarm"
-                className="mt-6 inline-flex items-center gap-2 text-xs tracking-widest text-gray-500 hover:text-green-600 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
+                className="mt-6 inline-flex items-center gap-2 text-sm tracking-widest text-green-600 font-semibold hover:text-green-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
               >
                 EXPLORE SWARM INTELLIGENCE
-                <span className="text-gray-400">→</span>
+                <span className="text-green-500">→</span>
               </Link>
             </div>
 
@@ -190,10 +191,10 @@ export function Landing() {
               </p>
               <Link
                 to="/transcript"
-                className="mt-6 inline-flex items-center gap-2 text-xs tracking-widest text-gray-500 hover:text-green-600 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
+                className="mt-6 inline-flex items-center gap-2 text-sm tracking-widest text-green-600 font-semibold hover:text-green-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
               >
                 VIEW DEBATE TRANSCRIPT
-                <span className="text-gray-400">→</span>
+                <span className="text-green-500">→</span>
               </Link>
             </div>
 
@@ -217,10 +218,10 @@ export function Landing() {
               </p>
               <Link
                 to="/granite"
-                className="mt-6 inline-flex items-center gap-2 text-xs tracking-widest text-gray-500 hover:text-green-600 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
+                className="mt-6 inline-flex items-center gap-2 text-sm tracking-widest text-green-600 font-semibold hover:text-green-700 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-green-400"
               >
                 VIEW GRANITE REVIEW
-                <span className="text-gray-400">→</span>
+                <span className="text-green-500">→</span>
               </Link>
             </div>
           </div>
@@ -229,7 +230,7 @@ export function Landing() {
         {/* ── How Kronos Works ── */}
         <div className="border-t border-gray-200 pt-20 pb-6">
           <div className="text-center mb-12">
-            <div className="text-2xs tracking-[0.2em] text-green-600 mb-4 uppercase font-semibold">
+            <div className="text-base md:text-lg tracking-[0.2em] text-green-600 mb-4 uppercase font-semibold">
               How Kronos Works
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -286,7 +287,7 @@ export function Landing() {
         {/* ── Powered by IBM AI Technologies ── */}
         <div className="border-t border-gray-200 pt-20 pb-6">
           <div className="text-center mb-12">
-            <div className="text-2xs tracking-[0.2em] text-green-600 mb-4 uppercase font-semibold">
+            <div className="text-base md:text-lg tracking-[0.2em] text-green-600 mb-4 uppercase font-semibold">
               Powered by IBM AI Technologies
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -329,8 +330,9 @@ export function Landing() {
         </div>
 
         {/* ── Footer ── */}
-        <footer className="border-t border-gray-200 pt-12 pb-8 bg-gradient-to-b from-green-50 to-white">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <footer className="border-t border-gray-200 pt-14 pb-10 bg-gradient-to-b from-green-50 to-white">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 md:gap-8">
+            {/* Brand */}
             <div>
               <div className="text-sm md:text-base tracking-widest text-green-600 font-bold mb-2">KRONOS</div>
               <div className="text-2xs tracking-widest text-gray-600 mb-3">Football Intelligence Operating System</div>
@@ -339,42 +341,102 @@ export function Landing() {
               </p>
             </div>
 
+            {/* Product */}
             <div>
-              <div className="text-2xs tracking-widest text-green-600 font-semibold mb-3 uppercase">Product</div>
-              <div className="space-y-2">
-                <Link to="/match-story" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">Match Story</Link>
-                <Link to="/war-room" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">Live Intelligence</Link>
-                <Link to="/swarm" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">Swarm Intelligence</Link>
-                <Link to="/transcript" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">Debate Transcript</Link>
-                <Link to="/granite" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">Granite Intelligence</Link>
+              <div className="text-2xs tracking-widest text-gray-400 font-semibold mb-4 uppercase">Product</div>
+              <div className="space-y-2.5">
+                {[
+                  { to: "/match-story", label: "Match Story" },
+                  { to: "/war-room", label: "Live Intelligence" },
+                  { to: "/swarm", label: "Swarm Intelligence" },
+                  { to: "/transcript", label: "Debate Transcript" },
+                  { to: "/granite", label: "Granite Intelligence" },
+                ].map(({ to, label }) => {
+                  const active = location.pathname === to;
+                  return (
+                    <Link
+                      key={to}
+                      to={to}
+                      className={`block text-sm transition-all duration-150 border-l-2 pl-3 -ml-3 ${
+                        active
+                          ? "text-green-700 font-semibold border-green-500"
+                          : "text-gray-500 hover:text-gray-900 border-transparent hover:border-gray-300"
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
+            {/* IBM Technologies */}
             <div>
-              <div className="text-2xs tracking-widest text-green-600 font-semibold mb-3 uppercase">Technology</div>
-              <div className="space-y-2">
-                <span className="block text-sm text-gray-500">IBM Granite</span>
-                <span className="block text-sm text-gray-500">IBM BOB</span>
-                <span className="block text-sm text-gray-500">IBM Docling</span>
-                <span className="block text-sm text-gray-500">React</span>
-                <span className="block text-sm text-gray-500">FastAPI</span>
+              <div className="text-2xs tracking-widest text-gray-400 font-semibold mb-4 uppercase">IBM Technologies</div>
+              <div className="space-y-2.5">
+                {[
+                  { to: "/tech/granite", label: "IBM Granite" },
+                  { to: "/tech/bob", label: "IBM BOB" },
+                  { to: "/tech/docling", label: "IBM Docling" },
+                ].map(({ to, label }) => {
+                  const active = location.pathname === to;
+                  return (
+                    <Link
+                      key={to}
+                      to={to}
+                      className={`block text-sm transition-all duration-150 border-l-2 pl-3 -ml-3 ${
+                        active
+                          ? "text-green-700 font-semibold border-green-500"
+                          : "text-gray-500 hover:text-gray-900 border-transparent hover:border-gray-300"
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
+            {/* Resources */}
             <div>
-              <div className="text-2xs tracking-widest text-green-600 font-semibold mb-3 uppercase">Resources</div>
-              <div className="space-y-2">
-                <a href="#" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">GitHub</a>
-                <a href="#" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">Documentation</a>
-                <a href="#" className="block text-sm text-gray-500 hover:text-gray-900 transition-colors duration-150">Architecture</a>
+              <div className="text-2xs tracking-widest text-gray-400 font-semibold mb-4 uppercase">Resources</div>
+              <div className="space-y-2.5">
+                <a
+                  href="https://github.com/codemechie/Kronos---Swarm-Core.git"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 transition-all duration-150 border-l-2 pl-3 -ml-3 border-transparent hover:border-gray-300 group"
+                >
+                  GitHub
+                  <span className="text-gray-400 group-hover:text-gray-600 transition-colors duration-150 text-2xs">↗</span>
+                </a>
+                {[
+                  { to: "/docs", label: "Documentation" },
+                  { to: "/architecture", label: "Architecture" },
+                ].map(({ to, label }) => {
+                  const active = location.pathname === to;
+                  return (
+                    <Link
+                      key={to}
+                      to={to}
+                      className={`block text-sm transition-all duration-150 border-l-2 pl-3 -ml-3 ${
+                        active
+                          ? "text-green-700 font-semibold border-green-500"
+                          : "text-gray-500 hover:text-gray-900 border-transparent hover:border-gray-300"
+                      }`}
+                    >
+                      {label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          <div className="border-t border-gray-200 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-2 text-2xs text-gray-500 font-semibold">
-            <span>© 2026 Kronos</span>
-            <span>Built for the IBM SkillsBuild AI Builders Challenge</span>
-            <span className="text-gray-600 font-semibold">Powered by IBM AI Technologies</span>
+          <div className="border-t border-gray-200 mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-2xs text-gray-500 font-semibold">
+            <span className="text-gray-400">© 2026 Kronos</span>
+            <span className="text-gray-500">Built for the IBM SkillsBuild AI Builders Challenge</span>
+            <span className="text-green-600">Powered by IBM AI Technologies</span>
           </div>
         </footer>
       </div>

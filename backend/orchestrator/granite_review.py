@@ -4,6 +4,7 @@ import json
 import logging
 from typing import Any, Dict, List, TYPE_CHECKING
 
+from backend.config.runtime import get_runtime_config
 from backend.contracts.granite_review import GraniteReview
 from backend.contracts.swarm_metrics import SwarmFractureMetrics
 from backend.llm.granite_provider import GraniteProvider
@@ -13,12 +14,6 @@ if TYPE_CHECKING:
     from backend.orchestrator.validation import ValidateOutput
 
 logger = logging.getLogger("kronos.granite_review")
-
-# ── Escalation thresholds ───────────────────────────────────────────
-
-HIGH_FRACTURE_THRESHOLD: float = 75.0
-LOW_CONFIDENCE_THRESHOLD: float = 0.30
-CONTRADICTION_TRIGGER: int = 5
 
 
 class GraniteReviewEngine:
@@ -31,6 +26,10 @@ class GraniteReviewEngine:
 
     def __init__(self) -> None:
         self._granite: GraniteProvider | None = None
+        cfg = get_runtime_config()
+        self._fracture_threshold = cfg.granite_fracture_threshold
+        self._confidence_threshold = cfg.granite_confidence_threshold
+        self._contradiction_threshold = cfg.granite_contradiction_threshold
 
     # ── Public API ──────────────────────────────────────────────────
 
@@ -77,16 +76,16 @@ class GraniteReviewEngine:
 
     # ── Escalation rules ────────────────────────────────────────────
 
-    @staticmethod
     def _should_escalate(
+        self,
         fracture_metrics: SwarmFractureMetrics,
         validation: "ValidateOutput",
     ) -> bool:
-        if fracture_metrics.fracture_index >= HIGH_FRACTURE_THRESHOLD:
+        if fracture_metrics.fracture_index >= self._fracture_threshold:
             return True
-        if validation.overall_confidence <= LOW_CONFIDENCE_THRESHOLD:
+        if validation.overall_confidence <= self._confidence_threshold:
             return True
-        if validation.contradiction_count >= CONTRADICTION_TRIGGER:
+        if validation.contradiction_count >= self._contradiction_threshold:
             return True
         return False
 

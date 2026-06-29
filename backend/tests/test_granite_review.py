@@ -158,38 +158,38 @@ class TestGraniteReviewEscalation(unittest.TestCase):
         self.assertEqual(result.review_summary, "")
 
     def test_boundary_fracture_just_below(self) -> None:
-        metrics = _metrics(fracture_index=74.9)
+        metrics = _metrics(fracture_index=59.9)
         v = _validation(overall_confidence=0.8, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertFalse(result.escalation_triggered)
 
     def test_boundary_fracture_just_at(self) -> None:
-        metrics = _metrics(fracture_index=75.0)
+        metrics = _metrics(fracture_index=60.0)
         v = _validation(overall_confidence=0.8, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertTrue(result.escalation_triggered)
 
     def test_boundary_confidence_just_above(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.31, contradiction_count=0)
+        v = _validation(overall_confidence=0.51, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertFalse(result.escalation_triggered)
 
     def test_boundary_confidence_just_at(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.30, contradiction_count=0)
+        v = _validation(overall_confidence=0.50, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertTrue(result.escalation_triggered)
 
     def test_boundary_contradiction_just_below(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.8, contradiction_count=4)
+        v = _validation(overall_confidence=0.8, contradiction_count=0)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertFalse(result.escalation_triggered)
 
     def test_boundary_contradiction_just_at(self) -> None:
         metrics = _metrics(fracture_index=20.0)
-        v = _validation(overall_confidence=0.8, contradiction_count=5)
+        v = _validation(overall_confidence=0.8, contradiction_count=1)
         result = self.engine.review(self.assessments, metrics, v)
         self.assertTrue(result.escalation_triggered)
 
