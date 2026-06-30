@@ -138,7 +138,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    port = 3000
+    port = int(os.environ.get("PORT", 3000))
     server = HTTPServer(("0.0.0.0", port), Handler)
-    print(f"Serving at http://localhost:{port}")
+    print(f"Serving on port {port}")
     server.serve_forever()
