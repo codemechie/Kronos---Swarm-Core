@@ -5,7 +5,8 @@ import os
 import sys
 import time
 from pathlib import Path
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from socketserver import ThreadingMixIn
 
 # Ensure the project root is on sys.path so backend package is importable
 # regardless of whether the user runs from backend/ or from the root.
@@ -34,37 +35,23 @@ historical_provider = HistoricalRuntimeProvider(
 )
 
 
-# Origins permitted to access the API.
-# The Vercel frontend origin must be in this list; "*" is accepted for
-# EventSource but browsers block credentialed requests to "*", so we
-# reflect the requesting Origin when it matches a known domain.
-_ALLOWED_ORIGINS = {
-    "https://kronos-swarm-core.vercel.app",
-    "http://localhost:5173",
-}
+class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
+    """HTTP server that handles each request in its own thread.
 
-_CORS_HEADERS = [
-    ("Access-Control-Allow-Methods", "GET, OPTIONS"),
-    ("Access-Control-Allow-Headers", "Content-Type, Cache-Control"),
-    ("Access-Control-Max-Age", "86400"),
-]
-
-
-def _cors_origin(request_origin: str | None) -> str:
-    """Return the value to use for Access-Control-Allow-Origin."""
-    if request_origin in _ALLOWED_ORIGINS:
-        return request_origin
-    # EventSource requests from any other origin still work via wildcard.
-    return "*"
+    Required because /stream holds a connection open indefinitely.
+    Without threading, a single SSE client blocks every other request
+    (including OPTIONS preflights) causing the browser to report a
+    CORS error even though the headers are correct.
+    """
+    daemon_threads = True  # threads die when the main process exits
 
 
 class Handler(BaseHTTPRequestHandler):
     def _send_cors(self) -> None:
-        """Attach CORS headers to the response already in progress."""
-        origin = self.headers.get("Origin")
-        self.send_header("Access-Control-Allow-Origin", _cors_origin(origin))
-        for name, value in _CORS_HEADERS:
-            self.send_header(name, value)
+        """Send the three CORS headers required for cross-origin requests."""
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Cache-Control")
 
     def do_OPTIONS(self):
         """Handle CORS preflight requests."""
@@ -179,6 +166,6 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 3000))
-    server = HTTPServer(("0.0.0.0", port), Handler)
+    server = ThreadingHTTPServer(("0.0.0.0", port), Handler)
     print(f"Serving on port {port}")
     server.serve_forever()
