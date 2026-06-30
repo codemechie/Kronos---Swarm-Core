@@ -1,0 +1,85 @@
+Commercial Positioning
+
+Kronos should not appear to be another AI football dashboard.
+
+Its competitive advantage is not visualization.
+
+Its competitive advantage is structured football intelligence.
+
+Unlike traditional analytics platforms that expose metrics, or LLM chatbots that generate opinions, Kronos produces a transparent chain of football reasoning.
+
+Every conclusion is:
+
+• debated by multiple specialist agents
+
+• validated
+
+• confidence scored
+
+• fully explainable
+
+The product should feel like:
+
+"A second coaching staff."
+
+rather than
+
+"An AI chatbot."
+
+This distinction should influence:
+
+copywriting
+hierarchy
+landing page messaging
+visual confidence
+enterprise presentation
+Design Principles
+
+IBM BOB should evaluate every recommendation against these principles:
+
+Football First
+
+Football should dominate the experience.
+
+AI should support the experience.
+
+Clarity over Density
+
+Reduce visual noise.
+
+Increase information value.
+
+Enterprise Trust
+
+Interfaces should inspire confidence suitable for professional clubs, analysts and broadcasters.
+
+Calm Intelligence
+
+Avoid flashy animations, glowing effects, or gaming aesthetics.
+
+Progressive Disclosure
+
+Simple summaries first.
+
+Supporting evidence second.
+
+Raw intelligence third.
+
+Premium SaaS
+
+Every screen should feel polished enough to be sold as a commercial analytics platform.
+
+Success Criteria
+
+At the end of this redesign, a first-time visitor should understand within 10 seconds that:
+
+• Kronos explains football.
+
+• Kronos continuously understands the match.
+
+• Every insight can be verified.
+
+• The platform is professional enough for real analysts.
+
+The redesign should increase perceived product maturity without changing any underlying functionality.
+
