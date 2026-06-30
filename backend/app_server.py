@@ -123,6 +123,7 @@ class Handler(BaseHTTPRequestHandler):
 
         while True:
             try:
+                _shared_clock.advance()
                 result = orchestrator.process_next_tick()
                 payload = self._build_payload(result)
                 data = json.dumps(payload)
