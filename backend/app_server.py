@@ -47,16 +47,16 @@ class ThreadingHTTPServer(ThreadingMixIn, HTTPServer):
 
 
 class Handler(BaseHTTPRequestHandler):
-    def _send_cors(self) -> None:
-        """Send the three CORS headers required for cross-origin requests."""
-        self.send_header("Access-Control-Allow-Origin", "*")
+    def _send_cors_headers(self) -> None:
+        self.send_header("Access-Control-Allow-Origin", "https://kronos-swarm-core.vercel.app")
         self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type, Cache-Control")
+        self.send_header("Access-Control-Max-Age", "86400")
 
     def do_OPTIONS(self):
         """Handle CORS preflight requests."""
         self.send_response(204)
-        self._send_cors()
+        self._send_cors_headers()
         self.end_headers()
 
     def do_GET(self):
@@ -70,7 +70,7 @@ class Handler(BaseHTTPRequestHandler):
     def _handle_index(self):
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
-        self._send_cors()
+        self._send_cors_headers()
         self.end_headers()
         html = (
             "<!DOCTYPE html>\n"
@@ -136,7 +136,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(body)))
-        self._send_cors()
+        self._send_cors_headers()
         self.end_headers()
         self.wfile.write(body.encode("utf-8"))
 
@@ -145,7 +145,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "text/event-stream")
         self.send_header("Cache-Control", "no-cache")
         self.send_header("Connection", "keep-alive")
-        self._send_cors()
+        self._send_cors_headers()
         self.end_headers()
 
         while True:
