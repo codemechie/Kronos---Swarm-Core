@@ -2,7 +2,11 @@ import type { RuntimeProvider } from "./RuntimeProvider";
 import type { PacketListener, StatusListener } from "./RuntimeProvider";
 import type { KronosPacket } from "../types/kronos";
 
-const STREAM_URL = "http://localhost:3000/stream";
+const _base = import.meta.env.VITE_API_BASE_URL as string | undefined;
+if (!_base) {
+  console.warn("[Kronos] VITE_API_BASE_URL is not set. SSE connection will fail.");
+}
+const STREAM_URL = `${_base ?? ""}/stream`;
 
 let providerCounter = 0;
 
