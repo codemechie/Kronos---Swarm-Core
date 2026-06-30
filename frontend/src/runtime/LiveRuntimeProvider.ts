@@ -2,9 +2,12 @@ import type { RuntimeProvider } from "./RuntimeProvider";
 import type { PacketListener, StatusListener } from "./RuntimeProvider";
 import type { KronosPacket } from "../types/kronos";
 
-const RENDER_BACKEND = "https://kronos-swarm-core.onrender.com";
-const _base: string =
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? RENDER_BACKEND;
+const _base: string = import.meta.env.VITE_API_BASE_URL;
+if (!_base) {
+  throw new Error(
+    "VITE_API_BASE_URL is not set. Set it in .env or Vercel environment variables.",
+  );
+}
 const STREAM_URL = `${_base}/stream`;
 
 let providerCounter = 0;
